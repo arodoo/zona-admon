@@ -1,0 +1,11 @@
+{
+  "hosting": [
+    {
+      "target": "zona-admon",
+      "source": ".",
+      "frameworksBackend": {
+        "region": "us-central1"
+      }
+    }
+  ]
+}

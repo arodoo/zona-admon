@@ -99,8 +99,28 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "zona-admon:build:production",
+              "serveTarget": "zona-admon:serve:production"
+            },
+            "development": {
+              "buildTarget": "zona-admon:build:development",
+              "serveTarget": "zona-admon:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "8d7bc37a-53a0-43e3-85d8-ebfb45b16f7c"
   }
 }

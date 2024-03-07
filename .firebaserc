@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "zona-admon": {
+      "hosting": {
+        "zona-admon": [
+          "zona-admon"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "zona-admon"
+  }
+}
