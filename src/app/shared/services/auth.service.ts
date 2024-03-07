@@ -13,10 +13,8 @@ export class AuthService {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
-          // Si hay un usuario, devuelve sus datos
           return of(user);
         } else {
-          // Si no hay usuario, devuelve null
           return of(null);
         }
       })
