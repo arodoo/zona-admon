@@ -1,21 +1,38 @@
-<form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-    <label for="email">Email:</label>
-    <input type="email" id="email" formControlName="email" required>
-    <div *ngIf="loginForm.get('email')?.errors?.['required']">
-        El email es requerido.
-    </div>
-    <div *ngIf="loginForm.get('email')?.errors?.['email']">
-        Por favor, introduce una dirección de email válida.
-    </div>
+<div class="n-container">
+    <div class="form-container">
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <mat-form-field appearance="fill">
+                <mat-label>Email:</mat-label>
+                <input matInput type="email" id="email" formControlName="email" required>
+                <mat-error *ngIf="loginForm.get('email')?.errors?.['required']">
+                    El email es requerido.
+                </mat-error>
+                <mat-error *ngIf="loginForm.get('email')?.errors?.['email']">
+                    Por favor, introduce una dirección de email válida.
+                </mat-error>
+            </mat-form-field>
 
-    <label for="password">Contraseña:</label>
-    <input type="password" id="password" formControlName="password" required>
-    <div *ngIf="loginForm.get('password')?.errors?.['required']">
-        La contraseña es requerida.
-    </div>
-    <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
-        La contraseña debe tener al menos 6 caracteres.
-    </div>
+            <mat-form-field appearance="fill">
+                <mat-label>Contraseña:</mat-label>
+                <input matInput type="password" id="password" formControlName="password" required>
+                <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">
+                    La contraseña es requerida.
+                </mat-error>
+                <mat-error *ngIf="loginForm.get('password')?.errors?.['minlength']">
+                    La contraseña debe tener al menos 6 caracteres.
+                </mat-error>
+            </mat-form-field>
 
-    <button type="submit" [disabled]="!loginForm.valid">Iniciar sesión</button>
-</form>
+            <div class="form-actions">
+                <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
+                    Iniciar sesión
+                </button>
+            </div>
+            <div class="form-message">
+                <span>¿Requieres una cuenta?</span>
+                <span>Comunícate con nuestro equipo de desarrollo:</span>
+                <span><b>zona.inc.e1&#64;mail.com</b></span>
+            </div>
+        </form>
+    </div>
+</div>

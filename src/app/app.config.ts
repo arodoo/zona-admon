@@ -9,6 +9,8 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AuthService } from './shared/services/auth.service';
 
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 // Aquí definimos la configuración de Firebase como una constante
 const firebaseConfig = {
   "projectId": "zona-admon", "appId": "1:1051108258363:web:d07d9e6dbe4081b456221e",
@@ -21,13 +23,15 @@ const firebaseConfig = {
 };
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes),
-  provideClientHydration(),
-  // Aquí inicializamos el módulo AngularFireModule con la configuración de Firebase
-  importProvidersFrom(AngularFireModule.initializeApp(firebaseConfig)),
-  importProvidersFrom(provideFirebaseApp(() => initializeApp(firebaseConfig))),
-  importProvidersFrom(provideAuth(() => getAuth())),
-  importProvidersFrom(provideFirestore(() => getFirestore())),
+  providers: [
+    provideAnimations(),
+    provideRouter(routes),
+    provideClientHydration(),
+    // Aquí inicializamos el módulo AngularFireModule con la configuración de Firebase
+    importProvidersFrom(AngularFireModule.initializeApp(firebaseConfig)),
+    importProvidersFrom(provideFirebaseApp(() => initializeApp(firebaseConfig))),
+    importProvidersFrom(provideAuth(() => getAuth())),
+    importProvidersFrom(provideFirestore(() => getFirestore())),
     AuthService
 
   ]

@@ -1,2 +1,14 @@
-<p>admin-layout works!</p>
-<router-outlet></router-outlet>
+<!-- admin-layout.component.html -->
+<div class="admin-layout">
+    <div class="sidebar">
+        <!-- Links de navegación o componentes del menú lateral aquí -->
+    </div>
+    <div class="main-content">
+        <div class="toolbar">
+            <!-- Barra de herramientas o cabecera aquí -->
+        </div>
+        <div class="content-wrapper">
+            <router-outlet></router-outlet> <!-- Aquí se mostrarán tus rutas -->
+        </div>
+    </div>
+</div>
