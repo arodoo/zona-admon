@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { NGXLogger } from 'ngx-logger';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,10 @@ import { switchMap } from 'rxjs/operators';
 export class AuthService {
   user$: Observable<any>;
 
-  constructor(private afAuth: AngularFireAuth,) {
+  constructor(private afAuth: AngularFireAuth,
+    //private firestore: AngularFirestore,
+    //private logger: NGXLogger
+    ) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
@@ -85,4 +90,15 @@ export class AuthService {
     }
   }
 
+  // // Función para guardar logs en Firestore
+  // saveLog(action: string, details: any): void {
+  //   const logEntry = {
+  //     timestamp: new Date(),
+  //     action: action,
+  //     details: details
+  //   };
+  //   this.firestore.collection('logs').add(logEntry)
+  //     .then(() => this.logger.info('Log guardado en Firestore'))
+  //     .catch((error: any) => this.logger.error('Error al guardar el log', error));
+  // }
 }
