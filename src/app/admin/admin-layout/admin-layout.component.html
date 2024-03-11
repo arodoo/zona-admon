@@ -1,11 +1,11 @@
 <!-- admin-layout.component.html -->
 <div class="admin-layout">
     <div class="sidebar">
-        <!-- Links de navegación o componentes del menú lateral aquí -->
+        <app-sidebar></app-sidebar> <!-- Aquí se mostrará tu componente sidebar -->
     </div>
     <div class="main-content">
-        <div class="toolbar">
-            <!-- Barra de herramientas o cabecera aquí -->
+        <div>
+            <app-navbar></app-navbar> <!-- Aquí se mostrará tu componente toolbar -->
         </div>
         <div class="content-wrapper">
             <router-outlet></router-outlet> <!-- Aquí se mostrarán tus rutas -->

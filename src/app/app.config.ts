@@ -7,7 +7,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
-import { AuthService } from './shared/services/auth.service';
+import { AuthService } from './core/services/auth.service';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
 
