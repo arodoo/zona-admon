@@ -1,0 +1,51 @@
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Cambiado de 'center' a 'space-between' */
+    margin-top: 15px;
+    position: relative;
+    /* Posición relativa para la pseudo-elemento de la línea */
+    padding-bottom: 10px;
+    /* Espacio para la línea de división */
+}
+
+.logo::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    /* Inicio de la línea más cerca del centro */
+    right: 10%;
+    /* Final de la línea más cerca del centro */
+    height: 1px;
+    /* Altura de la línea de división */
+    background: linear-gradient(to right, transparent, #424242, transparent);
+    /* Gradiente para la línea */
+}
+
+.logo-img {
+    width: 55px;
+    margin-right: 10px;
+    order: -1;
+    /* Mueve la imagen al inicio del flex container */
+}
+
+.simple-text {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    display: flex;
+    align-items: flex-end;
+    /* Alinea el texto con la parte inferior */
+    font-size: large;
+    font-weight: bold;
+    flex: 1;
+    /* Permite que el texto ocupe el espacio restante */
+    justify-content: center;
+    /* Centra el texto */
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
