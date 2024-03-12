@@ -1,17 +1,21 @@
-<div class="logo">
-    <a href="/admin" class="simple-text">
-        <div class="logo-img">
-            <img src="assets/img/logo.png" alt="logo">
-        </div>
-        <span>Inicio</span>
-    </a>
-</div>
-
-<ul class="menu-list">
-    <li *ngFor="let item of menuItems">
-        <a [routerLink]="item.route">
-            <mat-icon>{{ item.icon }}</mat-icon>
-            {{ item.name }}
+<!-- Estructura del Navbar -->
+<div class="container">
+<div class="navbar">
+    <div class="logo">
+        <a href="/admin" class="simple-text logo-link">
+            <img src="assets/img/logo.png" alt="logo" class="logo-img">
+            <span>Inicio</span>
         </a>
-    </li>
-</ul>
+    </div>
+</div>
+<div class="sidebar">
+        <ul class="menu-list">
+            <li *ngFor="let item of menuItems" class="menu-item">
+                <a [routerLink]="item.route" class="menu-link">
+                    <mat-icon>{{ item.icon }}</mat-icon>
+                    {{ item.name }}
+                </a>
+            </li>
+        </ul>
+</div>
+</div>

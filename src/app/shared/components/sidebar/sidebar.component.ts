@@ -1,14 +1,19 @@
 import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+
+// Material
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
   imports: [CommonModule,
     RouterModule,
-    MatIconModule],
+    MatIconModule, MatSidenavModule, MatListModule, MatToolbar],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
