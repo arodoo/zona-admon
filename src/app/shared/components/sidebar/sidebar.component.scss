@@ -49,3 +49,26 @@ img {
     width: 100%;
     height: auto;
 }
+
+// list elements
+.menu-list {
+    list-style-type: none;
+    /* Elimina los estilos predeterminados de la lista */
+    padding: 0;
+    /* Elimina el padding predeterminado */
+    margin-top: 20px;
+    /* Espacio entre el logo y la lista */
+}
+
+.menu-list li {
+    margin-bottom: 10px;
+    /* Espacio entre elementos de la lista */
+}
+
+.menu-list a {
+    text-decoration: none;
+    /* Elimina el subrayado de los enlaces */
+    color: black;
+    /* Color del texto de los enlaces */
+    /* Agrega más estilos aquí según sea necesario */
+}

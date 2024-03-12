@@ -7,3 +7,11 @@
     </a>
 </div>
 
+<ul class="menu-list">
+    <li *ngFor="let item of menuItems">
+        <a [routerLink]="item.route">
+            <mat-icon>{{ item.icon }}</mat-icon>
+            {{ item.name }}
+        </a>
+    </li>
+</ul>

@@ -7,6 +7,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 
 import { AuthService } from '../../core/services/auth.service';
+import { log } from 'console';
 
 @Component({
   selector: 'app-login',
@@ -38,13 +39,22 @@ export class LoginComponent {
       const password = this.loginForm.get('password')?.value;
       try {
         const credential = await this.authService.signIn(email, password);
-        if (credential) {
+        if (credential.user) {
+          alert('Sesión iniciada correctamente');
           this.router.navigate(['/admin']);
         }
       } catch (error) {
-        console.error(error);
-        alert('An error occurred: ' + error);
+        if (error instanceof Error) {
+          // Ahora puedes acceder a error.message de forma segura
+          console.error(error);
+          alert('Error, el correo electrónico o la contraseña no existen');
+          window.location.reload();
+        } else {
+          // Maneja otros tipos de errores o valores lanzados
+          alert('Se produjo un error desconocido');
+        }
       }
     }
   }
+
 }

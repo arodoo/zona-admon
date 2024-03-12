@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, of, interval } from 'rxjs';
+import { switchMap, takeWhile } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { NGXLogger } from 'ngx-logger';
+import { user } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   user$: Observable<any>;
+  checkInterval$: Observable<number> = interval(60000); // Intervalo de 1 minuto
 
   constructor(private afAuth: AngularFireAuth,
     //private firestore: AngularFirestore,
     //private logger: NGXLogger
-    ) {
+    private router: Router
+  ) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
@@ -23,6 +27,22 @@ export class AuthService {
           return of(null);
         }
       })
+    );
+  }
+
+  checkSession() {
+    this.checkInterval$.pipe(
+      switchMap(() => this.afAuth.authState),
+      takeWhile(user => !!user) // Continúa mientras el usuario esté autenticado
+    ).subscribe(
+      user => {
+        if (!user) {
+          this.router.navigate(['/login']);
+        }
+      },
+      error => {
+        // Manejar errores aquí
+      }
     );
   }
 
@@ -42,10 +62,20 @@ export class AuthService {
     try {
       const credential = await this.afAuth.signInWithEmailAndPassword(email, password);
       return credential;
-    } catch (error) {
-      return error;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        // Ahora puedes acceder a error.message de forma segura
+        console.error(error.message);
+        // Lanza el error para que pueda ser capturado por el bloque catch de onLogin
+        throw error;
+      } else {
+        // Maneja otros tipos de errores o valores lanzados
+        console.error('Se produjo un error desconocido', error);
+        throw new Error('Se produjo un error desconocido');
+      }
     }
   }
+
 
   // Método para cerrar sesión
   async signOut() {
