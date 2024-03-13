@@ -20,9 +20,10 @@ import { MatToolbar } from '@angular/material/toolbar';
 export class SidebarComponent {
 
   menuItems = [
-    { name: 'Dashboard', route: '/dashboard', icon: 'dashboard' },
-    { name: 'Users', route: '/users', icon: 'people' },
-    { name: 'Settings', route: '/settings', icon: 'settings' },
+    { name: 'Inicio', route: '/dashboard', icon: 'dashboard' },
+    { name: 'Usuarios', route: '/users', icon: 'people' },
+    { name: 'Reportes', route: '/reportes', icon: 'reportes' },
+    { name: 'Registros', route: '/documentos', icon: 'folder_open' },
   ];
 
 }

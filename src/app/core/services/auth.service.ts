@@ -30,7 +30,7 @@ export class AuthService {
     );
   }
 
-  checkSession() {
+/*   checkSession() {
     this.checkInterval$.pipe(
       switchMap(() => this.afAuth.authState),
       takeWhile(user => !!user) // Continúa mientras el usuario esté autenticado
@@ -44,7 +44,7 @@ export class AuthService {
         // Manejar errores aquí
       }
     );
-  }
+  } */
 
   // Método para registrar un usuario con correo y contraseña
   async signUp(email: string, password: string) {
