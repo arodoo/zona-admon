@@ -10,7 +10,11 @@ export const ADMIN_ROUTES: Routes = [
             {
                 path: '',
                 component: HomeComponent
-            }
+            },
+            {
+                path: 'users',
+                loadChildren: () => import('../admin/users/users/users.routes').then(m => m.USERS_ROUTES)
+            },
         ]
     }
 ];
