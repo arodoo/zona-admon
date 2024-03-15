@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable, of, interval } from 'rxjs';
 import { switchMap, takeWhile } from 'rxjs/operators';
+import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
-import { NGXLogger } from 'ngx-logger';
 import { user } from '@angular/fire/auth';
 
 //model
@@ -15,10 +16,11 @@ import { UserData } from '../models/userData.interface';
 })
 export class AuthService {
   user$: Observable<any>;
-  checkInterval$: Observable<number> = interval(60000); 
+  checkInterval$: Observable<number> = interval(60000);
 
   constructor(private afAuth: AngularFireAuth,
     private firestore: AngularFirestore,
+    private storage: AngularFireStorage,
 
     private router: Router
   ) {
@@ -53,9 +55,9 @@ export class AuthService {
   async signUp(email: string, password: string, userData: UserData) {
     try {
       const credential = await this.afAuth.createUserWithEmailAndPassword(email, password);
-      await this.sendEmailVerification();
+      //await this.sendEmailVerification();
       if (credential.user) {
-        await this.saveUserData(credential.user.uid, userData);
+        //await this.saveUserData(credential.user.uid, userData);
         return credential;
       } else {
         throw new Error('No se pudo registrar el usuario');
@@ -67,24 +69,46 @@ export class AuthService {
   }
 
   async updateUserData(uid: string, userData: UserData) {
-    
+
   }
 
   async saveUserData(uid: string, userData: UserData) {
     try {
-      await this.firestore.collection('users').doc(uid).set({
-        uid: uid,
-        name: userData.name,
-        email: userData.email,
-        role: userData.role,
-        organisation: userData.organisation,
-        registered: userData.registered
-      });
-      return true;
+      const userRef = this.firestore.collection('users').doc(uid);
+        // Si es un nuevo usuario, establecemos todos los datos
+        await userRef.set({
+          uid: uid,
+          name: userData.name,
+          role: userData.role,
+          organization: userData.organization,
+          registered: userData.registered,
+          imgUrl: userData.imgUrl
+        });
+      return userRef;
     } catch (error) {
+      console.log('Error al guardar los datos del usuario:', error);
       return error;
     }
   }
+
+
+
+
+  async uploadImage(uid: string, file: File): Promise<string> {
+    try {
+      const filePath = `users/${file.name}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, file);
+      await lastValueFrom(task.snapshotChanges());
+      const downloadURL = await lastValueFrom(fileRef.getDownloadURL());
+      return downloadURL;
+    } catch (error) {
+      console.error('Error al subir la imagen:', error);
+      throw error;
+    }
+  }
+
+
 
   // Método para iniciar sesión con correo y contraseña
   async signIn(email: string, password: string) {
@@ -119,7 +143,7 @@ export class AuthService {
       const user = await this.afAuth.currentUser;
       if (user) {
         await user.sendEmailVerification();
-        window.alert('Se ha enviado un correo de verificación a tu dirección de email. Por favor, revisa tu bandeja de entrada y sigue las instrucciones para verificar tu cuenta.');
+        window.alert('Se ha enviado un correo de verificación a la dirección porporciona. Por favor, revisa la bandeja de entrada y sigue las instrucciones para verificar la cuenta');
       } else {
         window.alert('Error: No hay un usuario para enviar el correo de verificación.');
       }

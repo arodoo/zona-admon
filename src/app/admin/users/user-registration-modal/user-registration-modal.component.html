@@ -20,7 +20,31 @@
             class="alert alert-danger">
             El nombre es requerido.
         </div>
-        <!-- Agrega más campos con el mismo patrón -->
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Registrar</button>
+    <div class="mb-3" formGroupName="userData">
+        <label for="role" class="form-label">Rol:</label>
+        <select id="role" formControlName="role" class="form-select">
+            <option value="ADMIN">Administrador</option>
+            <option value="USER">Usuario</option>
+        </select>
+        <div *ngIf="userForm.get('userData.role')?.invalid && userForm.get('userData.role')?.touched"
+            class="alert alert-danger">
+            El rol es requerido.
+        </div>
+    </div>
+    <div class="mb-3" formGroupName="userData">
+        <label for="organization" class="form-label">Organización:</label>
+        <input id="organization" type="text" formControlName="organization" class="form-control">
+        <div *ngIf="userForm.get('userData.organization')?.invalid && userForm.get('userData.organization')?.touched"
+            class="alert alert-danger">
+            La organización es requerida.
+        </div>
+    </div>
+<div class="mb-3">
+    <label for="img" class="form-label">Imagen:</label>
+    <input id="img" type="file" (change)="onFileSelected($event)" class="form-control">
+    <!-- No es necesario mostrar un mensaje de error aquí ya que la imagen no es parte del FormGroup -->
+</div>
+
+    <button type="submit" class="btn btn-primary" >Registrar</button>
 </form>

@@ -25,7 +25,7 @@ export class UsersComponent {
       name: 'John Doe',
       email: 'example.com',
       role: 'Admin',
-      organisation: 'Cruz roja',
+      organization: 'Cruz roja',
       registered: '01/01/2021',
     },
     {
@@ -34,7 +34,7 @@ export class UsersComponent {
       name: 'Jane Smith',
       email: 'jane@example.com',
       role: 'User',
-      organisation: 'Red Cross',
+      organization: 'Red Cross',
       registered: '02/05/2021',
     },
     {
@@ -43,7 +43,7 @@ export class UsersComponent {
       name: 'Alice Johnson',
       email: 'alice@example.com',
       role: 'User',
-      organisation: 'Doctors Without Borders',
+      organization: 'Doctors Without Borders',
       registered: '03/15/2021',
     },
     {
@@ -52,7 +52,7 @@ export class UsersComponent {
       name: 'Bob Brown',
       email: 'bob@example.com',
       role: 'User',
-      organisation: 'UNICEF',
+      organization: 'UNICEF',
       registered: '04/20/2021',
     },
     {
@@ -61,7 +61,7 @@ export class UsersComponent {
       name: 'Emily Jones',
       email: 'emily@example.com',
       role: 'User',
-      organisation: 'Save the Children',
+      organization: 'Save the Children',
       registered: '05/25/2021',
     }
   ];
