@@ -82,7 +82,8 @@ export class AuthService {
           role: userData.role,
           organization: userData.organization,
           registered: userData.registered,
-          imgUrl: userData.imgUrl
+          imgUrl: userData.imgUrl,
+          email: userData.email
         });
       return userRef;
     } catch (error) {
@@ -90,9 +91,6 @@ export class AuthService {
       return error;
     }
   }
-
-
-
 
   async uploadImage(uid: string, file: File): Promise<string> {
     try {
@@ -107,8 +105,6 @@ export class AuthService {
       throw error;
     }
   }
-
-
 
   // Método para iniciar sesión con correo y contraseña
   async signIn(email: string, password: string) {
@@ -125,7 +121,6 @@ export class AuthService {
       }
     }
   }
-
 
   // Método para cerrar sesión
   async signOut() {

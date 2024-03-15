@@ -30,6 +30,7 @@ export class UserRegistrationModalComponent {
     role: '',
     organization: '',
     registered: '',
+    email: ''
   };
   isEditMode = false;
 
@@ -53,7 +54,9 @@ export class UserRegistrationModalComponent {
         role: new FormControl('', [Validators.required]),
         organization: new FormControl('', [Validators.required]),
         registered: new FormControl(new Date().toISOString()),
-        imgUrl: new FormControl('')
+        imgUrl: new FormControl(''),
+        email: new FormControl('')
+
       })
 
     });
@@ -84,21 +87,20 @@ export class UserRegistrationModalComponent {
     }
   }
 
-
-
   async registerOrUpdateUser() {
-    //console.log('Registrando usuario:', this.userForm.value);
     if (this.userForm.valid) {
       const formValue = this.userForm.value;
       const email = formValue.email;
       const password = formValue.password;
       
       const userData = formValue.userData;
+      userData.email = email;
       
       try {
         if (this.isEditMode) {
-          console.log('Actualizando usuario:');
         } else {
+          console.log(userData);
+          alert('checking');
           const credential = await this.authService.signUp(email, password, userData) as UserCredential;
           if (credential.user) {
             const uid = credential.user.uid;
@@ -113,7 +115,7 @@ export class UserRegistrationModalComponent {
             }
           }
         }
-        this.dialogRef.close(); // Cerramos el modal después de la operación
+        this.dialogRef.close();
       } catch (error) {
         console.error('Error en el registro o actualización del usuario:', error);
       }
