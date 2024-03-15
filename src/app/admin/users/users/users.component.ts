@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+
+import { User } from '@angular/fire/auth';
+
+import { UserRegistrationModalComponent } from '../user-registration-modal/user-registration-modal.component';
 
 @Component({
   selector: 'app-users',
@@ -10,6 +15,8 @@ import { RouterModule } from '@angular/router';
   styleUrl: './users.component.scss'
 })
 export class UsersComponent {
+
+  constructor(public dialog: MatDialog) { }
 
   usersArray = [
     {
@@ -59,9 +66,18 @@ export class UsersComponent {
     }
   ];
 
-  addUser() {
-    console.log('Add user');
+  openModal(userToEdit?: User) {
+    const dialogRef = this.dialog.open(UserRegistrationModalComponent, {
+      width: '500px',
+      data: { user: userToEdit }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
+
+
 
   editUser(userId: number) {
     console.log('Edit user with id: ', userId);

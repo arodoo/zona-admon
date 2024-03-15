@@ -8,7 +8,7 @@ import { NGXLogger } from 'ngx-logger';
 import { user } from '@angular/fire/auth';
 
 //model
-import { User } from '../models/user.interface';
+import { UserData } from '../models/userData.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +50,7 @@ export class AuthService {
     } */
 
   // Método para registrar un usuario con correo y contraseña
-  async signUp(email: string, password: string, userData: User) {
+  async signUp(email: string, password: string, userData: UserData) {
     try {
       const credential = await this.afAuth.createUserWithEmailAndPassword(email, password);
       await this.sendEmailVerification();
@@ -66,7 +66,7 @@ export class AuthService {
     }
   }
 
-  async saveUserData(uid: string, userData: User) {
+  async saveUserData(uid: string, userData: UserData) {
     try {
       await this.firestore.collection('users').doc(uid).set({
         uid: uid,
