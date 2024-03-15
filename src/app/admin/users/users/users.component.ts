@@ -59,6 +59,10 @@ export class UsersComponent {
     }
   ];
 
+  addUser() {
+    console.log('Add user');
+  }
+
   editUser(userId: number) {
     console.log('Edit user with id: ', userId);
   }
