@@ -1,1 +1,26 @@
-<h2></h2>
+<form [formGroup]="userForm" (ngSubmit)="registerOrUpdateUser()" class="container mt-5">
+    <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input id="email" type="email" formControlName="email" class="form-control">
+        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="alert alert-danger">
+            El email es requerido y debe ser un email válido.
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Contraseña:</label>
+        <input id="password" type="password" formControlName="password" class="form-control">
+        <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="alert alert-danger">
+            La contraseña es requerida.
+        </div>
+    </div>
+    <div class="mb-3" formGroupName="userData">
+        <label for="name" class="form-label">Nombre:</label>
+        <input id="name" type="text" formControlName="name" class="form-control">
+        <div *ngIf="userForm.get('userData.name')?.invalid && userForm.get('userData.name')?.touched"
+            class="alert alert-danger">
+            El nombre es requerido.
+        </div>
+        <!-- Agrega más campos con el mismo patrón -->
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Registrar</button>
+</form>

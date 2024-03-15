@@ -66,6 +66,10 @@ export class AuthService {
     }
   }
 
+  async updateUserData(uid: string, userData: UserData) {
+    
+  }
+
   async saveUserData(uid: string, userData: UserData) {
     try {
       await this.firestore.collection('users').doc(uid).set({
