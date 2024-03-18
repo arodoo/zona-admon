@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
-import { User } from '@angular/fire/auth';
+import { User, deleteUser } from '@angular/fire/auth';
 
 import { UserRegistrationModalComponent } from '../user-registration-modal/user-registration-modal.component';
 import { Observable } from 'rxjs';
@@ -41,7 +41,10 @@ export class UsersComponent implements OnInit{
     });
   }
 
-
+  deleteUser(userId: string) {
+    console.log('Delete user with id: ', userId);
+    
+  }
 
   editUser(userId: string) {
     console.log('Edit user with id: ', userId);

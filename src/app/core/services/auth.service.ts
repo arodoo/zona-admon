@@ -55,7 +55,7 @@ export class AuthService {
   async signUp(email: string, password: string, userData: UserData) {
     try {
       const credential = await this.afAuth.createUserWithEmailAndPassword(email, password);
-      //await this.sendEmailVerification();
+      await this.sendEmailVerification();
       if (credential.user) {
         await this.saveUserData(credential.user.uid, userData);
         return credential;
@@ -190,7 +190,8 @@ export class AuthService {
     }
   }
 
-  async registerLog(){
+  //Método para eliminar un usuario
+  async deleteUser(uid: string) {
 
   }
 }

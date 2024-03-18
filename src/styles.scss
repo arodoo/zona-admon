@@ -1,2 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+
+//Buttons 
+.edit-btn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 80px;
+}
+
+.edit-btn:hover {
+    background-color: #0056b3;
+}
+
+.add-btn {
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: #218838;
+}
+
+.delete-btn {
+    padding: 5px 10px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 80px;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
