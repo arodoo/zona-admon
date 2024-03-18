@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,6 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { User } from '@angular/fire/auth';
 
 import { UserRegistrationModalComponent } from '../user-registration-modal/user-registration-modal.component';
+import { Observable } from 'rxjs';
+import { UserData } from '../../../core/models/userData.interface';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-users',
@@ -14,57 +17,18 @@ import { UserRegistrationModalComponent } from '../user-registration-modal/user-
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit{
 
-  constructor(public dialog: MatDialog) { }
+  $users!: Observable<UserData[]>;
 
-  usersArray = [
-    {
-      uid: 1,
-      imgUrl: 'https://via.placeholder.com/150',
-      name: 'John Doe',
-      email: 'example.com',
-      role: 'Admin',
-      organization: 'Cruz roja',
-      registered: '01/01/2021',
-    },
-    {
-      uid: 12,
-      imgUrl: 'https://via.placeholder.com/150',
-      name: 'Jane Smith',
-      email: 'jane@example.com',
-      role: 'User',
-      organization: 'Red Cross',
-      registered: '02/05/2021',
-    },
-    {
-      uid: 13,
-      imgUrl: 'https://via.placeholder.com/150',
-      name: 'Alice Johnson',
-      email: 'alice@example.com',
-      role: 'User',
-      organization: 'Doctors Without Borders',
-      registered: '03/15/2021',
-    },
-    {
-      uid: 14,
-      imgUrl: 'https://via.placeholder.com/150',
-      name: 'Bob Brown',
-      email: 'bob@example.com',
-      role: 'User',
-      organization: 'UNICEF',
-      registered: '04/20/2021',
-    },
-    {
-      uid: 15,
-      imgUrl: 'https://via.placeholder.com/150',
-      name: 'Emily Jones',
-      email: 'emily@example.com',
-      role: 'User',
-      organization: 'Save the Children',
-      registered: '05/25/2021',
-    }
-  ];
+  constructor(private firestore: AngularFirestore,
+    public dialog: MatDialog) { }
+
+  ngOnInit(): void {
+    this.$users = this.firestore.collection<UserData>('users').valueChanges();
+
+  }
+
 
   openModal(userToEdit?: User) {
     const dialogRef = this.dialog.open(UserRegistrationModalComponent, {
@@ -73,13 +37,13 @@ export class UsersComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+
     });
   }
 
 
 
-  editUser(userId: number) {
+  editUser(userId: string) {
     console.log('Edit user with id: ', userId);
   }
 

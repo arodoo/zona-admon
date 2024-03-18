@@ -16,7 +16,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of usersArray">
+                    <tr *ngFor="let user of $users | async">
                         <td>
                             <img [src]="user.imgUrl" alt="Avatar" class="avatar">
                             <div>

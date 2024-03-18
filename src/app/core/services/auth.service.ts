@@ -57,7 +57,7 @@ export class AuthService {
       const credential = await this.afAuth.createUserWithEmailAndPassword(email, password);
       //await this.sendEmailVerification();
       if (credential.user) {
-        //await this.saveUserData(credential.user.uid, userData);
+        await this.saveUserData(credential.user.uid, userData);
         return credential;
       } else {
         throw new Error('No se pudo registrar el usuario');
@@ -110,16 +110,46 @@ export class AuthService {
   async signIn(email: string, password: string) {
     try {
       const credential = await this.afAuth.signInWithEmailAndPassword(email, password);
+      if(credential){
+        this.logRegister(email,true)
+      }
       return credential;
     } catch (error: unknown) {
       if (error instanceof Error) {
+        this.logRegister(email, false)
         console.error(error.message);
         throw error;
       } else {
         console.error('Se produjo un error desconocido', error);
+        this.logRegister(email, false)
         throw new Error('Se produjo un error desconocido');
       }
     }
+  }
+
+  //Metodo para llevar la bitácora de logins
+  async logRegister(email: string, status:boolean){
+    if(status===true){
+      this.firestore.collection('logins').add({
+        email: email,
+        status: 'success',
+        date: new Date()
+      });
+    }else if(status===false){
+      this.firestore.collection('logins').add({
+        email: email,
+        status: 'failed',
+        date: new Date()
+      });
+    }
+  }
+
+  async logOutRegister(email: string){
+    this.firestore.collection('logins').add({
+      email: email,
+      status: 'logout',
+      date: new Date()
+    });
   }
 
   // Método para cerrar sesión
@@ -138,7 +168,7 @@ export class AuthService {
       const user = await this.afAuth.currentUser;
       if (user) {
         await user.sendEmailVerification();
-        window.alert('Se ha enviado un correo de verificación a la dirección porporciona. Por favor, revisa la bandeja de entrada y sigue las instrucciones para verificar la cuenta');
+        window.alert('Se ha enviado un correo de verificación a la dirección porporciona. Por favor, revisar la bandeja de entrada y seguir las instrucciones para verificar la cuenta');
       } else {
         window.alert('Error: No hay un usuario para enviar el correo de verificación.');
       }
@@ -158,5 +188,9 @@ export class AuthService {
       // Si hay un error, muestra un mensaje
       window.alert(error);
     }
+  }
+
+  async registerLog(){
+
   }
 }
