@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { Observable, of, interval, switchMap } from 'rxjs';
+import { UserData } from '../models/userData.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -53,9 +54,35 @@ export class AuthService {
 
   // Método para cerrar sesión
   async signOut() {
-await this.afAuth.signOut();
-localStorage.clear();
-sessionStorage.clear();
-this.router.navigate(['/']);
+    await this.afAuth.signOut();
+    localStorage.clear();
+    sessionStorage.clear();
+    this.router.navigate(['/']);
+  }
+
+  //Habilidades y autorización
+  canRead(user: UserData): boolean {
+    const allowed = ['ADMIN', 'EDITOR', 'VISUALIZER'];
+    return this.checkAuthorization(user, allowed);
+  }
+
+  canEdit(user: UserData): boolean {
+    const allowed = ['ADMIN', 'EDITOR'];
+    return this.checkAuthorization(user, allowed);
+  }
+
+  canDelete(user: UserData): boolean {
+    const allowed = ['ADMIN'];
+    return this.checkAuthorization(user, allowed);
+  }
+
+  private checkAuthorization(user: UserData, allowedRoles: string[]): boolean {
+    if (!user) return false;
+    for (const role of allowedRoles) {
+      if (user.roles[role]) {
+        return true;
+      }
+    }
+    return false;
   }
 }
