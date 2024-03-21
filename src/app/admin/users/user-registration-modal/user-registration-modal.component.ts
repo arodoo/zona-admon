@@ -8,7 +8,9 @@ import { UserData } from '../../../core/models/userData.interface';
 import { User } from '../../../core/models/user.interface';
 
 import { AuthService } from '../../../core/services/auth.service';
+import { UsersService } from '../../../core/services/users.service';
 import { UserCredential } from '@angular/fire/auth';
+import { Roles } from '../../../core/models/roles.interface';
 
 @Component({
   selector: 'app-user-registration-modal',
@@ -27,7 +29,9 @@ export class UserRegistrationModalComponent {
     uid: '0',
     imgUrl: '',
     name: '',
-    role: '',
+    roles: {
+      VISUALIZER: true
+    },
     organization: '',
     registered: '',
     email: ''
@@ -38,11 +42,12 @@ export class UserRegistrationModalComponent {
 
   selectedImageFile: File | null = null;
 
-  
+
   constructor(
     public dialogRef: MatDialogRef<UserRegistrationModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private authService: AuthService
+    private authService: AuthService,
+    private usersService: UsersService
   ) {
 
     this.userForm = new FormGroup({
@@ -51,29 +56,14 @@ export class UserRegistrationModalComponent {
       userData: new FormGroup({
         uid: new FormControl('0'),
         name: new FormControl('', [Validators.required]),
-        role: new FormControl('', [Validators.required]),
+        roles: new FormControl('', [Validators.required]),
         organization: new FormControl('', [Validators.required]),
         registered: new FormControl(new Date().toISOString()),
         imgUrl: new FormControl(''),
         email: new FormControl('')
 
       })
-
     });
-
-    if (data.user) {
-      this.user = data.user;
-      this.isEditMode = true;
-      this.userForm.patchValue({
-        email: this.user.email,
-        userData:{
-          uid: this.userData.uid,
-          name: this.userData.name,
-          role: this.userData.role,
-          organization: this.userData.organization
-        }
-      })
-    }
   }
 
   onNoClick(): void {
@@ -87,30 +77,30 @@ export class UserRegistrationModalComponent {
     }
   }
 
-  async registerOrUpdateUser() {
+  async register() {
     if (this.userForm.valid) {
       const formValue = this.userForm.value;
       const email = formValue.email;
       const password = formValue.password;
-      
+
       const userData = formValue.userData;
       userData.email = email;
-      
+      userData.roles = this.assignRoles(userData.roles);
+
       try {
         if (this.isEditMode) {
         } else {
           console.log(userData);
-          alert('checking');
-          const credential = await this.authService.signUp(email, password, userData) as UserCredential;
+          const credential = await this.usersService.registerUser(email, password, userData) as UserCredential;
           if (credential.user) {
             const uid = credential.user.uid;
             if (this.selectedImageFile) {
-              const downloadURL = await this.authService.uploadImage(uid, this.selectedImageFile);
-              const result = await this.authService.saveUserData(uid, { ...userData, imgUrl: downloadURL });
+              const downloadURL = await this.usersService.uploadImage(uid, this.selectedImageFile);
+              const result = await this.usersService.saveUserData(uid, { ...userData, imgUrl: downloadURL });
               if (result) {
                 console.log('Usuario registrado correctamente', credential.user);
               } else {
-                console.error('Error al registrar el usuario');
+                console.error('Error al registrar el usuario', credential.user);
               }
             }
           }
@@ -124,6 +114,24 @@ export class UserRegistrationModalComponent {
     }
   }
 
-
+  assignRoles(slectedRole: string): Roles {
+    if (slectedRole === 'ADMIN') {
+      return {
+        ADMIN: true,
+        EDITOR: true,
+        VISUALIZER: true
+      };
+    } else if (slectedRole === 'EDITOR') {
+      return {
+        ADMIN: false,
+        EDITOR: true,
+        VISUALIZER: true
+      };
+    } else return {
+      ADMIN: false,
+      EDITOR: false,
+      VISUALIZER: true
+    };
+  }
 
 }

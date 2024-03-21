@@ -1,4 +1,4 @@
-<form [formGroup]="userForm" (ngSubmit)="registerOrUpdateUser()" class="container mt-5">
+<form [formGroup]="userForm" (ngSubmit)="register()" class="container mt-5">
     <div class="mb-3">
         <label for="email" class="form-label">Email:</label>
         <input id="email" type="email" formControlName="email" class="form-control">
@@ -22,10 +22,10 @@
         </div>
     </div>
     <div class="mb-3" formGroupName="userData">
-        <label for="role" class="form-label">Rol:</label>
-        <select id="role" formControlName="role" class="form-select">
+        <label for="roles" class="form-label">Rol:</label>
+        <select id="roles" formControlName="roles" class="form-select">
             <option value="ADMIN">Administrador</option>
-            <option value="USER">Usuario</option>
+            <option value="VISUALIZER">Usuario</option>
         </select>
         <div *ngIf="userForm.get('userData.role')?.invalid && userForm.get('userData.role')?.touched"
             class="alert alert-danger">

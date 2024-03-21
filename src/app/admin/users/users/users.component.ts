@@ -9,6 +9,7 @@ import { UserRegistrationModalComponent } from '../user-registration-modal/user-
 import { Observable } from 'rxjs';
 import { UserData } from '../../../core/models/userData.interface';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { UsersService } from '../../../core/services/users.service';
 
 @Component({
   selector: 'app-users',
@@ -21,12 +22,13 @@ export class UsersComponent implements OnInit{
 
   $users!: Observable<UserData[]>;
 
+
   constructor(private firestore: AngularFirestore,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private userService: UsersService) { }
 
   ngOnInit(): void {
     this.$users = this.firestore.collection<UserData>('users').valueChanges();
-
   }
 
 

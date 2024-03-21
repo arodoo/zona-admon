@@ -8,6 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { AuthService } from '../../../core/services/auth.service';
 import {Router} from '@angular/router';
+import { UsersService } from '../../../core/services/users.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,13 +19,14 @@ import {Router} from '@angular/router';
 })
 export class NavbarComponent {
 
-  constructor(public auth: AuthService,
-    private router: Router) { }
+  constructor(public authService: AuthService,
+    private router: Router,
+    private userService: UsersService) { }
 
   signOut() {
     try {
-      this.auth.signOut();
-      if(this.auth.user$!){
+      this.authService.signOut();
+      if (this.authService.user$!){
         this.router.navigate(['/']);
       }
     } catch (error) {
