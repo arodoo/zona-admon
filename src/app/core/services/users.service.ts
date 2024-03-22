@@ -46,7 +46,7 @@ getCurrentUserUid() {
       await userRef.set({
         uid: uid,
         name: userData.name,
-        role: userData.roles,
+        roles: userData.roles,
         organization: userData.organization,
         registered: userData.registered,
         imgUrl: userData.imgUrl,
