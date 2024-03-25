@@ -1,11 +1,16 @@
 {
-  "hosting": [
-    {
-      "target": "zona-admon",
-      "source": ".",
-      "frameworksBackend": {
-        "region": "us-central1"
+  "hosting": {
+    "public": "dist/zona-admon/browser",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
       }
-    }
-  ]
+    ]
+  }
 }
