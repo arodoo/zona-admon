@@ -27,6 +27,10 @@ export class AuthService {
     );
   }
 
+  async getCurrentUser() {
+    return this.afAuth.currentUser;
+  }
+
   /*   checkSession() {
       this.checkInterval$.pipe(
         switchMap(() => this.afAuth.authState),
