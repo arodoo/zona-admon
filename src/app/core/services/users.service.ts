@@ -39,6 +39,27 @@ getCurrentUserUid() {
     }
   }
 
+  async getUsers() {
+    try {
+      const users = this.firestore.collection('users').valueChanges();
+      return users;
+    } catch (error) {
+      console.error('Error al obtener los usuarios:', error);
+      return error;
+    }
+  }
+
+  async getUser(uid: string) {
+    try {
+      const user = this.firestore.collection('users').doc(uid).get();
+      return user;
+    } catch (error) {
+      console.error('Error al obtener el usuario:', error);
+      return error;
+    }
+  }
+
+
   async saveUserData(uid: string, userData: UserData) {
     try {
       const userRef = this.firestore.collection('users').doc(uid);

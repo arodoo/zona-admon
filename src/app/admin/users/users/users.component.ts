@@ -28,8 +28,29 @@ export class UsersComponent implements OnInit{
     private userService: UsersService) { }
 
   ngOnInit(): void {
-    this.$users = this.firestore.collection<UserData>('users').valueChanges();
+    this.getUsers();
   }
+
+  async getUsers() {
+    this.$users = this.firestore.collection<UserData>('users').valueChanges();
+    //assing roles to users
+    
+  }
+
+  getUserRole(userUid: string) {
+    
+  }
+
+  getRoleInSpanish(role: string): string {
+    const rolesMap: { [key: string]: string } = {
+      'ADMIN': 'Administrador',
+      'EDITOR': 'Editor',
+      'VISUALIZER': 'Usuario'
+    };
+
+    return rolesMap[role.toUpperCase()] || role;
+  }
+
 
 
   openModal(userToEdit?: User) {

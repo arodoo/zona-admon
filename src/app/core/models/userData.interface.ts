@@ -4,7 +4,7 @@ export interface UserData {
     imgUrl: string;
     name: string;
     email: string;
-    roles: Roles;
+    roles: Roles[];
     organization: string;
     registered: string;
 }

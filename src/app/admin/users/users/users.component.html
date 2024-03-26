@@ -25,7 +25,11 @@
                             </div>
                         </td>
                         <td>{{ user.organization }}</td>
-                        <td>{{ user.roles }}</td>
+                        <td>
+                            <span *ngFor="let role of user.roles">
+                                <span *ngIf="role.active">{{ getRoleInSpanish(role.type) }}</span>
+                            </span>
+                        </td>
                         <td>{{ user.registered }}</td>
                         <td>
                             <button class="edit-btn" (click)="editUser(user.uid)">Editar</button>

@@ -61,7 +61,7 @@ export class AuthService {
   }
 
   //Habilidades y autorización
-  canRead(user: UserData): boolean {
+   canRead(user: UserData): boolean {
     const allowed = ['ADMIN', 'EDITOR', 'VISUALIZER'];
     return this.checkAuthorization(user, allowed);
   }
@@ -74,15 +74,16 @@ export class AuthService {
   canDelete(user: UserData): boolean {
     const allowed = ['ADMIN'];
     return this.checkAuthorization(user, allowed);
-  }
+  } 
 
   private checkAuthorization(user: UserData, allowedRoles: string[]): boolean {
     if (!user) return false;
-    for (const role of allowedRoles) {
-      if (user.roles[role]) {
+    for (const role of user.roles) {
+      if (allowedRoles.includes(role.type) && role.active) {
         return true;
       }
     }
     return false;
   }
+
 }
