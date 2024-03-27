@@ -18,6 +18,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
     tap(canDelete => {
       if (!canDelete) {
         console.error('Acceso denegado');
+        authService.signOut();
         router.navigate(['/',]);
       }
     })
