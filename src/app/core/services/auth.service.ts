@@ -80,6 +80,16 @@ export class AuthService {
     return this.checkAuthorization(user, allowed);
   } 
 
+  isAuthorized(user: UserData): boolean {
+    if (!user) return false;
+    for (const role of user.roles) {
+      if (role.active) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private checkAuthorization(user: UserData, allowedRoles: string[]): boolean {
     if (!user) return false;
     for (const role of user.roles) {
