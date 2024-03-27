@@ -59,13 +59,15 @@ export class AuthService {
   // Método para cerrar sesión
   async signOut() {
     await this.afAuth.signOut();
-    localStorage.clear();
-    sessionStorage.clear();
+    if (typeof window !== 'undefined') {
+      localStorage.clear();
+      sessionStorage.clear();
+    }
     this.router.navigate(['/']);
   }
 
   //Habilidades y autorización
-   canRead(user: UserData): boolean {
+  canRead(user: UserData): boolean {
     const allowed = ['ADMIN', 'EDITOR', 'VISUALIZER'];
     return this.checkAuthorization(user, allowed);
   }
@@ -78,7 +80,7 @@ export class AuthService {
   canDelete(user: UserData): boolean {
     const allowed = ['ADMIN'];
     return this.checkAuthorization(user, allowed);
-  } 
+  }
 
   isAuthorized(user: UserData): boolean {
     if (!user) return false;
