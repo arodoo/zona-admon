@@ -50,11 +50,41 @@ export class AuthService {
   async signIn(email: string, password: string) {
     try {
       const credential = await this.afAuth.signInWithEmailAndPassword(email, password);
-      return credential;
+      if (credential.user) {
+        return true;
+      }
     } catch (error) {
-      return null;
+      throw new Error('Error al iniciar sesión, verifique sus credenciales');
+    }
+    return false;
+  }
+
+  //checkIfIsActive() {
+  async checkIfIsActive(): Promise<boolean> {
+    try {
+      const user = await this.getCurrentUser();
+      if (!user) {
+        throw new Error('Usuario no autenticado');
+      }
+
+      const userRef = this.firestore.collection('users').doc(user.uid);
+      const doc = await userRef.get().toPromise(); // Convertir a promesa
+
+      if (doc && doc.exists) {
+        const data = doc.data() as UserData;
+        const isActive = data.active;
+        console.log(isActive); // Verifica si se obtiene correctamente el valor de isActive
+        return isActive;
+      } else {
+        throw new Error('Usuario no encontrado en Firestore');
+      }
+    } catch (error) {
+      console.error('Error al verificar si el usuario está activo:', error);
+      throw new Error('Error al verificar si el usuario está activo');
     }
   }
+
+
 
   // Método para cerrar sesión
   async signOut() {

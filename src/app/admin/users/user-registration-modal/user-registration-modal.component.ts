@@ -11,6 +11,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { UsersService } from '../../../core/services/users.service';
 import { UserCredential } from '@angular/fire/auth';
 import { Roles } from '../../../core/models/roles.interface';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-user-registration-modal',
@@ -23,6 +24,7 @@ export class UserRegistrationModalComponent {
 
   userData: UserData = {
     uid: '0',
+    active: true,
     imgUrl: '',
     name: '',
     roles: [
@@ -43,7 +45,8 @@ constructor(
   public dialogRef: MatDialogRef<UserRegistrationModalComponent>,
   @Inject(MAT_DIALOG_DATA) public data: any,
   private authService: AuthService,
-  private usersService: UsersService
+  private usersService: UsersService,
+  private notificationService: NotificationService
 ) {
 
   this.userForm = new FormGroup({
@@ -86,7 +89,6 @@ onFileSelected(event: Event) {
     try {
       if (this.isEditMode) {
       } else {
-        console.log(userData);
         const credential = await this.usersService.registerUser(email, password, userData) as UserCredential;
         if (credential.user) {
           const uid = credential.user.uid;
@@ -94,9 +96,9 @@ onFileSelected(event: Event) {
             const downloadURL = await this.usersService.uploadImage(uid, this.selectedImageFile);
             const result = await this.usersService.saveUserData(uid, { ...userData, imgUrl: downloadURL });
             if (result) {
-              console.log('Usuario registrado correctamente', credential.user);
+              this.notificationService.showSuccess('Usuario registrado correctamente');
             } else {
-              console.error('Error al registrar el usuario', credential.user);
+              this.notificationService.showError('Error al registrar el usuario');
             }
           }
         }

@@ -75,8 +75,7 @@ getCurrentUserUid() {
       });
       return userRef;
     } catch (error) {
-      console.log('Error al guardar los datos del usuario:', error);
-      return error;
+      throw new Error('Error al guardar los datos del usuario');
     }
   }
 

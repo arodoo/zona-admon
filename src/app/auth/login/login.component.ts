@@ -3,10 +3,11 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AuthService } from '../../core/services/auth.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -24,8 +25,9 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
-  ) {
+    private router: Router,
+    private notificationService: NotificationService) {
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -33,21 +35,29 @@ export class LoginComponent {
   }
 
   async onLogin() {
+    let isActive: boolean = false;
     if (this.loginForm.valid) {
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
       try {
         const credential = await this.authService.signIn(email, password);
-        if (credential !== null) {
-          this.router.navigate(['/admin']);
+        if (credential === true) {
+          isActive = await this.authService.checkIfIsActive();
+          console.log(isActive);
+          if (isActive === true) {
+            this.notificationService.showSuccess('Inicio de sesión exitoso');
+            this.router.navigate(['/admin']);
+          }else{
+            console
+            this.notificationService.showError('Usuario inactivo, por favor contacte al administrador');
+          }
         }
       } catch (error) {
         if (error instanceof Error) {
-          console.error(error);
-          alert('Error, el correo electrónico o la contraseña no existen');
-          window.location.reload();
+          this.notificationService.showError(error.message);
+          //window.location.reload();
         } else {
-          alert('Se produjo un error desconocido');
+          this.notificationService.showError('Error al iniciar sesión, verifique sus credenciales');
         }
       }
     }
