@@ -2,23 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-
-import { User, deleteUser } from '@angular/fire/auth';
-
-import { UserRegistrationModalComponent } from '../user-registration-modal/user-registration-modal.component';
 import { Observable } from 'rxjs';
-import { UserData } from '../../../core/models/userData.interface';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+
+import { User } from '@angular/fire/auth';
+import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
+import { UserRegistrationModalComponent } from '../user-registration-modal/user-registration-modal.component';
+import { UserData } from '../../../core/models/userData.interface';
 import { UsersService } from '../../../core/services/users.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, DateFormatPipe],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
+
+
 export class UsersComponent implements OnInit{
 
   $users!: Observable<UserData[]>;
@@ -47,6 +49,8 @@ export class UsersComponent implements OnInit{
 
     return rolesMap[role.toUpperCase()] || role;
   }
+
+
 
 
 

@@ -30,7 +30,7 @@
                                 <span *ngIf="role.active">{{ getRoleInSpanish(role.type) }}</span>
                             </span>
                         </td>
-                        <td>{{ user.registered }}</td>
+                        <td>{{ user.registered  | dateFormat}}</td>
                         <td>
                             <button class="edit-btn" (click)="editUser(user.uid)">Editar</button>
                             <button class="delete-btn" (click)="deleteUser(user.uid)">Eliminar</button>
