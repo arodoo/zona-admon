@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { UserData } from '../../../core/models/userData.interface';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UsersService } from '../../../core/services/users.service';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-users',
@@ -25,21 +26,17 @@ export class UsersComponent implements OnInit{
 
   constructor(private firestore: AngularFirestore,
     public dialog: MatDialog,
-    private userService: UsersService) { }
+    private userService: UsersService,
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.getUsers();
   }
 
   async getUsers() {
-    this.$users = this.firestore.collection<UserData>('users').valueChanges();
-    //assing roles to users
-    
+    this.$users = this.firestore.collection<UserData>('users', ref => ref.where('active', '==', true)).valueChanges();
   }
 
-  getUserRole(userUid: string) {
-    
-  }
 
   getRoleInSpanish(role: string): string {
     const rolesMap: { [key: string]: string } = {
@@ -64,9 +61,18 @@ export class UsersComponent implements OnInit{
     });
   }
 
-  deleteUser(userId: string) {
-    console.log('Delete user with id: ', userId);
-    
+  async deleteUser(userId: string) {
+    const confirmation = await this.notificationService.confirmDialog('¿Estás seguro de que deseas eliminar este usuario?');
+    if (confirmation) {
+      const result = await this.userService.deleteUser(userId).then(() => {
+      this.notificationService.showSuccess('Usuario eliminado correctamente');
+      }).catch((error) => {
+        this.notificationService.showError('Error al eliminar el usuario');
+      });
+    }
+    else {
+      this.notificationService.showError('Error al eliminar el usuario');
+    }
   }
 
   editUser(userId: string) {

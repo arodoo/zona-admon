@@ -59,8 +59,8 @@ constructor(
       organization: new FormControl('', [Validators.required]),
       registered: new FormControl(new Date().toISOString()),
       imgUrl: new FormControl(''),
-      email: new FormControl('')
-
+      email: new FormControl(''),
+      active: new FormControl()
     })
   });
 }
@@ -84,6 +84,7 @@ onFileSelected(event: Event) {
 
     const userData = formValue.userData;
     userData.email = email;
+    userData.active = true;
     userData.roles = this.assignRoles(userData.roles);
 
     try {
@@ -95,6 +96,8 @@ onFileSelected(event: Event) {
           if (this.selectedImageFile) {
             const downloadURL = await this.usersService.uploadImage(uid, this.selectedImageFile);
             const result = await this.usersService.saveUserData(uid, { ...userData, imgUrl: downloadURL });
+            console.log('result:', result);
+            
             if (result) {
               this.notificationService.showSuccess('Usuario registrado correctamente');
             } else {

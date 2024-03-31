@@ -19,9 +19,9 @@ export class UsersService {
 
   }
 
-getCurrentUserUid() {
+  getCurrentUserUid() {
 
-}
+  }
 
   async registerUser(email: string, password: string, userData: UserData) {
     try {
@@ -71,7 +71,8 @@ getCurrentUserUid() {
         organization: userData.organization,
         registered: userData.registered,
         imgUrl: userData.imgUrl,
-        email: userData.email
+        email: userData.email,
+        active: true
       });
       return userRef;
     } catch (error) {
@@ -117,7 +118,14 @@ getCurrentUserUid() {
   }
 
   async deleteUser(uid: string) {
-
+    //Change user active to false
+    const userRef = this.firestore.collection('users').doc(uid);
+    try {
+      await userRef.update({ active: false });
+      return userRef;
+    } catch (error) {
+      throw new Error('Error al eliminar el usuario');
+    }
   }
 
   async sendEmailVerification() {
