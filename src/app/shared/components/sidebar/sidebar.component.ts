@@ -25,7 +25,8 @@ export class SidebarComponent implements OnInit {
   }
 
   menuItems = [
-    { name: 'Inicio', route: '/admin/dashboard', icon: 'dashboard', visible: true },
+    { name: 'Inicio', route: '/admin/home', icon: 'dashboard', visible: true },
+    { name: 'Mapa', route: '/admin/map', icon: 'map', visible: true },
     { name: 'Usuarios', route: '/admin/users', icon: 'people', visible: false }, // Oculto por defecto
     { name: 'Reportes', route: '/admin/reportes', icon: 'reportes', visible: false }, // Oculto por defecto
     { name: 'Registros', route: '/admin/documentos', icon: 'folder_open', visible: true },
