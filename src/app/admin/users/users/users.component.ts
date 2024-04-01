@@ -11,6 +11,7 @@ import { UserRegistrationModalComponent } from '../user-registration-modal/user-
 import { UserData } from '../../../core/models/userData.interface';
 import { UsersService } from '../../../core/services/users.service';
 import { NotificationService } from '../../../core/services/notification.service';
+import { UserEditModalComponent } from '../user-edit-modal/user-edit-modal.component';
 
 @Component({
   selector: 'app-users',
@@ -51,13 +52,21 @@ export class UsersComponent implements OnInit{
   }
 
 
-
-
-
-  openModal(userToEdit?: User) {
+  openModal(userToAdd?: User) {
     const dialogRef = this.dialog.open(UserRegistrationModalComponent, {
-      width: '500px',
-      data: { user: userToEdit }
+      width: '700px',
+      data: { user: userToAdd }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+  }
+
+  openEditModal(userData: UserData) {
+    const dialogRef = this.dialog.open(UserEditModalComponent, {
+      width: '700px',
+      data: { user: userData }
     });
 
     dialogRef.afterClosed().subscribe(result => {

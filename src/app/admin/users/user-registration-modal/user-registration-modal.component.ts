@@ -5,7 +5,6 @@ import { Inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { UserData } from '../../../core/models/userData.interface';
-import { User } from '../../../core/models/user.interface';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { UsersService } from '../../../core/services/users.service';

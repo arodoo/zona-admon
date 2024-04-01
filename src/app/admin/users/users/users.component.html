@@ -32,7 +32,7 @@
                         </td>
                         <td>{{ user.registered  | dateFormat}}</td>
                         <td>
-                            <button class="edit-btn" (click)="editUser(user.uid)">Editar</button>
+                            <button class="edit-btn" (click)="openEditModal(user)">Editar</button>
                             <button class="delete-btn" (click)="deleteUser(user.uid)">Eliminar</button>
                         </td>
                     </tr>

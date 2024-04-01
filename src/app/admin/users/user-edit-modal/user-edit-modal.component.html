@@ -1,19 +1,12 @@
 
-<form [formGroup]="userForm" (ngSubmit)="register()" class="container mt-5">
+<form [formGroup]="userForm" (ngSubmit)="update()" class="container mt-5">
+<img [src]="userForm.get('userData.imgUrl')?.value" alt="Avatar" class="avatar">
+<h2 class="title">Editar usuario</h2>
     <div class="mb-3">
         <label for="email" class="form-label">Email:</label>
-        <input id="email" type="email" formControlName="email" class="form-control">
-        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="alert alert-danger">
-            El email es requerido y debe ser un email válido.
-        </div>
+        <input [readonly]="true" id="email" type="email" formControlName="email" class="form-control">
     </div>
-    <div class="mb-3">
-        <label for="password" class="form-label">Contraseña:</label>
-        <input id="password" type="password" formControlName="password" class="form-control">
-        <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="alert alert-danger">
-            La contraseña es requerida.
-        </div>
-    </div>
+
     <div class="mb-3" formGroupName="userData">
         <label for="name" class="form-label">Nombre:</label>
         <input id="name" type="text" formControlName="name" class="form-control">
@@ -22,17 +15,15 @@
             El nombre es requerido.
         </div>
     </div>
+
     <div class="mb-3" formGroupName="userData">
         <label for="roles" class="form-label">Rol:</label>
         <select id="roles" formControlName="roles" class="form-select">
             <option value="ADMIN">Administrador</option>
             <option value="VISUALIZER">Usuario</option>
         </select>
-        <div *ngIf="userForm.get('userData.role')?.invalid && userForm.get('userData.role')?.touched"
-            class="alert alert-danger">
-            El rol es requerido.
-        </div>
     </div>
+
     <div class="mb-3" formGroupName="userData">
         <label for="organization" class="form-label">Organización:</label>
         <input id="organization" type="text" formControlName="organization" class="form-control">
@@ -41,11 +32,6 @@
             La organización es requerida.
         </div>
     </div>
-<div class="mb-3">
-    <label for="img" class="form-label">Imagen:</label>
-    <input id="img" type="file" (change)="onFileSelected($event)" class="form-control">
-    <!-- No es necesario mostrar un mensaje de error aquí ya que la imagen no es parte del FormGroup -->
-</div>
 
-    <button type="submit" class="btn btn-primary" >Registrar</button>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
 </form>
