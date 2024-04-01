@@ -1,5 +1,7 @@
 
 <form [formGroup]="userForm" (ngSubmit)="register()" class="container mt-5">
+            <img src="assets/img/logo.png" alt="Avatar" class="avatar">
+            <h2 class="title">Editar usuario</h2>
     <div class="mb-3">
         <label for="email" class="form-label">Email:</label>
         <input id="email" type="email" formControlName="email" class="form-control">
@@ -43,7 +45,7 @@
     </div>
 <div class="mb-3">
     <label for="img" class="form-label">Imagen:</label>
-    <input id="img" type="file" (change)="onFileSelected($event)" class="form-control">
+    <input id="img" type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*">
     <!-- No es necesario mostrar un mensaje de error aquí ya que la imagen no es parte del FormGroup -->
 </div>
 

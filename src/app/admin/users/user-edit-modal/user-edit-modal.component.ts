@@ -102,4 +102,15 @@ export class UserEditModalComponent implements OnInit {
       return [];
     }
   }
+
+  onFileSelected(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length) {
+      const file = fileInput.files[0];
+      // Aquí puedes implementar la lógica para subir el archivo
+      // Por ejemplo, actualizar la propiedad 'selectedImageFile' y luego subir la imagen
+      this.selectedImageFile = file;
+    }
+  }
+
 }
