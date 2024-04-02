@@ -12,10 +12,23 @@
 
     <!-- Gráficas de Análisis de Datos -->
     <section class="data-analysis">
-        <h2>Análisis de Datos</h2>
+
         <div class="charts">
-            <div class="chart" id="usersChart">Gráfico de Usuarios</div>
-            <div class="chart" id="markersChart">Gráfico de Marcadores</div>
+            <div class="chart" id="registersChart">
+                    <!-- Gráficas de Análisis de Datos -->
+                        <div style="display: block;">
+                            <h5>Registros en el último mes</h5>
+                                <canvas baseChart width="400" height="200" [type]="barChartType" [data]="barChartData"
+                                    [options]="barChartOptions" [legend]="barChartLegend"></canvas>
+                        </div>
+            </div>
+            <div class="chart" id="reportsChart">
+                <div style="display: block;">
+                    <h5>Reportes en el último mes</h5>
+                    <canvas baseChart width="400" height="200" [type]="barChartType" [data]="userReportsChartData"
+                         [options]="barChartOptions" [legend]="barChartLegend"></canvas>
+                </div>
+            </div>
             <!-- Más gráficos -->
         </div>
     </section>

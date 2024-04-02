@@ -10,6 +10,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AuthService } from './core/services/auth.service';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+
 
 // Aquí definimos la configuración de Firebase como una constante
 const firebaseConfig = {
@@ -32,7 +34,8 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(provideFirebaseApp(() => initializeApp(firebaseConfig))),
     importProvidersFrom(provideAuth(() => getAuth())),
     importProvidersFrom(provideFirestore(() => getFirestore())),
-    AuthService
+    AuthService,
+    provideCharts(withDefaultRegisterables())
 
   ]
 };

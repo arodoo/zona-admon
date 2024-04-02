@@ -46,7 +46,7 @@ export class LoginComponent {
           console.log(isActive);
           if (isActive === true) {
             this.notificationService.showSuccess('Inicio de sesión exitoso');
-            this.router.navigate(['/admin']);
+            this.router.navigate(['/admin/home']);
           }else{
             console
             this.notificationService.showError('Usuario inactivo, por favor contacte al administrador');

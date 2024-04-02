@@ -17,10 +17,6 @@
         "source": "**",
         "headers": [
           {
-            "key": "Content-Security-Policy",
-            "value": "default-src 'self' https://zona-admon.firebaseapp.com; connect-src 'self' https://zona-admon.firebaseio.com https://*.googleapis.com; img-src 'self' data: https://zona-admon.storage.googleapis.com; script-src 'self' https://cdn.jsdelivr.net https://zona-admon.googleapis.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none';"
-          },
-          {
             "key": "X-Content-Type-Options",
             "value": "nosniff"
           },
