@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MarkerModalComponent } from '../marker-modal/marker-modal.component';
+import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 
 declare var google: any;
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [],
+  imports: [AppTitleComponent],
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss'
 })
