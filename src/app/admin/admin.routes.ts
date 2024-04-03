@@ -4,6 +4,8 @@ import { AdminLayoutComponent } from "./admin-layout/admin-layout.component";
 
 import { adminGuard } from "../core/admin.guard";
 import { MapComponent } from "./maps/map/map.component";
+import { ReportComponent } from "./reports/report/report.component";
+import { RegisterComponent } from "./registers/register/register.component";
 
 export const ADMIN_ROUTES: Routes = [
     {
@@ -17,6 +19,14 @@ export const ADMIN_ROUTES: Routes = [
             {
                 path: 'map',
                 component: MapComponent
+            },
+            {
+                path: 'reports',
+                component: ReportComponent
+            },
+            {
+                path: 'registers',
+                component: RegisterComponent
             },
             {
                 path: 'users',
