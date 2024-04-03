@@ -1,9 +1,4 @@
 /* home.component.css */
-.dashboard-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
 
 section {
     background-color: #f7f7f7;
@@ -14,6 +9,12 @@ section {
 
 h2 {
     margin-bottom: 15px;
+}
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .charts {

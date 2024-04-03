@@ -1,44 +1,42 @@
 <!-- home.component.html -->
 <div class="dashboard-container">
-<!-- Resumen de Actividad -->
-<section class="activity-summary">
-    <h2>Resumen de Actividad</h2>
-    <mat-card>
-        <mat-card-content>
-            <mat-list>
-                <mat-list-item>
-                    <mat-icon mat-list-icon>person_add</mat-icon>
-                    <span>Nuevos Usuarios: 5</span>
-                </mat-list-item>
-                <mat-list-item>
-                    <mat-icon mat-list-icon>bookmark</mat-icon>
-                    <span>Marcadores Añadidos: 10</span>
-                </mat-list-item>
-                <!-- Más actividades -->
-            </mat-list>
-        </mat-card-content>
-    </mat-card>
-</section>
-
-
+    <!-- Resumen de Actividad -->
+    <section class="activity-summary">
+        <h2>Resumen de Actividad</h2>
+        <mat-card>
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>person_add</mat-icon>
+                        <span>Nuevos Usuarios: 5</span>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>bookmark</mat-icon>
+                        <span>Marcadores Añadidos: 10</span>
+                    </mat-list-item>
+                    <!-- Más actividades -->
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+    </section>
 
     <!-- Gráficas de Análisis de Datos -->
     <section class="data-analysis">
 
         <div class="charts">
             <div class="chart" id="registersChart">
-                    <!-- Gráficas de Análisis de Datos -->
-                        <div style="display: block;">
-                            <h5>Registros en el último mes</h5>
-                                <canvas baseChart width="400" height="200" [type]="barChartType" [data]="barChartData"
-                                    [options]="barChartOptions" [legend]="barChartLegend"></canvas>
-                        </div>
+                <!-- Gráficas de Análisis de Datos -->
+                <div style="display: block;">
+                    <h5>Registros en el último mes</h5>
+                    <canvas baseChart width="400" height="200" [type]="barChartType" [data]="barChartData"
+                        [options]="barChartOptions" [legend]="barChartLegend"></canvas>
+                </div>
             </div>
             <div class="chart" id="reportsChart">
                 <div style="display: block;">
                     <h5>Reportes en el último mes</h5>
                     <canvas baseChart width="400" height="200" [type]="barChartType" [data]="userReportsChartData"
-                         [options]="barChartOptions" [legend]="barChartLegend"></canvas>
+                        [options]="barChartOptions" [legend]="barChartLegend"></canvas>
                 </div>
             </div>
             <!-- Más gráficos -->
@@ -46,12 +44,36 @@
     </section>
 
     <!-- Alertas y Notificaciones -->
-    <section class="alerts">
-        <h2>Alertas</h2>
-        <div class="alert-message">
-            <p>3 reportes pendientes de revisión</p>
+<section class="alerts">
+    <h2>Alertas y Notificaciones</h2>
+    <div class="alert alert-danger" role="alert">
+        <strong>Atención:</strong> 3 reportes pendientes de revisión.
+    </div>
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <div class="notification">
+                <mat-icon>notifications</mat-icon>
+                <p>Recibiste un nuevo mensaje</p>
+            </div>
         </div>
-    </section>
+        <div class="col d-flex justify-content-center">
+            <div class="reminder">
+                <mat-icon>alarm</mat-icon>
+                <p>Reunión a las 14:00</p>
+            </div>
+        </div>
+        <div class="col d-flex justify-content-center">
+            <div class="reminder">
+                <mat-icon>alarm</mat-icon>
+                <p>Reunión a las 14:00</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
 
     <!-- Accesos Directos -->
     <section class="shortcuts">
