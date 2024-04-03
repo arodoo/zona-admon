@@ -1,14 +1,26 @@
 <!-- home.component.html -->
 <div class="dashboard-container">
-    <!-- Resumen de Actividad -->
-    <section class="activity-summary">
-        <h2>Resumen de Actividad</h2>
-        <ul>
-            <li>Nuevos Usuarios: 5</li>
-            <li>Marcadores Añadidos: 10</li>
-            <!-- Más actividades -->
-        </ul>
-    </section>
+<!-- Resumen de Actividad -->
+<section class="activity-summary">
+    <h2>Resumen de Actividad</h2>
+    <mat-card>
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item>
+                    <mat-icon mat-list-icon>person_add</mat-icon>
+                    <span>Nuevos Usuarios: 5</span>
+                </mat-list-item>
+                <mat-list-item>
+                    <mat-icon mat-list-icon>bookmark</mat-icon>
+                    <span>Marcadores Añadidos: 10</span>
+                </mat-list-item>
+                <!-- Más actividades -->
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+</section>
+
+
 
     <!-- Gráficas de Análisis de Datos -->
     <section class="data-analysis">

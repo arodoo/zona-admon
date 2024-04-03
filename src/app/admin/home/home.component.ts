@@ -2,11 +2,16 @@ import { Component } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective,
+    MatListModule, MatIconModule, MatCardModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -46,7 +51,7 @@ export class HomeComponent {
         data: [40, 45, 50, 55, 60, 65, 70],
         label: 'Reportes',
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgba(54, 162, 235, 1)', 
+        borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1
       }
     ]
