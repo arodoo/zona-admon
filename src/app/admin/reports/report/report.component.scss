@@ -1,15 +1,6 @@
-/* custom-table.component.css */
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table th,
-.table td {
-    padding: 10px;
-    border: 1px solid #ddd;
-}
-
-.btn {
-    margin-right: 5px;
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: white;
 }

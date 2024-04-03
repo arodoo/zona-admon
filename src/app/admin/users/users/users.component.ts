@@ -4,19 +4,20 @@ import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-
 import { User } from '@angular/fire/auth';
+
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 import { UserRegistrationModalComponent } from '../user-registration-modal/user-registration-modal.component';
 import { UserData } from '../../../core/models/userData.interface';
 import { UsersService } from '../../../core/services/users.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { UserEditModalComponent } from '../user-edit-modal/user-edit-modal.component';
+import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, RouterModule, DateFormatPipe],
+  imports: [CommonModule, RouterModule, DateFormatPipe, AppTitleComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })

@@ -1,24 +1,38 @@
-<!-- custom-table.component.html -->
-<table class="table">
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Usuario</th>
-            <th>Región</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>2023-04-15</td>
-            <td>John Doe</td>
-            <td>América del Norte</td>
-            <td>
-                <button class="btn btn-success">Aprobar</button>
-                <button class="btn btn-danger">Rechazar</button>
-                <button class="btn btn-info">Detalles</button>
-            </td>
-        </tr>
-        <!-- Más filas de datos -->
-    </tbody>
-</table>
+<div class="container">
+    <app-title title="Reportes"></app-title>
+    <div class="card my-4">
+        <div class="card-header">
+            <h6 class="text-black">Reportes</h6>
+            <button class="add-btn" (click)="generateReport()">Generar reporte</button>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                    <th>Localidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let report of $reports">
+                    <td>
+                        <div>
+                            <h6>{{ report.user.name }}</h6>
+                        </div>
+                    </td>
+                    <td>{{ report.date | dateFormat}}</td>
+                    <td>{{ report.location }}</td>
+                    <td>
+                        <button class="add-btn" (click)="acceptReport()">Aceptar</button>
+                        <button class="delete-btn" (click)="denyReport()">Eliminar</button>
+                        <button class="edit-btn" (click)="detailsReport()">Detalles</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+</div>
