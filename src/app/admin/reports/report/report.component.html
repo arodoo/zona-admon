@@ -3,36 +3,37 @@
     <div class="card my-4">
         <div class="card-header">
             <h6 class="text-black">Reportes</h6>
-            <button class="add-btn" (click)="generateReport()">Generar reporte</button>
+            <button class="add-btn" id="generateReportBtn" (click)="generateReport()">Generar reporte</button>
         </div>
-
         <div class="card-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Usuario</th>
-                        <th>Fecha reportado</th>
-                        <th>Localidad</th>
-                        <th class="actions-column">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let report of $reports">
-                        <td>
-                            <div>
-                                <h6>{{ report.user.name }}</h6>
-                            </div>
-                        </td>
-                        <td>{{ report.date | dateFormat}}</td>
-                        <td>{{ report.location }}</td>
-                        <td class="actions-column">
-                            <button class="add-btn" (click)="acceptReport()">Aceptar</button>
-                            <button class="delete-btn" (click)="denyReport()">Eliminar</button>
-                            <button class="edit-btn" (click)="detailsReport()">Detalles</button>
-                        </td>
-                    </tr>
-                </tbody>
+            <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource" class="table table-hover">
+                <ng-container matColumnDef="user">
+                    <th mat-header-cell *matHeaderCellDef> Usuario </th>
+                    <td mat-cell *matCellDef="let element"> {{element.user.name}} </td>
+                </ng-container>
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                    <td mat-cell *matCellDef="let element"> {{element.date | dateFormat}} </td>
+                </ng-container>
+                <ng-container matColumnDef="location">
+                    <th mat-header-cell *matHeaderCellDef> Localidad </th>
+                    <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element" class="actions-column">
+                        <button class="add-btn" (click)="acceptReport()">Aceptar</button>
+                        <button class="delete-btn" (click)="denyReport()">Eliminar</button>
+                        <button class="edit-btn" (click)="detailsReport()">Detalles</button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[15 ]" showFirstLastButtons class="pt-2"></mat-paginator>
         </div>
     </div>
 </div>
+            
