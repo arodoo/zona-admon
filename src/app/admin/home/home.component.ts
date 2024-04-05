@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 
+import { fadeAnimation } from '../../shared/animations/fade-animation';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import { MatCardModule } from '@angular/material/card';
   imports: [BaseChartDirective,
     MatListModule, MatIconModule, MatCardModule],
   templateUrl: './home.component.html',
+  animations: [fadeAnimation],
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {

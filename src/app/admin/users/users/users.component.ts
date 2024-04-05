@@ -14,11 +14,14 @@ import { NotificationService } from '../../../core/services/notification.service
 import { UserEditModalComponent } from '../user-edit-modal/user-edit-modal.component';
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 
+import { fadeAnimation } from '../../../shared/animations/fade-animation';
+
 @Component({
   selector: 'app-users',
   standalone: true,
   imports: [CommonModule, RouterModule, DateFormatPipe, AppTitleComponent],
   templateUrl: './users.component.html',
+  animations: [fadeAnimation],
   styleUrl: './users.component.scss'
 })
 

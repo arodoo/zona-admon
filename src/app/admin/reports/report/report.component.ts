@@ -7,6 +7,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 
+import { fadeAnimation } from '../../../shared/animations/fade-animation';
+
+
 interface Report {
   user: {
     name: string;
@@ -19,6 +22,7 @@ interface Report {
   standalone: true,
   imports: [CommonModule,AppTitleComponent, DateFormatPipe, MatTableModule, MatPaginator],
   templateUrl: './report.component.html',
+  animations: [fadeAnimation],
   styleUrl: './report.component.scss'
 })
 export class ReportComponent implements OnInit, AfterViewInit{

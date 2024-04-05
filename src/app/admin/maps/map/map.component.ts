@@ -3,12 +3,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { MarkerModalComponent } from '../marker-modal/marker-modal.component';
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 
+import { fadeAnimation } from '../../../shared/animations/fade-animation';
+
+
 declare var google: any;
 @Component({
   selector: 'app-map',
   standalone: true,
   imports: [AppTitleComponent],
   templateUrl: './map.component.html',
+  animations: [fadeAnimation],
   styleUrl: './map.component.scss'
 })
 export class MapComponent implements OnInit {
