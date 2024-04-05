@@ -30,10 +30,10 @@ export class ReportComponent implements OnInit{
     for (let i = 0; i < 20; i++) {
               newDate: new Date(),
       this.$reports.push({
-        user: { name: `Usuario ${i + 1}` },
+        user: { name: `Aureliano José Buendía ${i + 1}` },
 
         date: this.dateToString(new Date()),
-        location: `Localidad ${i + 1}`
+        location: `Calle ${i + 1}, Colonia ${i + 1}, Ciudad ${i + 1}, CP ${i + 1}`
       });
     }
   }

@@ -1,6 +1,15 @@
+
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     color: white;
+}
+
+.actions-column {
+    text-align: right;
+    //addind space between the buttons
+    button {
+        margin-left: 3px;
+    }
 }
