@@ -1,46 +1,53 @@
 <div [@fadeAnimation]>
-<div class="container">
-    <app-title title="Usuarios"></app-title>
-    <div class="card my-4">
-        <div class="card-header">
-            <h6 class="text-black">Usuarios</h6>
-            <button class="add-btn" (click)="openModal()">Añadir usuario</button>
-        </div>
-        <div class="card-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Usuario</th>
-                        <th>Función</th>
-                        <th>Rol</th>
-                        <th>Registrado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let user of $users | async">
-                        <td>
-                            <img [src]="user.imgUrl" alt="Avatar" class="avatar">
-                            <div>
-                                <h6>{{ user.name }}</h6>
-                                <p>{{ user.email }}</p>
-                            </div>
-                        </td>
-                        <td>{{ user.organization }}</td>
-                        <td>
-                            <span *ngFor="let role of user.roles">
-                                <span *ngIf="role.active">{{ getRoleInSpanish(role.type) }}</span>
-                            </span>
-                        </td>
-                        <td>{{ user.registered  | dateFormat}}</td>
-                        <td>
-                            <button class="edit-btn" (click)="openEditModal(user)">Editar</button>
-                            <button class="delete-btn" (click)="deleteUser(user.uid)">Eliminar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="container">
+        <app-title title="Usuarios"></app-title>
+        <div class="card my-4">
+            <div class="card-header">
+                <h6 class="text-black">Usuarios</h6>
+                <button class="add-btn" (click)="openModal()">Añadir usuario</button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource" class="table table-hover">
+                        <ng-container matColumnDef="user">
+                            <th mat-header-cell *matHeaderCellDef> Usuario </th>
+                            <td mat-cell *matCellDef="let element">
+                                <img [src]="element.imgUrl" alt="Avatar" class="avatar">
+                                <div>
+                                    <h6>{{ element.name }}</h6>
+                                    <p>{{ element.email }}</p>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="function">
+                            <th mat-header-cell *matHeaderCellDef> Función </th>
+                            <td mat-cell *matCellDef="let element"> {{element.organization}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="role">
+                            <th mat-header-cell *matHeaderCellDef> Rol </th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngFor="let role of element.roles">
+                                    <span *ngIf="role.active">{{ getRoleInSpanish(role.type) }}</span>
+                                </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="registered">
+                            <th mat-header-cell *matHeaderCellDef> Registrado </th>
+                            <td mat-cell *matCellDef="let element"> {{element.registered | dateFormat}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td mat-cell *matCellDef="let element" class="actions-column">
+                                <button class="edit-btn" (click)="openEditModal(element)">Editar</button>
+                                <button class="delete-btn" (click)="deleteUser(element.uid)">Eliminar</button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons class="pt-2"></mat-paginator>
+            </div>
         </div>
     </div>
-</div>
 </div>

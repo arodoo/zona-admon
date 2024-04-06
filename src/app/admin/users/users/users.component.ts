@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+
+
+import { Observable, Subscription } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '@angular/fire/auth';
 
@@ -19,31 +23,53 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, RouterModule, DateFormatPipe, AppTitleComponent],
+  imports: [CommonModule, RouterModule, DateFormatPipe, AppTitleComponent, MatTableModule, MatPaginator],
   templateUrl: './users.component.html',
   animations: [fadeAnimation],
   styleUrl: './users.component.scss'
 })
 
 
-export class UsersComponent implements OnInit{
-
+export class UsersComponent implements OnInit, AfterViewInit{
+  private usersSubscription?: Subscription;
   $users!: Observable<UserData[]>;
+
+  displayedColumns: string[] = ['user', 'function', 'role', 'registered', 'actions'];
+  dataSource = new MatTableDataSource<UserData>([]);
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
 
   constructor(private firestore: AngularFirestore,
     public dialog: MatDialog,
     private userService: UsersService,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService,
+    private paginatorIntl: MatPaginatorIntl) { 
+      this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
+      this.paginatorIntl.nextPageLabel = 'Siguiente';
+      this.paginatorIntl.previousPageLabel = 'Anterior';
+    }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.paginator.page.subscribe(() =>{
+      window.scrollTo(0,0);
+    })
+  }
 
   ngOnInit(): void {
     this.getUsers();
   }
 
   async getUsers() {
-    this.$users = this.firestore.collection<UserData>('users', ref => ref.where('active', '==', true)).valueChanges();
+    this.usersSubscription = this.firestore.collection<UserData>('users', ref => ref.where('active', '==', true))
+      .valueChanges()
+      .subscribe(data => {
+        this.dataSource.data = data;
+        console.log('Users: ', this.dataSource.data);
+        
+      });
   }
-
 
   getRoleInSpanish(role: string): string {
     const rolesMap: { [key: string]: string } = {
@@ -82,7 +108,7 @@ export class UsersComponent implements OnInit{
     const confirmation = await this.notificationService.confirmDialog('¿Estás seguro de que deseas eliminar este usuario?');
     if (confirmation) {
       const result = await this.userService.deleteUser(userId).then(() => {
-      this.notificationService.showSuccess('Usuario eliminado correctamente');
+        this.notificationService.showSuccess('Usuario eliminado correctamente');
       }).catch((error) => {
         this.notificationService.showError('Error al eliminar el usuario');
       });

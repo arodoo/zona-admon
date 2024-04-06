@@ -1,8 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
@@ -32,12 +31,11 @@ export class ReportComponent implements OnInit, AfterViewInit{
   dataSource = new MatTableDataSource<Report>(this.$reports);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  
   constructor(private paginatorIntl: MatPaginatorIntl) {
     this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
     this.paginatorIntl.nextPageLabel = 'Siguiente';
     this.paginatorIntl.previousPageLabel = 'Anterior';
-    this.paginatorIntl.firstPageLabel = 'Primera página';
-    this.paginatorIntl.lastPageLabel = 'Última página';
    }
 
   ngAfterViewInit(): void {
