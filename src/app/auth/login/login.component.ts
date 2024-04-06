@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../core/services/auth.service';
 import { NotificationService } from '../../core/services/notification.service';
 
+import { fadeAnimation } from '../../shared/animations/fade-animation';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -18,6 +20,7 @@ import { NotificationService } from '../../core/services/notification.service';
     MatButtonModule
   ],
   templateUrl: './login.component.html',
+  animations: [fadeAnimation],
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
