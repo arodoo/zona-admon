@@ -8,7 +8,7 @@
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width:auto;
+    width: auto;
 
     h2 {
         margin: 0 0 10px;
@@ -39,7 +39,11 @@ button {
     }
 
     &.confirm-button {
-        background-color: #4caf50;
+        background-color: #3f51b5;
+    }
+
+    &:hover {
+        opacity: 0.9; // Añade un efecto al pasar el ratón
     }
 
     p {
