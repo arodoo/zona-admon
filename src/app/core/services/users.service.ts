@@ -107,13 +107,10 @@ export class UsersService {
 
   async sendPasswordResetEmail(email: string) {
     try {
-      // Envia el correo de restablecimiento con el método de Firebase Auth
       await this.afAuth.sendPasswordResetEmail(email);
-      // Muestra un mensaje de éxito
-      window.alert('Se ha enviado un correo de restablecimiento de contraseña a tu dirección de email. Por favor, revisa tu bandeja de entrada y sigue las instrucciones para cambiar tu contraseña.');
+      return true;
     } catch (error) {
-      // Si hay un error, muestra un mensaje
-      window.alert(error);
+      throw new Error('Error al enviar el correo de restablecimiento de contraseña');
     }
   }
 

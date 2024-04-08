@@ -18,7 +18,7 @@
 /* Contenedor del formulario */
 .form-container {
   border: 1px solid #ccc;
-  padding: 2% 5% 8% 5%;
+  padding: 5% 5% 8% 5%;
   max-width: 600px;
   /* Ancho máximo para pantallas grandes */
   width: 100%;
@@ -73,4 +73,18 @@ button {
   width: 100%;
   margin: auto;
   /* Centra el div en el espacio disponible */
+}
+
+/* Estilos para el enlace de recuperación de contraseña */
+.password-recovery-link {
+  display: block;
+  margin-top: .3rem;
+  text-align: center;
+  color: #0066cc;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.password-recovery-link:hover {
+  text-decoration: underline;
 }

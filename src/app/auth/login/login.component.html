@@ -24,7 +24,7 @@
                         La contraseña es requerida.
                     </mat-error>
                     <mat-error *ngIf="loginForm.get('password')?.errors?.['minlength']">
-                        La contraseña debe tener al menos 6 caracteres.
+                        Introduzca un formato de contraseña válido.
                     </mat-error>
                 </mat-form-field>
 
@@ -32,7 +32,9 @@
                     <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
                         Iniciar sesión
                     </button>
+                    <a href="/forgot-password" class="password-recovery-link">¿Olvidaste tu contraseña?</a>
                 </div>
+                
                 <div class="form-message">
                     <span>¿Requieres una cuenta?</span>
                     <span>Comunícate con nuestro equipo de desarrollo:</span>
