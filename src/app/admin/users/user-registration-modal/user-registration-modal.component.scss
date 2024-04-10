@@ -1,7 +1,4 @@
-.btn {
-    float: right;
-    margin: 10px;
-}
+
 
 .btn-primary:hover {
     background-color: #0056b3;
@@ -9,10 +6,12 @@
 }
 
 .container {
-    padding: 20px;
     background-color: #f7f7f7;
+    padding: 2%;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .form-label {
@@ -50,8 +49,8 @@
     border-color: #f5c6cb;
 }
 .avatar {
-    width: 15%;
-    height: 25%;
+    width: 10%;
+    height: 20%;
     border-radius: 50%;
     margin: 0 auto;
     display: inline;
@@ -65,4 +64,8 @@
     text-align: center;
     color: #333;
     font-weight: bold;
+}
+.btn {
+    float: right;
+    margin: 10px;
 }

@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { UsersService } from '../../../core/services/users.service';
@@ -14,7 +15,7 @@ import { NotificationService } from '../../../core/services/notification.service
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule],
+  imports: [MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })

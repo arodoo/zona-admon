@@ -45,7 +45,6 @@ export class UserEditModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data.user);
     const activeRole = this.data.user.roles.find(role => role.active);
     if (activeRole) {
       this.setRole(activeRole.type); // Asegúrate de que setRole establece un arreglo

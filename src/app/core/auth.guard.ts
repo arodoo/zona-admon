@@ -17,7 +17,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     ),
     tap(isAuthorized => {
       if (!isAuthorized) {
-        console.error('Acceso denegado');
         authService.signOut();
         router.navigate(['/',]);
       }

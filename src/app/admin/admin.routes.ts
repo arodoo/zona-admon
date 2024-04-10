@@ -6,6 +6,7 @@ import { adminGuard } from "../core/admin.guard";
 import { MapComponent } from "./maps/map/map.component";
 import { ReportComponent } from "./reports/report/report.component";
 import { RegisterComponent } from "./registers/register/register.component";
+import { UserProfileComponent } from "./user-profile/user-profile.component";
 
 export const ADMIN_ROUTES: Routes = [
     {
@@ -27,6 +28,10 @@ export const ADMIN_ROUTES: Routes = [
             {
                 path: 'registers',
                 component: RegisterComponent
+            },
+            {
+                path: 'user-profile',
+                component: UserProfileComponent
             },
             {
                 path: 'users',

@@ -46,7 +46,6 @@ export class LoginComponent {
         const credential = await this.authService.signIn(email, password);
         if (credential === true) {
           isActive = await this.authService.checkIfIsActive();
-          console.log(isActive);
           if (isActive === true) {
             this.notificationService.showSuccess('Inicio de sesión exitoso');
             this.router.navigate(['/admin/home']);

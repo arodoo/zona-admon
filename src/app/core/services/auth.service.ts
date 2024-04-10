@@ -31,6 +31,11 @@ export class AuthService {
     return this.afAuth.currentUser;
   }
 
+  async getCurrentUserUid() {
+    const user = await this.getCurrentUser();
+    return user ? user.uid : null;
+  }
+
   /*   checkSession() {
       this.checkInterval$.pipe(
         switchMap(() => this.afAuth.authState),
@@ -73,7 +78,7 @@ export class AuthService {
       if (doc && doc.exists) {
         const data = doc.data() as UserData;
         const isActive = data.active;
-        console.log(isActive); // Verifica si se obtiene correctamente el valor de isActive
+
         return isActive;
       } else {
         throw new Error('Usuario no encontrado en Firestore');

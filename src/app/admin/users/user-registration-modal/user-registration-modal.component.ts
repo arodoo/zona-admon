@@ -94,8 +94,6 @@ onFileSelected(event: Event) {
           if (this.selectedImageFile) {
             const downloadURL = await this.usersService.uploadImage(uid, this.selectedImageFile);
             const result = await this.usersService.saveUserData(uid, { ...userData, imgUrl: downloadURL });
-            console.log('result:', result);
-            
             if (result) {
               this.notificationService.showSuccess('Usuario registrado correctamente');
             } else {

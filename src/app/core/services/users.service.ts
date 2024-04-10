@@ -19,10 +19,6 @@ export class UsersService {
 
   }
 
-  getCurrentUserUid() {
-
-  }
-
   async registerUser(email: string, password: string, userData: UserData) {
     try {
       const credential = await this.afAuth.createUserWithEmailAndPassword(email, password);
@@ -49,15 +45,10 @@ export class UsersService {
     }
   }
 
-  async getUser(uid: string) {
-    try {
-      const user = this.firestore.collection('users').doc(uid).get();
-      return user;
-    } catch (error) {
-      console.error('Error al obtener el usuario:', error);
-      return error;
-    }
+  getUserData(uid: string) {
+    return this.firestore.collection('users').doc<UserData>(uid).valueChanges();
   }
+
 
 
   async saveUserData(uid: string, userData: UserData) {

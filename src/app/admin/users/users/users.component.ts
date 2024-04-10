@@ -66,8 +66,6 @@ export class UsersComponent implements OnInit, AfterViewInit{
       .valueChanges()
       .subscribe(data => {
         this.dataSource.data = data;
-        console.log('Users: ', this.dataSource.data);
-        
       });
   }
 
