@@ -2,8 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { map, tap, take } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
-import { UserData } from './models/userData.interface';
-import { Roles } from './models/roles.interface';
+
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
@@ -17,8 +16,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     ),
     tap(isAuthorized => {
       if (!isAuthorized) {
-        authService.signOut();
-        router.navigate(['/',]);
       }
     }
     )

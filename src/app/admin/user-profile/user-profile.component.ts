@@ -8,12 +8,15 @@ import { AuthService } from '../../core/services/auth.service';
 import { UserData } from '../../core/models/userData.interface';
 import { Roles } from '../../core/models/roles.interface';
 
+import { fadeAnimation } from '../../shared/animations/fade-animation';
+
 @Component({
   selector: 'app-user-profile',
   standalone: true,
   imports: [MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.scss'
+  styleUrl: './user-profile.component.scss',
+  animations: [fadeAnimation]
 })
 export class UserProfileComponent implements OnInit {
   userUid: string = '';

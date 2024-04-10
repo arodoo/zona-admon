@@ -17,7 +17,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
     take(1),
     tap(canDelete => {
       if (!canDelete) {
-        authService.signOut();
+        //authService.signOut();
         //router.navigate(['/',]);
       }
     })
