@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { Observable, of, interval, switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { UserData } from '../models/userData.interface';
+
+import { LogsService } from './logs.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,7 @@ export class AuthService {
   constructor(private afAuth: AngularFireAuth,
     private router: Router,
     private firestore: AngularFirestore,
+    private logsService: LogsService
   ) {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
@@ -36,6 +39,11 @@ export class AuthService {
     return user ? user.uid : null;
   }
 
+  async getCurrentUserEmail() {
+    const user = await this.getCurrentUser();
+    return user ? user.email : null;
+  }
+
   /*   checkSession() {
       this.checkInterval$.pipe(
         switchMap(() => this.afAuth.authState),
@@ -56,9 +64,11 @@ export class AuthService {
     try {
       const credential = await this.afAuth.signInWithEmailAndPassword(email, password);
       if (credential.user) {
+        this.logsService.logRegister(email, true);
         return true;
       }
     } catch (error) {
+      this.logsService.logRegister(email, false);
       throw new Error('Error al iniciar sesión, verifique sus credenciales');
     }
     return false;
@@ -93,7 +103,11 @@ export class AuthService {
 
   // Método para cerrar sesión
   async signOut() {
-    await this.afAuth.signOut();
+    const email = await this.getCurrentUserEmail();
+    if (email) {
+      this.logsService.logOutRegister(email);
+      await this.afAuth.signOut();
+    }
     if (typeof window !== 'undefined') {
       localStorage.clear();
       sessionStorage.clear();

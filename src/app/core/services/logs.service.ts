@@ -27,9 +27,9 @@ export class LogsService {
   }
 
   async logOutRegister(email: string) {
-    this.firestore.collection('logins').add({
+    this.firestore.collection('logouts').add({
       email: email,
-      status: 'logout',
+      status: 'success',
       date: new Date()
     });
   }
