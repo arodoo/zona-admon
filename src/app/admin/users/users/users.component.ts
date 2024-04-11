@@ -62,7 +62,8 @@ export class UsersComponent implements OnInit, AfterViewInit{
   }
 
   async getUsers() {
-    this.usersSubscription = this.firestore.collection<UserData>('users', ref => ref.where('active', '==', true))
+    this.usersSubscription = this.firestore.collection<UserData>('users', ref => ref.where('active', '==', true)
+  .orderBy('registered', 'desc'))
       .valueChanges()
       .subscribe(data => {
         this.dataSource.data = data;

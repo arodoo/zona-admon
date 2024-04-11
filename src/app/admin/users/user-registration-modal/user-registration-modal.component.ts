@@ -52,9 +52,13 @@ constructor(
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     userData: new FormGroup({
       uid: new FormControl('0'),
-      name: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required, 
+        Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$')
+      ]),
       roles: new FormControl('', [Validators.required]),
-      organization: new FormControl('', [Validators.required]),
+      organization: new FormControl('', [Validators.required,
+        Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$')
+      ]),
       registered: new FormControl(new Date().toISOString()),
       imgUrl: new FormControl(''),
       email: new FormControl(''),
