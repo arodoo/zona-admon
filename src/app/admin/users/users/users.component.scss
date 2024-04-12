@@ -11,3 +11,7 @@
     width: 50px;
 }
 
+.actions-column button:not(:last-child) {
+    margin-right: 10px;
+    /* Ajusta el espacio a tu preferencia */
+}
