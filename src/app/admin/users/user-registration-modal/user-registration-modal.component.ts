@@ -37,6 +37,8 @@ isEditMode = false;
 userForm: FormGroup;
 
 selectedImageFile: File | null = null;
+  imagePreview: string | ArrayBuffer | null = null;
+  imageSelected: boolean = false;
 
 
 constructor(
@@ -65,6 +67,7 @@ constructor(
       active: new FormControl()
     })
   });
+  this.imagePreview = 'assets/img/no-image-selected.png';
 }
 
 onNoClick(): void {
@@ -74,7 +77,15 @@ onNoClick(): void {
 onFileSelected(event: Event) {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length) {
+    const file = input.files[0];
     this.selectedImageFile = input.files[0];
+    this.imageSelected = true;
+    
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result;
+    };
+    reader.readAsDataURL(file);
   }
 }
 
