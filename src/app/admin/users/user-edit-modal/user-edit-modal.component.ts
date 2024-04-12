@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { Inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,7 +15,7 @@ import { Roles } from '../../../core/models/roles.interface';
 @Component({
   selector: 'app-user-edit-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule],
   templateUrl: './user-edit-modal.component.html',
   styleUrl: './user-edit-modal.component.scss'
 })
@@ -47,23 +48,37 @@ export class UserEditModalComponent implements OnInit {
   ngOnInit(): void {
     const activeRole = this.data.user.roles.find(role => role.active);
     if (activeRole) {
-      this.setRole(activeRole.type); // Asegúrate de que setRole establece un arreglo
+      this.setRole(activeRole.type);
     }
     const imgUrl = this.data.user.imgUrl;
   }
 
-  //methos to update user data only
+  //methos to update user data 
   async update() {
-    const userData = this.userForm.get('userData')?.value;
-    userData.roles = this.assignRoles(userData.roles);
-    try {
-      await this.userSevice.updateUserData(userData.uid, userData);
-      this.notificationService.showSuccess('Usuario actualizado correctamente');
-      this.dialogRef.close();
-      window.location.reload();
-      this.router.navigate(['/admin/users']);
-    } catch (error) {
-      this.notificationService.showError('Error al actualizar el usuario');
+
+    if (this.userForm.valid) {
+      const userData = this.userForm.get('userData')?.value;
+
+      if (this.selectedImageFile) {
+        try {
+          const imgUrl = await this.userSevice.uploadImage(userData.uid, this.selectedImageFile);
+          userData.imgUrl = imgUrl;
+        } catch (error) {
+          this.notificationService.showError('Error al subir la imagen');
+          return;
+        }
+      }
+
+      userData.roles = this.assignRoles(userData.roles);
+      try {
+        await this.userSevice.updateUserData(userData.uid, userData);
+        this.notificationService.showSuccess('Usuario actualizado correctamente');
+        this.dialogRef.close();
+        //window.location.reload();
+        //this.router.navigate(['/admin/users']);
+      } catch (error) {
+        this.notificationService.showError('Error al actualizar el usuario');
+      }
     }
   }
 
@@ -106,9 +121,13 @@ export class UserEditModalComponent implements OnInit {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length) {
       const file = fileInput.files[0];
-      // Aquí puedes implementar la lógica para subir el archivo
-      // Por ejemplo, actualizar la propiedad 'selectedImageFile' y luego subir la imagen
       this.selectedImageFile = file;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.userForm.get('userData.imgUrl')?.setValue(e.target?.result);
+      };
+      reader.readAsDataURL(file);
     }
   }
 

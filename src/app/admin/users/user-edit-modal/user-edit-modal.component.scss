@@ -68,3 +68,23 @@
     color: #333;
     font-weight: bold;
 }
+
+.image-container {
+    position: relative;
+    display: inline-block;
+    /* O cualquier otro display que se ajuste a tu diseño */
+}
+
+.edit-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border-radius: 30%;
+}
+
+.image-container:hover .edit-icon {
+    visibility: visible;
+}

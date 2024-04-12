@@ -1,11 +1,14 @@
 <form [formGroup]="userForm" (ngSubmit)="update()" class="container mt-5">
     <!-- Input oculto para la carga de archivos -->
     <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden accept="image/*">
-
-    <!-- Etiqueta que actúa como botón para la carga de archivos -->
-    <label for="fileInput">
+    
+<div class="image-container">
+    <label for="fileInput" class="image-label">
         <img [src]="userForm.get('userData.imgUrl')?.value" alt="Avatar" class="avatar">
+        <mat-icon class="edit-icon">edit</mat-icon>
     </label>
+</div>
+
     <h2 class="title">Editar usuario</h2>
     <div class="mb-3">
         <label for="email" class="form-label">Email:</label>

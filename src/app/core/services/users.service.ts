@@ -49,8 +49,6 @@ export class UsersService {
     return this.firestore.collection('users').doc<UserData>(uid).valueChanges();
   }
 
-
-
   async saveUserData(uid: string, userData: UserData) {
     try {
       const userRef = this.firestore.collection('users').doc(uid);
