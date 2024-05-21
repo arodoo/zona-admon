@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { UserData } from '../../../core/models/userData.interface';
 
-import { AuthService } from '../../../core/services/auth.service';
+import { UserData } from '../../../core/models/userData.interface';
 import { UsersService } from '../../../core/services/users.service';
 import { UserCredential } from '@angular/fire/auth';
 import { Roles } from '../../../core/models/roles.interface';
@@ -46,7 +45,6 @@ selectedImageFile: File | null = null;
 constructor(
   public dialogRef: MatDialogRef<UserRegistrationModalComponent>,
   @Inject(MAT_DIALOG_DATA) public data: any,
-  private authService: AuthService,
   private usersService: UsersService,
   private notificationService: NotificationService
 ) {

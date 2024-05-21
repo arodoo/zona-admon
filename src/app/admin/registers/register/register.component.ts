@@ -6,9 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
 
+import { RegisterAddModalComponent } from '../register-add-modal/register-add-modal.component';
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
+import { MatDialog } from '@angular/material/dialog';
 
 interface Register{
   title: string;
@@ -35,7 +37,8 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private paginatorIntl: MatPaginatorIntl,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
   ) {
     this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
     this.paginatorIntl.nextPageLabel = 'Siguiente';
@@ -52,6 +55,14 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
     this.generateTestRegisters();
   }
+
+  openModal() {
+    const dialogRef = this.dialog.open(RegisterAddModalComponent, {
+      width: '700px',
+      data: {}
+  });
+  }
+
 
   async generateTestRegisters(): Promise<void> {
     for (let i = 0; i < 258; i++) {
