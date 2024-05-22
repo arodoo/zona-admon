@@ -4,8 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Register } from '../../../core/models/register.interface';
-import { UsersService } from '../../../core/services/users.service';
-import { UserCredential } from '@angular/fire/auth';
+import { AuthService } from '../../../core/services/auth.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
@@ -22,7 +21,7 @@ export class RegisterAddModalComponent {
     description: '',
     date: '',
     uid: '',
-    active: false,
+    active: true,
     latitud: '',
     longitud: '',
     images: [],
@@ -32,21 +31,45 @@ export class RegisterAddModalComponent {
 
   registerForm: FormGroup;
 
-  selectedImageFiles: File[] | null = null;
-  imagePreview: string | ArrayBuffer | null = null;
+  selectedImageFiles: File[] = [];
+  imagePreviews: string[] = ['assets/img/no-image-selected.png'];
   imageSelected: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<RegisterAddModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private usersService: UsersService,
+    private authService: AuthService,
     private notificationService: NotificationService
   ) {
     this.registerForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
-      date: new FormControl('', [Validators.required])
+      date: new FormControl(new Date().toISOString()),
+      images: new FormControl(''),
     });
   }
+
+  handleImageSelection(event: any) {
+    this.selectedImageFiles = event.target.files;
+    this.imageSelected = true;
+    this.imagePreviews = Array.from(this.selectedImageFiles).map(image => URL.createObjectURL(image));
+    console.log(this.selectedImageFiles);
+    
+  }
+
+  async saveRegister() {
+    if (this.registerForm.valid) {
+
+      const newRegister = this.registerForm.value;
+      newRegister.user_id = await this.authService.getCurrentUserUid();
+      newRegister.images = this.selectedImageFiles;
+      console.log(newRegister);
+      this.notificationService.showSuccess('Registro guardado con éxito');
+      this.dialogRef.close(newRegister);
+    }
+  }
+
+
+
 
 }
