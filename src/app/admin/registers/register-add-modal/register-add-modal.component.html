@@ -16,6 +16,12 @@
             La descripción es obligatoria
         </div>
     </div>
+    <div class="mb3">
+        <!--Sección para el mapa interactivo-->
+        <label for="map" class="form-label">Ubicación:</label>
+        <div id="map" style="height: 400px;"></div>
+
+    </div>
     <div class="mb-3 d-flex aling-items-center">
         <label for="images" class="form-label me-2">Imagenes:</label>
         <input type="file" id="images" (change)="handleImageSelection($event)" accept="image/*" multiple>
