@@ -6,6 +6,6 @@ export interface Register {
     date: string;
     latitud: string;
     longitud: string;
-    images: string[];
+    images: string;
     user_id: string;
 }

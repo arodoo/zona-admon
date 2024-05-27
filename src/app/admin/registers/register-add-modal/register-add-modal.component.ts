@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 
 import { Register } from '../../../core/models/register.interface';
 import { AuthService } from '../../../core/services/auth.service';
+import { RegistersService } from '../../../core/services/registers.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
 declare const google: any;
@@ -25,7 +26,7 @@ export class RegisterAddModalComponent implements OnInit {
     active: true,
     latitud: '',
     longitud: '',
-    images: [],
+    images: '',
     user_id: ''
   };
   isEditMode = false;
@@ -42,12 +43,15 @@ export class RegisterAddModalComponent implements OnInit {
     public dialogRef: MatDialogRef<RegisterAddModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authService: AuthService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private registersService: RegistersService
   ) {
     this.registerForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       date: new FormControl(new Date().toISOString()),
+      latitud: new FormControl(''),
+      longitud: new FormControl(''),
       images: new FormControl(''),
     });
   }
@@ -80,8 +84,24 @@ export class RegisterAddModalComponent implements OnInit {
           center: userLatLong,
           zoom: 20
         });
+        this.map.addListener('click', (event: any) => this.handleMapClick(event));
       });
     }
+  }
+
+  handleMapClick(event: any) {
+    console.log('clic');
+    
+    const lat = event.latLng.lat();
+    const lng = event.latLng.lng();
+    this.registerForm.controls['latitud'].setValue(lat);
+    this.registerForm.controls['longitud'].setValue(lng);
+
+    const marker = new google.maps.Marker({
+      position: { lat, lng },
+      map: this.map, 
+      title: 'Ubicación seleccionada'
+    });
   }
 
 
