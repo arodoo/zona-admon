@@ -7,8 +7,10 @@ import { Register } from '../../../core/models/register.interface';
 import { AuthService } from '../../../core/services/auth.service';
 import { RegistersService } from '../../../core/services/registers.service';
 import { NotificationService } from '../../../core/services/notification.service';
+import { log } from 'node:console';
 
 declare const google: any;
+
 @Component({
   selector: 'app-register-add-modal',
   standalone: true,
@@ -36,8 +38,11 @@ export class RegisterAddModalComponent implements OnInit {
   selectedImageFiles: File[] = [];
   imagePreviews: string[] = ['assets/img/no-image-selected.png'];
   imageSelected: boolean = false;
+  markerSelected: boolean = false;
+  loading: boolean = false;
 
   map: any;
+  marker: any = null;
 
   constructor(
     public dialogRef: MatDialogRef<RegisterAddModalComponent>,
@@ -50,8 +55,8 @@ export class RegisterAddModalComponent implements OnInit {
       title: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       date: new FormControl(new Date().toISOString()),
-      latitud: new FormControl(''),
-      longitud: new FormControl(''),
+      latitud: new FormControl('', [Validators.required]),
+      longitud: new FormControl('', [Validators.required]),
       images: new FormControl(''),
     });
   }
@@ -67,7 +72,7 @@ export class RegisterAddModalComponent implements OnInit {
       if (permissionStatus.state === 'granted') {
         this.initMap();
       } else if (permissionStatus.state === 'prompt')
-         navigator.geolocation.getCurrentPosition(() => this.initMap());
+        navigator.geolocation.getCurrentPosition(() => this.initMap());
     } catch (error) {
       console.error('Error al obtener la ubicación', error);
     }
@@ -90,19 +95,33 @@ export class RegisterAddModalComponent implements OnInit {
   }
 
   handleMapClick(event: any) {
-    console.log('clic');
-    
+    this.loading = true;
+
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();
     this.registerForm.controls['latitud'].setValue(lat);
     this.registerForm.controls['longitud'].setValue(lng);
 
-    const marker = new google.maps.Marker({
-      position: { lat, lng },
-      map: this.map, 
-      title: 'Ubicación seleccionada'
-    });
+    if (this.marker) {
+      this.marker.setPosition({ lat, lng });
+    } else {
+      this.marker = new google.maps.Marker({
+        position: { lat, lng },
+        map: this.map,
+        title: 'Ubicación del registro',
+        draggable: true,
+      });
+    }
+    this.markerSelected = true;
+
+    setTimeout(() => {
+      this.loading = false;
+      console.log('Ubicación seleccionada:', lat, lng);
+    }, 2000);
+    
+    
   }
+
 
 
 
@@ -126,8 +145,4 @@ export class RegisterAddModalComponent implements OnInit {
       this.dialogRef.close(newRegister);
     }
   }
-
-
-
-
 }
