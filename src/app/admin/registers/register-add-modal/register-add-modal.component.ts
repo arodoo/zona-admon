@@ -96,7 +96,7 @@ export class RegisterAddModalComponent implements OnInit {
 
   handleMapClick(event: any) {
     this.loading = true;
-
+    this.markerSelected = true;
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();
     this.registerForm.controls['latitud'].setValue(lat);
@@ -112,14 +112,7 @@ export class RegisterAddModalComponent implements OnInit {
         draggable: true,
       });
     }
-    this.markerSelected = true;
-
-    setTimeout(() => {
-      this.loading = false;
-      console.log('Ubicación seleccionada:', lat, lng);
-    }, 2000);
-    
-    
+    this.notificationService.showSuccess('Ubicación seleccionada con éxito');
   }
 
 
@@ -130,8 +123,7 @@ export class RegisterAddModalComponent implements OnInit {
     this.selectedImageFiles = event.target.files;
     this.imageSelected = true;
     this.imagePreviews = Array.from(this.selectedImageFiles).map(image => URL.createObjectURL(image));
-    console.log(this.selectedImageFiles);
-
+    this.notificationService.showSuccess('Archivos cargados con éxito');
   }
 
   async saveRegister() {

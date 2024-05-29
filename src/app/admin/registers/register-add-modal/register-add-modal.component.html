@@ -1,4 +1,3 @@
-
 <form [formGroup]="registerForm" (ngSubmit)="saveRegister()" class="container">
     <h2 class="title">Añadir registro</h2>
     <div class="mb-3">
@@ -17,17 +16,17 @@
             La descripción es obligatoria
         </div>
     </div>
-<div class="mb3">
-    <!-- Sección para el mapa interactivo -->
-    <label for="map" class="form-label">Ubicación:</label>
-    <div>
-        <p *ngIf="!markerSelected">Selecciona la ubicación del registro haciendo clic en el mapa</p>
-        <p *ngIf="markerSelected" class="txt-success">Ubicación seleccionada</p>
+    <div class="mb3">
+        <!-- Sección para el mapa interactivo -->
+        <label for="map" class="form-label">Ubicación:</label>
+        <div>
+            <p>Selecciona la ubicación del registro haciendo clic en el mapa</p>
+        </div>
+        <div id="map" style="height: 400px;"></div>
     </div>
-    <div id="map" style="height: 400px;"></div>
-</div>
-    <div class="mb-3 d-flex aling-items-center">
-        <label for="images" class="form-label me-2">Imagenes:</label>
+    <!-- Sección para la selección de imágenes -->
+    <div class="mb-3 d-flex aling-items-center imgsContainer">
+        <label for="images" class="form-label me-2">Imágenes:</label>
         <input type="file" id="images" (change)="handleImageSelection($event)" accept="image/*" multiple>
     </div>
     <div class="imgsContainer">

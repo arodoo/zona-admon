@@ -20,6 +20,15 @@ export class NotificationService {
     });
   }
 
+  showInfo(message: string) {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 3000,
+      panelClass: ['info-snackbar'],
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+    });
+  }
+
   showError(message: string) {
     this.snackBar.open(message, 'Cerrar', {
       duration: 3000,
