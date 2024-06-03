@@ -128,13 +128,29 @@ export class RegisterAddModalComponent implements OnInit {
 
   async saveRegister() {
     if (this.registerForm.valid) {
-
+      this.loading = true;
       const newRegister = this.registerForm.value;
       newRegister.user_id = await this.authService.getCurrentUserUid();
-      newRegister.images = this.selectedImageFiles;
-      console.log(newRegister);
-      this.notificationService.showSuccess('Registro guardado con éxito');
-      this.dialogRef.close(newRegister);
+      console.log('1');
+      
+
+      const registerId = await this.registersService.addRegister(newRegister);
+      console.log('2');
+
+      const imagesUrls = await this.registersService.uploadImages(this.selectedImageFiles, registerId);
+      console.log('3');
+      
+      const updateImagesField = await this.registersService.updateRegisterImagesField(registerId, imagesUrls.split(','));
+      console.log('Registro añadido con éxito', registerId, imagesUrls, updateImagesField);
+      
+      if (updateImagesField !== true) {
+        this.notificationService.showError('Error al añadir las imágenes');
+        this.loading = false;
+        return;
+      }
+
     }
+    this.notificationService.showSuccess('Registro añadido con éxito');
+    this.dialogRef.close();
   }
 }
