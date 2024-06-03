@@ -7,14 +7,14 @@ import { Register } from '../../../core/models/register.interface';
 import { AuthService } from '../../../core/services/auth.service';
 import { RegistersService } from '../../../core/services/registers.service';
 import { NotificationService } from '../../../core/services/notification.service';
-import { log } from 'node:console';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 
 declare const google: any;
 
 @Component({
   selector: 'app-register-add-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, LoadingBarModule],
   templateUrl: './register-add-modal.component.html',
   styleUrl: './register-add-modal.component.scss'
 })
@@ -49,7 +49,7 @@ export class RegisterAddModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authService: AuthService,
     private notificationService: NotificationService,
-    private registersService: RegistersService
+    private registersService: RegistersService,
   ) {
     this.registerForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
@@ -128,17 +128,13 @@ export class RegisterAddModalComponent implements OnInit {
 
   async saveRegister() {
     if (this.registerForm.valid) {
-      this.loading = true;
+      this.startLoading();
       const newRegister = this.registerForm.value;
-      newRegister.user_id = await this.authService.getCurrentUserUid();
-      console.log('1');
-      
+      newRegister.user_id = await this.authService.getCurrentUserUid();  
 
       const registerId = await this.registersService.addRegister(newRegister);
-      console.log('2');
 
       const imagesUrls = await this.registersService.uploadImages(this.selectedImageFiles, registerId);
-      console.log('3');
       
       const updateImagesField = await this.registersService.updateRegisterImagesField(registerId, imagesUrls.split(','));
       console.log('Registro añadido con éxito', registerId, imagesUrls, updateImagesField);
@@ -150,7 +146,18 @@ export class RegisterAddModalComponent implements OnInit {
       }
 
     }
+    this.stopLoading();
     this.notificationService.showSuccess('Registro añadido con éxito');
     this.dialogRef.close();
+  }
+
+  // Método para activar el indicador de carga
+  startLoading() {
+    this.loading = true;
+  }
+
+  // Método para detener el indicador de carga
+  stopLoading() {
+    this.loading = false;
   }
 }
