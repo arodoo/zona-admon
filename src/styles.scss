@@ -60,6 +60,20 @@
     background-color:#3949ab;
 }
 
+.detail-btn{
+    padding: 5px 10px;
+    background-color:#1b89ff;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    transition:background-color 0.3s ease;
+}
+
+.detail-btn:hover{
+    background-color:#0056b3;
+}
+
 //Snackbar
 .success-snackbar {
     background-color: #43a047; // Fondo verde personalizado

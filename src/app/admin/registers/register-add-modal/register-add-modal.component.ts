@@ -7,14 +7,15 @@ import { Register } from '../../../core/models/register.interface';
 import { AuthService } from '../../../core/services/auth.service';
 import { RegistersService } from '../../../core/services/registers.service';
 import { NotificationService } from '../../../core/services/notification.service';
-import { LoadingBarModule } from '@ngx-loading-bar/core';
+
+import { NgxLoadingModule } from 'ngx-loading';
 
 declare const google: any;
 
 @Component({
   selector: 'app-register-add-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, LoadingBarModule],
+  imports: [CommonModule, ReactiveFormsModule, NgxLoadingModule],
   templateUrl: './register-add-modal.component.html',
   styleUrl: './register-add-modal.component.scss'
 })
@@ -39,10 +40,11 @@ export class RegisterAddModalComponent implements OnInit {
   imagePreviews: string[] = ['assets/img/no-image-selected.png'];
   imageSelected: boolean = false;
   markerSelected: boolean = false;
-  loading: boolean = false;
-
+  
   map: any;
   marker: any = null;
+
+  loading: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<RegisterAddModalComponent>,
@@ -95,7 +97,6 @@ export class RegisterAddModalComponent implements OnInit {
   }
 
   handleMapClick(event: any) {
-    this.loading = true;
     this.markerSelected = true;
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();
@@ -115,10 +116,6 @@ export class RegisterAddModalComponent implements OnInit {
     this.notificationService.showSuccess('Ubicación seleccionada con éxito');
   }
 
-
-
-
-
   handleImageSelection(event: any) {
     this.selectedImageFiles = event.target.files;
     this.imageSelected = true;
@@ -127,8 +124,8 @@ export class RegisterAddModalComponent implements OnInit {
   }
 
   async saveRegister() {
+    this.startLoading();
     if (this.registerForm.valid) {
-      this.startLoading();
       const newRegister = this.registerForm.value;
       newRegister.user_id = await this.authService.getCurrentUserUid();  
 
@@ -141,23 +138,22 @@ export class RegisterAddModalComponent implements OnInit {
       
       if (updateImagesField !== true) {
         this.notificationService.showError('Error al añadir las imágenes');
-        this.loading = false;
         return;
       }
-
+      
     }
     this.stopLoading();
     this.notificationService.showSuccess('Registro añadido con éxito');
     this.dialogRef.close();
   }
 
-  // Método para activar el indicador de carga
   startLoading() {
     this.loading = true;
   }
 
-  // Método para detener el indicador de carga
   stopLoading() {
     this.loading = false;
   }
+
+
 }

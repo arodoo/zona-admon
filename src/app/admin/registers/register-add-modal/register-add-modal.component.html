@@ -1,4 +1,4 @@
-<ngx-loading-bar>
+<ngx-loading [show]="loading"></ngx-loading>
     <form [formGroup]="registerForm" (ngSubmit)="saveRegister()" class="container">
         <h2 class="title">Añadir registro</h2>
         <div class="mb-3">
@@ -43,4 +43,3 @@
 
         <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary">Guardar</button>
     </form>
-</ngx-loading-bar>

@@ -95,4 +95,8 @@ export class RegisterComponent implements OnInit, AfterViewInit{
     console.log('Generating report...');
   }
 
+  viewDetails() {
+    console.log('Viewing details...');
+  }
+
 }
