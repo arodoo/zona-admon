@@ -16,6 +16,16 @@ export class RegistersService {
     private storage: AngularFireStorage) {
   }
 
+  async getRegisters() {
+    try {
+      const registers = this.firestore.collection('registers').valueChanges();
+      return registers;
+    } catch (error) {
+      console.error('Error al obtener los registros:', error);
+      return error;
+    }
+  }
+
   async addRegister(register: Register): Promise<string> {
     try {
       const registerRef = await this.firestore.collection('registers').add(register);

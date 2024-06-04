@@ -30,7 +30,7 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
 })
 
 
-export class UsersComponent implements OnInit, AfterViewInit{
+export class UsersComponent implements OnInit, AfterViewInit {
   private usersSubscription?: Subscription;
   $users!: Observable<UserData[]>;
 
@@ -44,16 +44,16 @@ export class UsersComponent implements OnInit, AfterViewInit{
     public dialog: MatDialog,
     private userService: UsersService,
     private notificationService: NotificationService,
-    private paginatorIntl: MatPaginatorIntl) { 
-      this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
-      this.paginatorIntl.nextPageLabel = 'Siguiente';
-      this.paginatorIntl.previousPageLabel = 'Anterior';
-    }
+    private paginatorIntl: MatPaginatorIntl) {
+    this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
+    this.paginatorIntl.nextPageLabel = 'Siguiente';
+    this.paginatorIntl.previousPageLabel = 'Anterior';
+  }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-    this.paginator.page.subscribe(() =>{
-      window.scrollTo(0,0);
+    this.paginator.page.subscribe(() => {
+      window.scrollTo(0, 0);
     })
   }
 
@@ -62,8 +62,9 @@ export class UsersComponent implements OnInit, AfterViewInit{
   }
 
   async getUsers() {
-    this.usersSubscription = this.firestore.collection<UserData>('users', ref => ref.where('active', '==', true)
-  .orderBy('registered', 'desc'))
+    this.usersSubscription = this.firestore.collection<UserData>('users',
+      ref => ref.where('active', '==', true)
+        .orderBy('registered', 'desc'))
       .valueChanges()
       .subscribe(data => {
         this.dataSource.data = data;
@@ -115,10 +116,6 @@ export class UsersComponent implements OnInit, AfterViewInit{
     else {
       this.notificationService.showError('Error al eliminar el usuario');
     }
-  }
-
-  editUser(userId: string) {
-    console.log('Edit user with id: ', userId);
   }
 
 }

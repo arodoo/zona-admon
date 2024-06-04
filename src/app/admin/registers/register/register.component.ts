@@ -12,6 +12,10 @@ import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 import { MatDialog } from '@angular/material/dialog';
 
+import { RegistersService } from '../../../core/services/registers.service';
+import { Subscription } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+
 interface Register{
   title: string;
   description: string;
@@ -28,7 +32,7 @@ interface Register{
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit, AfterViewInit{
-
+  private registersSubscription?: Subscription;
   $registers: Register[] = [];
 
   displayedColumns: string[] = ['title', 'description', 'date', 'actions'];
@@ -39,6 +43,8 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   constructor(private paginatorIntl: MatPaginatorIntl,
     private router: Router,
     public dialog: MatDialog,
+    private registersService: RegistersService,
+    private firestore: AngularFirestore
   ) {
     this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
     this.paginatorIntl.nextPageLabel = 'Siguiente';
@@ -53,7 +59,8 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
-    this.generateTestRegisters();
+   // this.generateTestRegisters();
+    this.getRegisters();
   }
 
   openModal() {
@@ -62,6 +69,17 @@ export class RegisterComponent implements OnInit, AfterViewInit{
       data: {}
   });
   }
+
+  async getRegisters() {
+    this.registersSubscription = this.firestore.collection<Register>('registers',
+      ref => ref.where('active', '==', true)
+      .orderBy('date', 'desc'))
+      .valueChanges()
+      .subscribe(data => {
+        this.dataSource.data = data;
+      });
+  }
+
 
 
   async generateTestRegisters(): Promise<void> {
