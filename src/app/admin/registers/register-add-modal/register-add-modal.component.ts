@@ -38,8 +38,8 @@ export class RegisterAddModalComponent implements OnInit {
   selectedImageFiles: File[] = [];
   imagePreviews: string[] = ['assets/img/no-image-selected.png'];
   imageSelected: boolean = false;
-  markerSelected: boolean = false;
   
+  markerSelected: boolean = false;
   map: any;
   marker: any = null;
 

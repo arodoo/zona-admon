@@ -77,6 +77,8 @@ export class RegisterComponent implements OnInit, AfterViewInit{
       .valueChanges()
       .subscribe(data => {
         this.dataSource.data = data;
+        //console.log('Registers: ', data);
+        
       });
   }
 
