@@ -12,14 +12,18 @@ import { AuthService } from '../../../core/services/auth.service';
 import { UsersService } from '../../../core/services/users.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
+import { NgxLoadingModule } from 'ngx-loading';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, RouterModule],
+  imports: [MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, RouterModule, NgxLoadingModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+
+  loading: boolean = false;
 
   constructor(public authService: AuthService,
     private router: Router,
@@ -28,8 +32,8 @@ export class NavbarComponent {
 
   signOut() {
     this.notificationService.confirmDialog('¿Estás seguro de querer cerrar sesión?').then((result) => {
+      this.startLoading();
       if (result === true) {
-
         try {
           this.authService.signOut();
           if (this.authService.user$!) {
@@ -42,7 +46,19 @@ export class NavbarComponent {
       } else {
         return;
       }
-    }
-    )
-  };
+    }).finally(() => {
+      setTimeout(() => {
+        this.stopLoading();
+      }, 1000); // Espera 1 segundo antes de detener la carga
+    });
+  }
+
+
+  startLoading() {
+    this.loading = true;
+  }
+
+  stopLoading() {
+    this.loading = false;
+  }
 }

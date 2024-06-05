@@ -11,13 +11,16 @@ import { NotificationService } from '../../core/services/notification.service';
 
 import { fadeAnimation } from '../../shared/animations/fade-animation';
 
+import { NgxLoadingModule } from 'ngx-loading';
+
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule,
     CommonModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    NgxLoadingModule
   ],
   templateUrl: './login.component.html',
   animations: [fadeAnimation],
@@ -25,6 +28,8 @@ import { fadeAnimation } from '../../shared/animations/fade-animation';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+
+  loading: boolean = false;
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
@@ -38,6 +43,7 @@ export class LoginComponent {
   }
 
   async onLogin() {
+    this.startLoading();
     let isActive: boolean = false;
     if (this.loginForm.valid) {
       const email = this.loginForm.get('email')?.value;
@@ -57,12 +63,20 @@ export class LoginComponent {
       } catch (error) {
         if (error instanceof Error) {
           this.notificationService.showError(error.message);
-          //window.location.reload();
         } else {
           this.notificationService.showError('Error al iniciar sesión, verifique sus credenciales');
         }
       }
     }
+    this.stopLoading();
+  }
+
+  startLoading() {
+    this.loading = true;
+  }
+
+  stopLoading() {
+    this.loading = false;
   }
 
 }
