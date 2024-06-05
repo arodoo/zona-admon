@@ -6,6 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Register } from '../../../core/models/register.interface';
 import { RegistersService } from '../../../core/services/registers.service';
+import { UsersService } from '../../../core/services/users.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
 declare const google: any;
@@ -31,13 +32,17 @@ export class RegisterDetailModalComponent implements OnInit {
 
   loading: boolean = false;
 
+  userName: string = '';
+
   constructor(public dialogRef: MatDialogRef<RegisterDetailModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { register: Register },
     private registerService: RegistersService,
     private notificationService: NotificationService,
+    private usersService: UsersService,
     private datePipe: DatePipe
   ) {
     this.registerForm = new FormGroup({
+      id: new FormControl(data.register.id),
       title: new FormControl(data.register.title, [Validators.required]),
       description: new FormControl(data.register.description, [Validators.required]),
       date: new FormControl(data.register.date, [Validators.required]),
@@ -52,8 +57,26 @@ export class RegisterDetailModalComponent implements OnInit {
   ngOnInit(): void {
     this.formatDate();
     this.checkGeoLocationPermission();
-    console.log('data', this.data);
-    
+    this.getUserName();
+  }
+
+  saveChangues() {
+    this.loading = true;
+    const register = this.registerForm.value;
+    register.images = this.data.register.images;
+      this.updateRegister(register);
+  }
+
+  async updateRegister(register: Register) {
+    try {
+      await this.registerService.updateRegister(register );
+      this.notificationService.showSuccess('Registro actualizado correctamente');
+      this.loading = false;
+      this.closeModal();
+    } catch (error) {
+      this.notificationService.showError('Error al actualizar el registro');
+      this.loading = false;
+    }
   }
 
   formatDate() {
@@ -92,7 +115,7 @@ export class RegisterDetailModalComponent implements OnInit {
         map: this.map,
         draggable: true,
       });
-    }else{
+    } else {
       this.marker = new google.maps.Marker({
         position: myLatLng,
         map: this.map,
@@ -126,4 +149,20 @@ export class RegisterDetailModalComponent implements OnInit {
     this.registerForm.get('images')?.setValue(images);
   }
 
+  getUserName() {
+    this.usersService.getUserData(this.data.register.user_id).subscribe((user) => {
+      if (user) {
+        this.userName = user.name;
+      }
+    });
+  }
+
+  closeModal() {
+    this.dialogRef.close();
+  }
+
+  enableEdit(){
+    this.isEditMode = true;
+    this.initMap();
+  }
 }

@@ -29,12 +29,24 @@ export class RegistersService {
   async addRegister(register: Register): Promise<string> {
     try {
       const registerRef = await this.firestore.collection('registers').add(register);
+      await registerRef.update({id:registerRef.id})
       return registerRef.id;
     } catch (error) {
       console.error('Error al añadir el registro:', error);
       return 'error';
     }
   }
+
+  async updateRegister( register: Register) {
+    try {
+      await this.firestore.collection('registers').doc(register.id).update(register);
+      return true;
+    } catch (error) {
+      console.error('Error al actualizar el registro:', error);
+      return error;
+    }
+  }
+
 
   async updateRegisterImagesField(registerId: string, imagesUrls: string[]) {
     try {

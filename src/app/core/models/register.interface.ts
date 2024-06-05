@@ -1,4 +1,5 @@
 export interface Register {
+    id: string;
     active: boolean;
     title: string;
     description: string;

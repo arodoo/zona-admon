@@ -22,6 +22,7 @@ declare const google: any;
 export class RegisterAddModalComponent implements OnInit {
 
   register: Register = {
+    id: '',
     title: '',
     description: '',
     date: '',

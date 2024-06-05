@@ -42,3 +42,23 @@
 .imgsContainer {
     margin-top: 1rem;
 }
+
+.titleSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.custom-icon {
+    font-size: 34px;
+}
+
+.custom-icon:hover {
+    cursor: pointer;
+}
+
+.mat-icon {
+    height: 3rem;
+    width: 3rem;
+}
