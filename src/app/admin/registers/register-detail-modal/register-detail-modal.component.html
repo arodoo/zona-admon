@@ -1,1 +1,8 @@
-<p>register-detail-modal works!</p>
+<form [formGroup] = "registerForm" class="container mt-5" >
+    <h2 class="title" > Visualizar registro </h2>
+    <div class="mb-3" >
+        <label for="title" class="form-label" > Título: </label>
+        <input [readonly] = "!isEditMode" id="title" type="text" formControlName = "title" class="form-control" >
+    </div>
+        
+</form>

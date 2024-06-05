@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 
 import { RegisterAddModalComponent } from '../register-add-modal/register-add-modal.component';
+import { RegisterDetailModalComponent } from '../register-detail-modal/register-detail-modal.component';
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
@@ -59,7 +60,6 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
-   // this.generateTestRegisters();
     this.getRegisters();
   }
 
@@ -80,21 +80,17 @@ export class RegisterComponent implements OnInit, AfterViewInit{
       });
   }
 
+  openDetailsRegisterModal(register: Register) {
+    const dialogRef = this.dialog.open(RegisterDetailModalComponent, {
+      width: '700px',
+      data: { register: register }
+    });
 
-
-  async generateTestRegisters(): Promise<void> {
-    for (let i = 0; i < 258; i++) {
-      this.$registers.push({
-        title: `Registro ${i + 1}`,
-        description: `Descripción del registro ${i + 1}`,
-        date: this.dateToString(new Date())
-      });
-    }
-    this.dataSource.data = this.$registers;
-  }
-
-  dateToString(date: Date): string {
-    return date.toISOString();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('The dialog was closed');
+      }
+    });
   }
 
   deleteRegister() {

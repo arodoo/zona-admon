@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { UserData } from '../../../core/models/userData.interface';
 
@@ -28,7 +27,6 @@ export class UserEditModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<UserEditModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { user: UserData },
-    private router: Router,
     private userSevice: UsersService,
     private notificationService: NotificationService
   ) {
