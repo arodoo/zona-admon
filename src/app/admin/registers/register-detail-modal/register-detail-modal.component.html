@@ -1,7 +1,7 @@
 <form [formGroup]="registerForm" (ngSubmit)="saveChangues()" class="container mt-5">
     <div class="titleSection">
         <h2 class="title"> Registro </h2>
-        <mat-icon (click)="enableEdit()" class="custom-icon">edit</mat-icon>
+        <mat-icon (click)="enableEdit()" title="Habilitar edición" class="custom-icon">edit</mat-icon>
     </div>
     <div class="mb-3">
         <label for="title" class="form-label"> Título: </label>
@@ -32,6 +32,5 @@
     <div class="buttons">
         <button type="submit" class="btn btn-primary" [disabled]="!isEditMode"> Guardar</button>
         <button type="button" class="btn btn-danger" (click)="closeModal()"> Cerrar </button>
-
     </div>
 </form>

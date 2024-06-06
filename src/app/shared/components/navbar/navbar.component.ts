@@ -17,7 +17,12 @@ import { NgxLoadingModule } from 'ngx-loading';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, RouterModule, NgxLoadingModule],
+  imports: [MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
+    RouterModule,
+    NgxLoadingModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
@@ -30,10 +35,10 @@ export class NavbarComponent {
     private userService: UsersService,
     private notificationService: NotificationService) { }
 
-  signOut() {
+  async signOut() {
     this.notificationService.confirmDialog('¿Estás seguro de querer cerrar sesión?').then((result) => {
-      this.startLoading();
       if (result === true) {
+        this.fakeTimeout();
         try {
           this.authService.signOut();
           if (this.authService.user$!) {
@@ -46,19 +51,26 @@ export class NavbarComponent {
       } else {
         return;
       }
-    }).finally(() => {
-      setTimeout(() => {
-        this.stopLoading();
-      }, 1000); // Espera 1 segundo antes de detener la carga
-    });
-  }
+    }
+    )
+  };
 
+  fakeTimeout() {
+    this.startLoading();
+    this.stopLoading();
+  }
 
   startLoading() {
     this.loading = true;
+    console.log('loading');
+
   }
 
   stopLoading() {
-    this.loading = false;
+    setTimeout(() => {
+      this.loading = false;
+      console.log('stop loading');
+    }, 2000);
   }
+
 }

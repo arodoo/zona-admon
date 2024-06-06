@@ -4,6 +4,7 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
 import { RegisterAddModalComponent } from '../register-add-modal/register-add-modal.component';
@@ -14,14 +15,9 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
 import { MatDialog } from '@angular/material/dialog';
 
 import { RegistersService } from '../../../core/services/registers.service';
+import { Register } from '../../../core/models/register.interface';
 import { Subscription } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-interface Register{
-  title: string;
-  description: string;
-  date: string;
-}
 
 @Component({
   selector: 'app-register',
@@ -61,6 +57,7 @@ export class RegisterComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
     this.getRegisters();
+    
   }
 
   openModal() {
@@ -77,6 +74,8 @@ export class RegisterComponent implements OnInit, AfterViewInit{
       .valueChanges()
       .subscribe(data => {
         this.dataSource.data = data;
+        console.log(data);
+        
       });
   }
 

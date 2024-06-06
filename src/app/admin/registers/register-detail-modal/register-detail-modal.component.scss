@@ -41,6 +41,7 @@
 
 .imgsContainer {
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .titleSection {
@@ -61,4 +62,15 @@
 .mat-icon {
     height: 3rem;
     width: 3rem;
+}
+
+.buttons{
+    display: flex;
+    justify-content: end;
+    margin-top: 1rem;
+}
+
+.btn{
+    margin-left: 1rem;
+    width: 7rem;
 }
