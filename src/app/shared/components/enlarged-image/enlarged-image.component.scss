@@ -1,0 +1,17 @@
+.image-modal{
+    position: relative;
+    top: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    cursor: pointer;
+    img{
+    max-height: 500px;
+        max-width: 500px;
+        border-radius: 10px;
+    }   
+}

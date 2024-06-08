@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Register } from '../../../core/models/register.interface';
 import { RegistersService } from '../../../core/services/registers.service';
 import { UsersService } from '../../../core/services/users.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
+import { EnlargedImageComponent } from '../../../shared/components/enlarged-image/enlarged-image.component';
 declare const google: any;
 
 @Component({
@@ -39,7 +40,8 @@ export class RegisterDetailModalComponent implements OnInit {
     private registerService: RegistersService,
     private notificationService: NotificationService,
     private usersService: UsersService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private dialog: MatDialog
   ) {
     this.registerForm = new FormGroup({
       id: new FormControl(data.register.id),
@@ -164,5 +166,12 @@ export class RegisterDetailModalComponent implements OnInit {
   enableEdit(){
     this.isEditMode = true;
     this.initMap();
+  }
+
+  enlargeImage(imageUrl: string) {
+    this.dialog.open(EnlargedImageComponent, {
+      data: { imageUrl },
+      width: '70%',
+    });
   }
 }
