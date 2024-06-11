@@ -21,7 +21,7 @@ export class UsersService {
 
   async registerUser(email: string, password: string, userData: UserData) {
     try {
-      const credential = await this.afAuth.createUserWithEmailAndPassword(email, password);
+      const credential = await this.afAuth.createUserWithEmailAndPassword(email, password)
       await this.sendEmailVerification();
       if (credential.user) {
         await this.saveUserData(credential.user.uid, userData);
