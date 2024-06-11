@@ -13,7 +13,6 @@ import { User } from '@angular/fire/auth';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 import { UserRegistrationModalComponent } from '../user-registration-modal/user-registration-modal.component';
 import { UserEditModalComponent } from '../user-edit-modal/user-edit-modal.component';
-import { DeactivatedUsersComponent } from '../deactivated-users/deactivated-users.component';
 import { UserData } from '../../../core/models/userData.interface';
 import { UsersService } from '../../../core/services/users.service';
 import { NotificationService } from '../../../core/services/notification.service';
@@ -21,18 +20,16 @@ import { AppTitleComponent } from '../../../shared/components/app-title/app-titl
 
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 
-
 @Component({
-  selector: 'app-users',
+  selector: 'app-deactivated-users',
   standalone: true,
   imports: [CommonModule, RouterModule, DateFormatPipe, AppTitleComponent, MatTableModule, MatPaginator],
-  templateUrl: './users.component.html',
+  templateUrl: './deactivated-users.component.html',
+  styleUrl: './deactivated-users.component.scss',
   animations: [fadeAnimation],
-  styleUrl: './users.component.scss'
 })
+export class DeactivatedUsersComponent implements OnInit, AfterViewInit {
 
-
-export class UsersComponent implements OnInit, AfterViewInit {
   private usersSubscription?: Subscription;
   $users!: Observable<UserData[]>;
 
@@ -65,7 +62,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
   async getUsers() {
     this.usersSubscription = this.firestore.collection<UserData>('users',
-      ref => ref.where('active', '==', true)
+      ref => ref.where('active', '==', false)
         .orderBy('registered', 'desc'))
       .valueChanges()
       .subscribe(data => {
@@ -95,17 +92,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openEditModal(userData: UserData) {
-    const dialogRef = this.dialog.open(UserEditModalComponent, {
-      width: '700px',
-      data: { user: userData }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-    });
-  }
-
   opeanDeactivatedUsersModal() {
     const dialogRef = this.dialog.open(DeactivatedUsersComponent, {
       width: '700px'
@@ -117,7 +103,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
 
 
-    
+
 
   async deleteUser(userId: string) {
     const confirmation = await this.notificationService.confirmDialog('¿Estás seguro de que deseas eliminar este usuario?');
