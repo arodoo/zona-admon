@@ -35,44 +35,48 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      if (params['lat'] && params['lng']) {
-        this.initMap(parseFloat(params['lat']), parseFloat(params['lng']));
-      } else {
+      if (params && params['register']){
+        const register = JSON.parse(params['register']);
+        this.initMap(register);
+      }else{
         this.initMap();
       }
     });
   }
 
-  async initMap(lat?: number, long?: number): Promise<void> {
+  async initMap(register?: Register): Promise<void> {
     if (navigator.geolocation) {
-      if (lat && long) {
+      if (register) {
+        const { latitud: lat, longitud: long } = register;
         const userLatLong = { lat, lng: long };
+
         this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
           center: userLatLong,
           zoom: 30
         });
-        this.getRegisters();
-        console.log('Mapa cargado con coordenadas:', userLatLong);
-        
-      }else{
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log('charguing incorrect map');
-        
-        const userLatLong = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-          center: userLatLong,
-          zoom: 10
+        this.getRegisters(register);
+      } else {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const userLatLong = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+            center: userLatLong,
+            zoom: 10
+          });
+          this.getRegisters();
         });
-        this.getRegisters();
-      });
-    }
+      }
     }
   }
 
-  async getRegisters() {
+  async getRegisters(register?: Register): Promise<void> {
+
+    if (register) {
+      this.loadMarkers(register);
+      return;
+    }
     this.registersSubscription = this.firestore.collection<Register>('registers',
       ref => ref.where('active', '==', true))
       .valueChanges({ idField: 'id' })
@@ -83,17 +87,30 @@ export class MapComponent implements OnInit {
       });
   }
 
-  async loadMarkers(): Promise<void> {
-    this.$registers.forEach((register) => {
+  async loadMarkers(regiser?: Register): Promise<void> {
+    if (regiser) {
+      const { latitud: lat, longitud: long } = regiser;
+      const userLatLong = { lat, lng: long };
       const marker = new google.maps.Marker({
-        position: { lat: register.latitud, lng: register.longitud },
+        position: userLatLong,
         map: this.map,
-        title: register.title
+        title: 'Ubicación seleccionada'
       });
       marker.addListener('click', () => {
-        this.openModal(register.title, marker.getPosition().toUrlValue());
+        this.openModal('Mi ubicación', marker.getPosition().toUrlValue());
       });
-    });
+    } else {
+      this.$registers.forEach((register) => {
+        const marker = new google.maps.Marker({
+          position: { lat: register.latitud, lng: register.longitud },
+          map: this.map,
+          title: register.title
+        });
+        marker.addListener('click', () => {
+          this.openModal(register.title, marker.getPosition().toUrlValue());
+        });
+      });
+    }
   }
 
   openModal(title: string, position: string): void {

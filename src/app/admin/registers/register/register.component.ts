@@ -99,8 +99,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   }
 
   viewOnMap(register: Register) {
+    const registerString = JSON.stringify(register);
     this.router.navigate(['/admin/map'],
-      { queryParams: { lat: register.latitud, lng: register.longitud } });
+      { queryParams: { register: registerString } });
   }
 
   generateReport() {
