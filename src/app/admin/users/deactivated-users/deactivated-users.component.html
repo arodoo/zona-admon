@@ -1,3 +1,4 @@
+<ngx-loading [show]="loading"></ngx-loading>
 <div [@fadeAnimation] class="scrollable">
     <div class="container">
         <app-title title="Usuarios"></app-title>
@@ -37,7 +38,7 @@
                         <ng-container matColumnDef="actions">
                             <th mat-header-cell *matHeaderCellDef></th>
                             <td mat-cell *matCellDef="let element" class="actions-column">
-                                <button class="delete-btn" (click)="deleteUser(element.uid)">Reactivar</button>
+                                <button class="delete-btn" (click)="reactivateUser(element.uid)">Reactivar</button>
                             </td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
