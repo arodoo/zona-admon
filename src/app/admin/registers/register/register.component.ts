@@ -22,13 +22,13 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, AppTitleComponent, DateFormatPipe, 
+  imports: [CommonModule, AppTitleComponent, DateFormatPipe,
     MatTableModule, MatPaginator, MatIconModule],
   templateUrl: './register.component.html',
   animations: [fadeAnimation],
   styleUrl: './register.component.scss',
 })
-export class RegisterComponent implements OnInit, AfterViewInit{
+export class RegisterComponent implements OnInit, AfterViewInit {
   private registersSubscription?: Subscription;
   $registers: Register[] = [];
 
@@ -57,25 +57,23 @@ export class RegisterComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
     this.getRegisters();
-    
+
   }
 
   openModal() {
     const dialogRef = this.dialog.open(RegisterAddModalComponent, {
       width: '700px',
       data: {}
-  });
+    });
   }
 
   async getRegisters() {
     this.registersSubscription = this.firestore.collection<Register>('registers',
       ref => ref.where('active', '==', true)
-      .orderBy('date', 'desc'))
+        .orderBy('date', 'desc'))
       .valueChanges()
       .subscribe(data => {
         this.dataSource.data = data;
-        console.log(data);
-        
       });
   }
 
@@ -100,8 +98,9 @@ export class RegisterComponent implements OnInit, AfterViewInit{
     console.log('Editing register...');
   }
 
-  viewOnMap() {
-    this.router.navigate(['/admin/map']);
+  viewOnMap(register: Register) {
+    this.router.navigate(['/admin/map'],
+      { queryParams: { lat: register.latitud, lng: register.longitud } });
   }
 
   generateReport() {
