@@ -22,7 +22,8 @@
     </div>
     <div class="imgsContainer">
         <div *ngFor="let imageUrl of registerForm.get('images')?.value; let i = index" class="images-array-div">
-            <img [src]="imageUrl" alt="Image {{ i }}" class="image-thumbnail" class="images-preview">
+            <img [src]="imageUrl" alt="Image {{ i }}" class="images-preview"
+            (click)="enlargeImage(imageUrl)">
         </div>
     </div>
     <div class="mb3">
