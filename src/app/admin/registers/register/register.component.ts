@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { RegistersService } from '../../../core/services/registers.service';
 import { Register } from '../../../core/models/register.interface';
+import { NotificationService } from '../../../core/services/notification.service';
 import { Subscription } from 'rxjs';
 
 
@@ -41,7 +42,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     private router: Router,
     public dialog: MatDialog,
     private registersService: RegistersService,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private notificationService: NotificationService
   ) {
     this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
     this.paginatorIntl.nextPageLabel = 'Siguiente';
@@ -94,22 +96,18 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     console.log('Deleting register...');
   }
 
-  editRegister() {
-    console.log('Editing register...');
-  }
-
   viewOnMap(register: Register) {
-    const registerString = JSON.stringify(register);
-    this.router.navigate(['/admin/map'],
-      { queryParams: { register: registerString } });
+    this.notificationService.confirmDialog('Estás a punto de abandonar esta página, ¿estás seguro?').then((result) => {
+      if (result === true) {
+        const registerString = JSON.stringify(register);
+        this.router.navigate(['/admin/map'],
+          { queryParams: { register: registerString } });
+      }
+    });
   }
 
   generateReport() {
     console.log('Generating report...');
-  }
-
-  viewDetails() {
-    console.log('Viewing details...');
   }
 
 }
