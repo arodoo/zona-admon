@@ -114,6 +114,17 @@ export class UsersService {
     }
   }
 
+  async reactivateUser(uid: string) {
+    //Change user active to true
+    const userRef = this.firestore.collection('users').doc(uid);
+    try {
+      await userRef.update({ active: true });
+      return userRef;
+    } catch (error) {
+      throw new Error('Error al reactivar el usuario');
+    }
+  }
+
   async sendEmailVerification() {
     try {
       const user = await this.afAuth.currentUser;
