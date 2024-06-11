@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+
 import { MarkerModalComponent } from '../marker-modal/marker-modal.component';
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 import { RegistersService } from '../../../core/services/registers.service';
 import { Register } from '../../../core/models/register.interface';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Subscription } from 'rxjs';
 
 declare var google: any;
 
@@ -27,16 +29,35 @@ export class MapComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private registersService: RegistersService,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.initMap();
+    this.route.queryParams.subscribe(params => {
+      if (params['lat'] && params['lng']) {
+        this.initMap(parseFloat(params['lat']), parseFloat(params['lng']));
+      } else {
+        this.initMap();
+      }
+    });
   }
 
-  async initMap(): Promise<void> {
+  async initMap(lat?: number, long?: number): Promise<void> {
     if (navigator.geolocation) {
+      if (lat && long) {
+        const userLatLong = { lat, lng: long };
+        this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+          center: userLatLong,
+          zoom: 30
+        });
+        this.getRegisters();
+        console.log('Mapa cargado con coordenadas:', userLatLong);
+        
+      }else{
       navigator.geolocation.getCurrentPosition((position) => {
+        console.log('charguing incorrect map');
+        
         const userLatLong = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -45,8 +66,9 @@ export class MapComponent implements OnInit {
           center: userLatLong,
           zoom: 10
         });
-        this.getRegisters(); // Llama a getRegisters después de inicializar el mapa
+        this.getRegisters();
       });
+    }
     }
   }
 
@@ -57,8 +79,7 @@ export class MapComponent implements OnInit {
       .subscribe((data) => {
         this.$registers = data;
         this.dataSource = this.$registers;
-        console.log('Registros cargados:', data);
-        this.loadMarkers(); // Asegúrate de que loadMarkers se llame aquí
+        this.loadMarkers();
       });
   }
 
