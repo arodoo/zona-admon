@@ -10,10 +10,12 @@ import { UserCredential } from '@angular/fire/auth';
 import { Roles } from '../../../core/models/roles.interface';
 import { NotificationService } from '../../../core/services/notification.service';
 
+import { NgxLoadingModule } from 'ngx-loading';
+
 @Component({
   selector: 'app-user-registration-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgxLoadingModule],
   templateUrl: './user-registration-modal.component.html',
   styleUrl: './user-registration-modal.component.scss'
 })
@@ -40,6 +42,8 @@ export class UserRegistrationModalComponent {
   selectedImageFile: File | null = null;
   imagePreview: string | ArrayBuffer | null = null;
   imageSelected: boolean = false;
+
+  loading: boolean = false;
 
 
   constructor(
@@ -90,6 +94,7 @@ export class UserRegistrationModalComponent {
   }
 
   async register() {
+    this.startLoading();
     if (this.userForm.valid) {
       const formValue = this.userForm.value;
       const email = formValue.email;
@@ -117,17 +122,25 @@ export class UserRegistrationModalComponent {
             }
           }
         }
-        this.dialogRef.close();
-      } catch (error) {
-        console.error('Error en el registro o actualización del usuario:', error);
       }
-    } else {
-      console.error('El formulario no es válido');
+      catch (error) {
+        this.notificationService.showError('Error al registrar el usuario');
+      }
     }
+    this.stopLoading();
+    this.dialogRef.close();
   }
 
   assignRoles(selectedRole: 'ADMIN' | 'EDITOR' | 'VISUALIZER'): Roles[] {
     return [{ type: selectedRole, active: true }];
+  }
+
+  startLoading() {
+    this.loading = true;
+  }
+
+  stopLoading() {
+    this.loading = false;
   }
 
 

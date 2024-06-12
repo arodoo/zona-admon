@@ -11,19 +11,20 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '@angular/fire/auth';
 
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
-import { UserRegistrationModalComponent } from '../user-registration-modal/user-registration-modal.component';
-import { UserEditModalComponent } from '../user-edit-modal/user-edit-modal.component';
 import { UserData } from '../../../core/models/userData.interface';
 import { UsersService } from '../../../core/services/users.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
+import { NgxLoadingModule } from 'ngx-loading';
+
 
 @Component({
   selector: 'app-deactivated-users',
   standalone: true,
-  imports: [CommonModule, RouterModule, DateFormatPipe, AppTitleComponent, MatTableModule, MatPaginator],
+  imports: [CommonModule, RouterModule, DateFormatPipe, NgxLoadingModule,
+    AppTitleComponent, MatTableModule, MatPaginator],
   templateUrl: './deactivated-users.component.html',
   styleUrl: './deactivated-users.component.scss',
   animations: [fadeAnimation],
@@ -37,6 +38,8 @@ export class DeactivatedUsersComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<UserData>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  loading: boolean = false;
 
 
   constructor(private firestore: AngularFirestore,
@@ -80,31 +83,6 @@ export class DeactivatedUsersComponent implements OnInit, AfterViewInit {
     return rolesMap[role.toUpperCase()] || role;
   }
 
-
-  openModal(userToAdd?: User) {
-    const dialogRef = this.dialog.open(UserRegistrationModalComponent, {
-      width: '700px',
-      data: { user: userToAdd }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-    });
-  }
-
-  opeanDeactivatedUsersModal() {
-    const dialogRef = this.dialog.open(DeactivatedUsersComponent, {
-      width: '700px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.getUsers();
-    });
-  }
-
-
-
-
   async deleteUser(userId: string) {
     const confirmation = await this.notificationService.confirmDialog('¿Estás seguro de que deseas eliminar este usuario?');
     if (confirmation) {
@@ -119,8 +97,32 @@ export class DeactivatedUsersComponent implements OnInit, AfterViewInit {
     }
   }
 
+  async reactivateUser(userId: string) {
+    this.startLoading();
+    const confirmation = await this.notificationService.confirmDialog('¿Estás seguro de que deseas reactivar este usuario?');
+    if (confirmation) {
+      const result = await this.userService.reactivateUser(userId).then(() => {
+        this.notificationService.showSuccess('Usuario reactivado correctamente');
+      }).catch((error) => {
+        this.notificationService.showError('Error al reactivar el usuario');
+      });
+    }
+    else {
+      this.notificationService.showError('Error al reactivar el usuario');
+    }
+    this.stopLoading();
+  }
+
   ngOnDestroy(): void {
     this.usersSubscription?.unsubscribe();
+  }
+
+  startLoading() {
+    this.loading = true;
+  }
+
+  stopLoading() {
+    this.loading = false;
   }
 
 }
