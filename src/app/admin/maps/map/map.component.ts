@@ -54,20 +54,6 @@ export class MapComponent implements OnInit {
           center: userLatLong,
           zoom: 30
         });
-        this.getRegisters();
-      }else{
-      navigator.geolocation.getCurrentPosition((position) => {
-        const userLatLong = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-          center: userLatLong,
-          zoom: 10
-        });
-        this.getRegisters();
-      });
-    }
         this.getRegisters(register);
       } else {
         navigator.geolocation.getCurrentPosition((position) => {
