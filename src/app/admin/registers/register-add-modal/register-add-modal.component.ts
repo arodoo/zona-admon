@@ -29,6 +29,8 @@ export class RegisterAddModalComponent implements OnInit {
     active: true,
     latitud: '',
     longitud: '',
+    defussions: 0,
+    hurts: 0,
     images: '',
     user_id: ''
   };
@@ -60,6 +62,8 @@ export class RegisterAddModalComponent implements OnInit {
       active: new FormControl(true),
       latitud: new FormControl('', [Validators.required]),
       longitud: new FormControl('', [Validators.required]),
+      defussions: new FormControl(0),
+      hurts: new FormControl(0),
       images: new FormControl(''),
     });
   }
@@ -128,14 +132,13 @@ export class RegisterAddModalComponent implements OnInit {
     this.startLoading();
     if (this.registerForm.valid) {
       const newRegister = this.registerForm.value;
-      newRegister.user_id = await this.authService.getCurrentUserUid();  
+      newRegister.user_id = await this.authService.getCurrentUserUid();       
 
       const registerId = await this.registersService.addRegister(newRegister);
 
       const imagesUrls = await this.registersService.uploadImages(this.selectedImageFiles, registerId);
       
       const updateImagesField = await this.registersService.updateRegisterImagesField(registerId, imagesUrls.split(','));
-      console.log('Registro añadido con éxito', registerId, imagesUrls, updateImagesField);
       
       if (updateImagesField !== true) {
         this.notificationService.showError('Error al añadir las imágenes');

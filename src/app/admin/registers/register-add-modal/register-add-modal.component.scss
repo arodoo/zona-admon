@@ -27,6 +27,25 @@
     vertical-align: middle;
 }
 
+.row-for-half {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20% 0 20%;
+}
+.form-control-half {
+    display: block;
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+    
+}
+
+
 .alert {
     display: block;
     padding: 10px;
@@ -79,4 +98,36 @@
 
 .imgsContainer{
     margin-top: 1rem;
+}
+
+
+/* Media query para pantallas medianas (tablets) */
+@media (max-width: 768px) {
+
+    .form-label,
+    .form-control,
+    .form-select,
+    .form-control-half {
+        width: 100%;
+    }
+
+    .row-for-half {
+        padding: 0;
+    }
+}
+
+/* Media query para pantallas pequeñas (móviles) */
+@media (max-width: 576px) {
+    .form-label {
+        text-align: left;
+        width: auto;
+        margin-right: 0;
+    }
+
+    .btn {
+        float: none;
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
 }

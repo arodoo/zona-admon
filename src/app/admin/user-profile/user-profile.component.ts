@@ -35,11 +35,9 @@ export class UserProfileComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
-        console.log(this.userUid);
         this.usersService.getUserData(user.uid).subscribe(data => {
           if (data) {
             this.userData = data;
-            console.log(this.userData);
           }
         });
       }

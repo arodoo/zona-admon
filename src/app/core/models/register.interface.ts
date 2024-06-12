@@ -6,6 +6,8 @@ export interface Register {
     date: string;
     latitud: string;
     longitud: string;
+    defussions?: number;
+    hurts?: number;
     images: string;
     user_id: string;
 }

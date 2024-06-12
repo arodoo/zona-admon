@@ -52,12 +52,8 @@ export class MapComponent implements OnInit {
           zoom: 30
         });
         this.getRegisters();
-        console.log('Mapa cargado con coordenadas:', userLatLong);
-        
       }else{
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log('charguing incorrect map');
-        
         const userLatLong = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
