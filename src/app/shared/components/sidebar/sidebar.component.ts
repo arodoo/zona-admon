@@ -30,6 +30,7 @@ export class SidebarComponent implements OnInit {
     { name: 'Usuarios', route: '/admin/users', icon: 'people', visible: false }, // Oculto por defecto
     { name: 'Reportes', route: '/admin/reports', icon: 'reportes', visible: false }, // Oculto por defecto
     { name: 'Registros', route: '/admin/registers', icon: 'folder_open', visible: true },
+    { name: 'Chat', route: '/admin/chat', icon: 'chat', visible: true },
   ];
 
   ngOnInit() {

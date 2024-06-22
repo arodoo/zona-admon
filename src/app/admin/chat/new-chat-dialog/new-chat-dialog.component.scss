@@ -1,0 +1,51 @@
+h1 {
+    text-align: center;
+    color: #4CAF50;
+    font-size: 2em;
+    margin-bottom: 1em;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 1em;
+  
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+  
+    .mat-form-field-label {
+      color: #4CAF50;
+    }
+  
+    .mat-form-field-underline {
+      background-color: #4CAF50;
+    }
+  
+    .mat-form-field-ripple {
+      background-color: #4CAF50;
+    }
+  
+    input {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0.5em;
+    }
+  }
+  
+  mat-dialog-actions {
+    justify-content: space-between;
+    padding: 1em 0;
+  
+    mat-button {
+      color: #fff;
+      background-color: #4CAF50;
+      padding: 0.5em 1em;
+      border-radius: 4px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: darken(#4CAF50, 10%);
+      }
+    }
+  }

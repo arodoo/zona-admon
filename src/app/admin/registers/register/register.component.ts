@@ -16,20 +16,20 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { RegistersService } from '../../../core/services/registers.service';
 import { Register } from '../../../core/models/register.interface';
-import { NotificationService } from '../../../core/services/notification.service';
 import { Subscription } from 'rxjs';
+import { RegisterGenerateReportComponent } from '../../../shared/components/register-generate-report/register-generate-report.component';
 
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, AppTitleComponent, DateFormatPipe,
+  imports: [CommonModule, AppTitleComponent, DateFormatPipe, 
     MatTableModule, MatPaginator, MatIconModule],
   templateUrl: './register.component.html',
   animations: [fadeAnimation],
   styleUrl: './register.component.scss',
 })
-export class RegisterComponent implements OnInit, AfterViewInit {
+export class RegisterComponent implements OnInit, AfterViewInit{
   private registersSubscription?: Subscription;
   $registers: Register[] = [];
 
@@ -42,8 +42,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     private router: Router,
     public dialog: MatDialog,
     private registersService: RegistersService,
-    private firestore: AngularFirestore,
-    private notificationService: NotificationService
+    private firestore: AngularFirestore
   ) {
     this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
     this.paginatorIntl.nextPageLabel = 'Siguiente';
@@ -59,23 +58,32 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getRegisters();
-
+    
   }
 
   openModal() {
     const dialogRef = this.dialog.open(RegisterAddModalComponent, {
       width: '700px',
       data: {}
-    });
+  });
+  }
+
+  GenerateReport() {
+    const dialogRef = this.dialog.open(RegisterGenerateReportComponent, {
+      width: '700px',
+      data: {}
+  });
   }
 
   async getRegisters() {
     this.registersSubscription = this.firestore.collection<Register>('registers',
       ref => ref.where('active', '==', true)
-        .orderBy('date', 'desc'))
+      .orderBy('date', 'desc'))
       .valueChanges()
       .subscribe(data => {
         this.dataSource.data = data;
+        console.log(data);
+        
       });
   }
 
@@ -96,18 +104,20 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     console.log('Deleting register...');
   }
 
-  viewOnMap(register: Register) {
-    this.notificationService.confirmDialog('Estás a punto de abandonar esta página, ¿estás seguro?').then((result) => {
-      if (result === true) {
-        const registerString = JSON.stringify(register);
-        this.router.navigate(['/admin/map'],
-          { queryParams: { register: registerString } });
-      }
-    });
+  editRegister() {
+    console.log('Editing register...');
+  }
+
+  viewOnMap() {
+    this.router.navigate(['/admin/map']);
   }
 
   generateReport() {
     console.log('Generating report...');
+  }
+
+  viewDetails() {
+    console.log('Viewing details...');
   }
 
 }
