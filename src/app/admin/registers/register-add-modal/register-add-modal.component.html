@@ -1,45 +1,63 @@
 <ngx-loading [show]="loading"></ngx-loading>
-    <form [formGroup]="registerForm" (ngSubmit)="saveRegister()" class="container">
-        <h2 class="title">Añadir registro</h2>
-        <div class="mb-3">
-            <label for="title" class="form-label">Titulo:</label>
-            <input type="text" class="form-control" id="title" formControlName="title">
-            <div *ngIf="registerForm.get('title')?.invalid && registerForm.get('title')?.touched"
+<form [formGroup]="registerForm" (ngSubmit)="saveRegister()" class="container">
+    <h2 class="title">Añadir registro</h2>
+    <div class="mb-3">
+        <label for="title" class="form-label">Titulo:</label>
+        <input type="text" class="form-control" id="title" formControlName="title">
+        <div *ngIf="registerForm.get('title')?.invalid && registerForm.get('title')?.touched"
+            class="alert alert-danger">
+            El titulo es obligatorio
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Descripción:</label>
+        <textarea class="form-control" id="description" formControlName="description"></textarea>
+        <div *ngIf="registerForm.get('description')?.invalid && registerForm.get('description')?.touched"
+            class="alert alert-danger">
+            La descripción es obligatoria
+        </div>
+    </div>
+    <div class="row row-for-half">
+        <div class="col mb-3">
+            <label for="defussions" class="form-label">Defusiones</label>
+            <input type="number" class="form-control-half" id="defussions" formControlName="defussions">
+            <div *ngIf="registerForm.get('defussions')?.invalid && registerForm.get('defussions')?.touched"
                 class="alert alert-danger">
-                El titulo es obligatorio
+                Las defusiones son obligatorias
             </div>
         </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Descripción:</label>
-            <textarea class="form-control" id="description" formControlName="description"></textarea>
-            <div *ngIf="registerForm.get('description')?.invalid && registerForm.get('description')?.touched"
+        <div class="col mb-3">
+            <label for="hurts" class="form-label">Heridos:</label>
+            <input type="number" class="form-control-half" id="hurts" formControlName="hurts">
+            <div *ngIf="registerForm.get('hurts')?.invalid && registerForm.get('hurts')?.touched"
                 class="alert alert-danger">
-                La descripción es obligatoria
+                Los heridos son obligatorios
             </div>
         </div>
-        <div class="mb3">
-            <!-- Sección para el mapa interactivo -->
-            <label for="map" class="form-label">Ubicación:</label>
-            <div>
-                <p>Selecciona la ubicación del registro haciendo clic en el mapa</p>
+    </div>
+    <div class="mb3">
+        <!-- Sección para el mapa interactivo -->
+        <label for="map" class="form-label">Ubicación:</label>
+        <div>
+            <p>Selecciona la ubicación del registro haciendo clic en el mapa</p>
+        </div>
+        <div id="map" style="height: 400px;"></div>
+    </div>
+    <!-- Sección para la selección de imágenes -->
+    <div class="mb-3 d-flex aling-items-center imgsContainer">
+        <label for="images" class="form-label me-2">Imágenes:</label>
+        <input type="file" id="images" (change)="handleImageSelection($event)" accept="image/*" multiple>
+    </div>
+    <div class="imgsContainer">
+        <div *ngIf="imageSelected; else noImage">
+            <div *ngFor="let preview of imagePreviews" class="images-array-div">
+                <img [src]="preview" alt="Image Preview" class="images-preview">
             </div>
-            <div id="map" style="height: 400px;"></div>
         </div>
-        <!-- Sección para la selección de imágenes -->
-        <div class="mb-3 d-flex aling-items-center imgsContainer">
-            <label for="images" class="form-label me-2">Imágenes:</label>
-            <input type="file" id="images" (change)="handleImageSelection($event)" accept="image/*" multiple>
-        </div>
-        <div class="imgsContainer">
-            <div *ngIf="imageSelected; else noImage">
-                <div *ngFor="let preview of imagePreviews" class="images-array-div">
-                    <img [src]="preview" alt="Image Preview" class="images-preview">
-                </div>
-            </div>
-            <ng-template #noImage>
-                <img src="assets/img/no-image-selected.png" alt="No Image Selected" style="max-width: 90px;">
-            </ng-template>
-        </div>
+        <ng-template #noImage>
+            <img src="assets/img/no-image-selected.png" alt="No Image Selected" style="max-width: 90px;">
+        </ng-template>
+    </div>
 
-        <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary">Guardar</button>
-    </form>
+    <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary">Guardar</button>
+</form>
