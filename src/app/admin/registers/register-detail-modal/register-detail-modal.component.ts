@@ -72,7 +72,7 @@ export class RegisterDetailModalComponent implements OnInit {
     if (index > -1) {
       this.imagesToDelete.splice(index, 1); //En caso de estar marcada, se desmarca
     }else{
-      this.imagesToDelete.push(imageUrl); //En caso de no estar marcada, se marca
+      this.imagesToDelete.push(imageUrl); //
     }
   }
 
@@ -89,22 +89,27 @@ export class RegisterDetailModalComponent implements OnInit {
 
     try {
       const register = this.registerForm.value;
-      //procesar las imágenes marcadas para eliminación
-      const imagesToDelete = await this.registerService.deleteImages(this.imagesToDelete, register.id);
-      //subir las nuesvas imágenes
-      const imagesToUpload = await this.registerService.addNewImages(this.newImages, register.id);
-      //actualizar el registro
-      const updatedRegister = this.registerService.updateRegister(register);
+      // Filtrar las imágenes para eliminar las marcadas
+      const filteredImages = register.images.filter((imageUrl: string) => !this.imagesToDelete.includes(imageUrl));
+      register.images = filteredImages;
+
+      // Subir las nuevas imágenes y obtener sus URLs
+      const newImagesUrls = await this.registerService.uploadImages(this.newImages, register.id);
+      register.images = [...register.images, ...newImagesUrls.split(',')];
+
+      // Actualizar el registro con las imágenes restantes y las nuevas
+      await this.registerService.updateRegister(register);
 
       this.notificationService.showSuccess('Cambios guardados correctamente');
     } catch (error) {
       this.notificationService.showError('Error al guardar los cambios');
-      throw new Error('Error al guardar los cambios');
+      console.error('Error al guardar los cambios:', error);
+    } finally {
+      this.loading = false;
+      this.closeModal();
     }
-
-    this.loading = false;
-    this.closeModal();
   }
+
 
   async updateRegister(register: Register) {
     try {

@@ -70,20 +70,26 @@ export class RegistersService {
     }
   }
 
-  async deleteImages(imagesUrls: string[], registerId: string): Promise<boolean> {
+  async deleteImages(imagesUrls: string[], registerId: string): Promise<void> {
+    const errors = [];
+
     for (const imageUrl of imagesUrls) {
-      const imageName = imageUrl.split('/').pop();
+      const imageName = imageUrl.split('/').pop()?.split('?')[0];
 
       if (imageName) {
         const imageRef = this.storage.ref(`registers/${registerId}/${imageName}`);
-        imageRef.delete();
-        return true;
-      }else{
-        return false;
+        try {
+          await imageRef.delete();
+        } catch (error) {
+          errors.push(error); 
+        }
       }
     }
-    return false;
+    if (errors.length > 0) {
+      console.error('Errores al eliminar imágenes:', errors);
+    }
   }
+
 
   async addNewImages(newImages: File[], registerId: string){
     const imagesUrls = await this.uploadImages(newImages, registerId);

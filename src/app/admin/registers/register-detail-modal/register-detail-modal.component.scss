@@ -31,12 +31,14 @@
     display: inline;
     justify-content: center;
     margin: 10px;
+    position: relative;
 }
 
 .images-preview {
     max-height: 100px;
     max-width: 100px;
     border-radius: 10px;
+    display: inline-block;
 }
 
 .images-preview:hover {
@@ -68,34 +70,38 @@
     width: 3rem;
 }
 
-.buttons{
+.buttons {
     display: flex;
     justify-content: end;
     margin-top: 1rem;
 }
 
-.btn{
+.btn {
     margin-left: 1rem;
     width: 7rem;
 }
 
-.image-marked-for-deletion{
+.image-marked-for-deletion {
     opacity: 0.5;
     transition: opacity 0.3s;
 }
 
-.image-container:hover .image-marked-for-deletion{
+.image-container:hover .image-marked-for-deletion {
     opacity: 0.6;
 }
 
-.delete-icon{
+.delete-icon {
     position: absolute;
-    top: 0;
-    right: 0;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    padding: 0.5rem;
-    margin: 0.5rem;
-    transition: background-color 0.3s;
+        /* Cambiado de sticky a absolute */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* Ajusta la posición exacta del span */
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+        padding: 5px;
+        /* Añadido para dar espacio alrededor del texto */
+        border-radius: 50%;
+        /* Añadido para hacer el fondo del span circular */
 }
