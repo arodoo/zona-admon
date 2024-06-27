@@ -23,7 +23,9 @@
     <div class="imgsContainer">
         <div *ngFor="let imageUrl of registerForm.get('images')?.value; let i = index" class="images-array-div">
             <img [src]="imageUrl" alt="Image {{ i }}" class="images-preview"
-            (click)="enlargeImage(imageUrl)">
+            [class.image-marked-for-deletion]="imagesToDelete.includes(imageUrl)"
+            (click)="isEditMode ? markImageForDeletion(imageUrl) : enlargeImage(imageUrl)">
+            <span *ngIf="isEditMode && imagesToDelete.includes(imageUrl)" class="delete-icon">X</span>
         </div>
     </div>
     <div class="mb3">

@@ -25,6 +25,9 @@ export class RegisterDetailModalComponent implements OnInit {
   registerForm: FormGroup;
   isEditMode = false;
 
+  imagesToDelete: string[] = [];
+  newImages: File[] = [];
+
   selectedImageFile: File | null = null;
 
 
@@ -62,23 +65,57 @@ export class RegisterDetailModalComponent implements OnInit {
     this.getUserName();
   }
 
-  saveChangues() {
+
+
+  markImageForDeletion(imageUrl: string) {
+    const index = this.imagesToDelete.indexOf(imageUrl);
+    if (index > -1) {
+      this.imagesToDelete.splice(index, 1); //En caso de estar marcada, se desmarca
+    }else{
+      this.imagesToDelete.push(imageUrl); //En caso de no estar marcada, se marca
+    }
+  }
+
+  onSelectNewImages(event: any) {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList) {
+      this.newImages.push(...Array.from(fileList))
+    }
+  }
+
+  async saveChangues() {
     this.loading = true;
-    const register = this.registerForm.value;
-    register.images = this.data.register.images;
-      this.updateRegister(register);
+
+    try {
+      const register = this.registerForm.value;
+      //procesar las imágenes marcadas para eliminación
+      const imagesToDelete = await this.registerService.deleteImages(this.imagesToDelete, register.id);
+      //subir las nuesvas imágenes
+      const imagesToUpload = await this.registerService.addNewImages(this.newImages, register.id);
+      //actualizar el registro
+      const updatedRegister = this.registerService.updateRegister(register);
+
+      this.notificationService.showSuccess('Cambios guardados correctamente');
+    } catch (error) {
+      this.notificationService.showError('Error al guardar los cambios');
+      throw new Error('Error al guardar los cambios');
+    }
+
+    this.loading = false;
+    this.closeModal();
   }
 
   async updateRegister(register: Register) {
     try {
-      await this.registerService.updateRegister(register );
+      await this.registerService.updateRegister(register);
       this.notificationService.showSuccess('Registro actualizado correctamente');
       this.loading = false;
-      this.closeModal();
     } catch (error) {
       this.notificationService.showError('Error al actualizar el registro');
       this.loading = false;
     }
+    this.closeModal();
   }
 
   formatDate() {
@@ -99,7 +136,7 @@ export class RegisterDetailModalComponent implements OnInit {
     }
   }
 
-  //init map with latitud and longitud
+
   initMap() {
     const latitud = this.registerForm.get('latitud')?.value;
     const longitud = this.registerForm.get('longitud')?.value;
@@ -143,12 +180,6 @@ export class RegisterDetailModalComponent implements OnInit {
       });
     }
 
-  }
-
-  removeImage(index: number) {
-    const images = this.registerForm.get('images')?.value;
-    images.splice(index, 1);
-    this.registerForm.get('images')?.setValue(images);
   }
 
   getUserName() {

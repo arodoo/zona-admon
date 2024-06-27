@@ -4,7 +4,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
-import { finalize } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -29,21 +28,11 @@ export class RegistersService {
   async addRegister(register: Register): Promise<string> {
     try {
       const registerRef = await this.firestore.collection('registers').add(register);
-      await registerRef.update({id:registerRef.id})
+      await registerRef.update({ id: registerRef.id })
       return registerRef.id;
     } catch (error) {
       console.error('Error al añadir el registro:', error);
       return 'error';
-    }
-  }
-
-  async updateRegister( register: Register) {
-    try {
-      await this.firestore.collection('registers').doc(register.id).update(register);
-      return true;
-    } catch (error) {
-      console.error('Error al actualizar el registro:', error);
-      return error;
     }
   }
 
@@ -58,6 +47,7 @@ export class RegistersService {
     }
   }
 
+
   async uploadImages(images: File[], registerId: string): Promise<string> {
     const storageRef = this.storage.ref(`registers/${registerId}`);
     let imagesUrls = '';
@@ -70,5 +60,36 @@ export class RegistersService {
     return imagesUrls;
   }
 
-  
+  async updateRegister(register: Register) {
+    try {
+      await this.firestore.collection('registers').doc(register.id).update(register);
+      return true;
+    } catch (error) {
+      console.error('Error al actualizar el registro:', error);
+      return error;
+    }
+  }
+
+  async deleteImages(imagesUrls: string[], registerId: string): Promise<boolean> {
+    for (const imageUrl of imagesUrls) {
+      const imageName = imageUrl.split('/').pop();
+
+      if (imageName) {
+        const imageRef = this.storage.ref(`registers/${registerId}/${imageName}`);
+        imageRef.delete();
+        return true;
+      }else{
+        return false;
+      }
+    }
+    return false;
+  }
+
+  async addNewImages(newImages: File[], registerId: string){
+    const imagesUrls = await this.uploadImages(newImages, registerId);
+    const newImagesUrlsArray = imagesUrls.split(',').filter(url => url); //filter para eliminar los elementos vacíos
+
+    const newImagesUrls = await this.updateRegisterImagesField(registerId, newImagesUrlsArray);
+  }
+
 }
