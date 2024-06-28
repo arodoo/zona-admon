@@ -4,15 +4,23 @@
         <app-title title="Registros"></app-title>
         <div class="card my-4">
             <div class="card-header">
-                <h6 class="text-black">Registros</h6>
+                <div class="filter-div">
+                    <label style="color: #000;">Fecha de inicio:</label>
+                    <input type="date" [(ngModel)]="startDate">
+                    <label style="color: #000;">Fecha de fin:</label>
+                    <input type="date" [(ngModel)]="endDate">
+                    <button (click)="applyFilter()">Aplicar filtro</button>
+                  </div>
+                
                 <div class="buttons-div">
-                    <button class="action-btn" id="generateReportBtn" (click)="GenerateReport()">
+                    <button class="action-btn" id="generateReportBtn" (click)="generateReporte()">
                         <i class="fas fa-file-pdf"></i> Generar reporte
                     </button>
                     <button class="add-btn" id="addReportBtn" (click)="openModal()">Añadir registro</button>
                 </div>
             </div>
             <div class="card-body">
+     
                 <div class="table-responsive">
                     <table mat-table [dataSource]="dataSource" class="table table-hover" id="table">
                         <ng-container matColumnDef="title">
@@ -43,6 +51,13 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
+                    <table id="filtered-table">
+                        <tr *ngFor="let item of filteredData">
+                          <td>{{ item.column1 }}</td>
+                          <td>{{ item.column2 }}</td>
+                          <!--... -->
+                        </tr>
+                      </table>
                 </div>
                 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
             </div>

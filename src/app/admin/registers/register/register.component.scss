@@ -52,3 +52,51 @@
     font-size: 1.15rem;
     transition: background-color 0.3s ease;
 }
+.filter-div {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: wrap;
+    margin: 5px 0;
+  }
+  
+  .filter-div input[type="date"], .filter-div button {
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #ccc; /* Borde sutil */
+    background-color: #f9f9f9; /* Fondo claro */
+    color: #333; /* Texto oscuro para contraste */
+    border-radius: 4px; /* Bordes redondeados */
+    transition: all 0.3s ease; /* Transición suave para interacciones */
+  
+    &:hover {
+      border-color: #007bff; /* Cambio de color al pasar el mouse */
+      background-color: #e7f3ff; /* Fondo más claro al pasar el mouse */
+    }
+  
+    &:focus {
+      outline: none; /* Elimina el contorno predeterminado */
+      box-shadow: 0 0 0 2px rgba(0,123,255,.25); /* Sombra sutil para el foco */
+    }
+  }
+  
+  .filter-div input[type="date"] {
+    flex-grow: 1;
+    max-width: calc(20% - 4px);
+  }
+  
+  .filter-div button {
+    white-space: nowrap;
+    cursor: pointer; /* Cambia el cursor para indicar que es clickeable */
+    background-color: #007bff; /* Color de fondo azul */
+    color: #ffffff; /* Color de texto blanco */
+    border: 1px solid #007bff; /* Borde del mismo color que el fondo */
+    transition: background-color 0.3s ease; /* Transición suave al cambiar de estado */
+  
+    &:hover {
+      background-color: #0056b3; /* Color de fondo más oscuro al pasar el mouse */
+      border-color: #0056b3; /* Borde del mismo color que el fondo al pasar el mouse */
+    }
+  }

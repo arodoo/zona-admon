@@ -1,76 +1,80 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import jsPDF from 'jspdf';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
-import { AppTitleComponent } from "../app-title/app-title.component";
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
+
+
+import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
+import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
+import { fadeAnimation } from '../../../shared/animations/fade-animation';
+import { MatDialog } from '@angular/material/dialog';
+
+import { RegistersService } from '../../../core/services/registers.service';
+import { Register } from '../../../core/models/register.interface';
+import { Subscription } from 'rxjs';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
-    standalone: true,
-    selector: 'app-register-generate-report',
-    templateUrl: './register-generate-report.component.html',
-    styleUrls: ['./register-generate-report.component.scss'],
-    imports: [
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatNativeDateModule,
-        AppTitleComponent,
-        CommonModule
-    ],  
-    providers: [
-      { provide: DateAdapter, useClass: MatNativeDateModule },
-    ],
-
+  
+  selector: 'app-register',
+  standalone: true,
+  imports: [CommonModule, AppTitleComponent, DateFormatPipe, 
+    MatTableModule, MatPaginator, MatIconModule,FormsModule],
+  templateUrl: './register-generate-report.component.html',
+  animations: [fadeAnimation],
+  styleUrl: './register-generate-report.component.scss',
 })
-export class RegisterGenerateReportComponent implements OnInit {
-  dateRangeForm: FormGroup;
-  filteredData: any[] = [];
+export class RegisterGenerateReportComponent implements OnInit, AfterViewInit{
+  startDate!: string;
+  endDate!: string;
+  originalData: any[] = []; // Asume que aquí tienes tus datos originales
+  filteredData: any[] = []; // Datos que se mostrarán en la tabla
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
+  }
+  private registersSubscription?: Subscription;
+  $registers: Register[] = [];
 
-  constructor(private angularFirestore: AngularFirestore) {
-    this.dateRangeForm = new FormGroup({
-      startDate: new FormControl(),
-      endDate: new FormControl()
-    });
+  displayedColumns: string[] = ['title', 'description', 'date', 'actions'];
+  dataSource = new MatTableDataSource<Register>(this.$registers);
+
+  convertDate(dateString: string): Date {
+    return new Date(dateString);
   }
 
-  ngOnInit(): void {
-    
-    this.dateRangeForm.valueChanges.subscribe(value => {
-      const startDate = value.startDate ? this.formatDate(value.startDate) : null;
-    const endDate = value.endDate ? this.formatDate(value.endDate) : null;
+  applyFilter() {
+    this.filteredData = this.originalData.filter(item => {
+      const itemDate = this.convertDate(item.date);
+      const startDate = this.convertDate(this.startDate);
+      const endDate = this.convertDate(this.endDate);
+      return itemDate >= startDate && itemDate <= endDate;
+    });
+    this.dataSource.data = this.filteredData;
+  }
 
-      if (startDate && endDate) {
-        this.angularFirestore.collection('registers', ref => ref
-          .where('date', '>=', startDate)
-          .where('date', '<=', endDate)
-        ).valueChanges().subscribe(data => {
-          this.filteredData = data;
-        });
+  generateReporte() {
+    const table = document.getElementById('table');
+    const pdf: any = new jsPDF();
+  
+    pdf.autoTable({
+      html: '#table',
+      willDrawCell: (cell: any) => {
+        if (cell.column.index === 3) { // columna de acciones
+          cell.cell.text = ''; // oculta el contenido de la celda
+        }
       }
     });
-  }
-
-  formatDate(date: Date): string {
-    const day = date.getDate();
-    const month = date.getMonth() + 1; // Los meses en JavaScript comienzan en 0
-    const year = date.getFullYear();
-    return `${year}-${month}-${day}`;
-  }
-
-
-
-  generateReport(): void {
-    const doc = new jsPDF();
-    // Add your data to the PDF here. The exact method will depend on the content of the data.
-    doc.text(JSON.stringify(this.filteredData), 10, 10);
-    doc.save('report.pdf');
+  
+    pdf.save('registers_report.pdf');
   }
 }

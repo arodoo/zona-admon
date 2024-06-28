@@ -5,25 +5,16 @@
             <div class="card-header">
                 <h6 class="text-black">Generar tu informe en PDF</h6>
                 <div class="centered-container">
-
-                    <form [formGroup]="dateRangeForm">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Fecha de inicio</mat-label>
-                            <input matInput [matDatepicker]="startDatePicker" formControlName="startDate">
-                            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-                            <mat-datepicker #startDatePicker></mat-datepicker>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="fill">
-                            <mat-label>Fecha de fin</mat-label>
-                            <input matInput [matDatepicker]="endDatePicker" formControlName="endDate">
-                            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-                            <mat-datepicker #endDatePicker></mat-datepicker>
-                        </mat-form-field>
-                    </form>
+                    <div class="filter-div">
+                        <label>Fecha de inicio:</label>
+                        <input type="date" [(ngModel)]="startDate">
+                        <label>Fecha de fin:</label>
+                        <input type="date" [(ngModel)]="endDate">
+                        <button (click)="applyFilter()">Aplicar filtro</button>
+                      </div>
 
                     <!-- Botón para generar el informe -->
-                    <button class="action-btn" id="generateReportBtn" (click)="generateReport()">
+                    <button class="action-btn" id="generateReportBtn" (click)="generateReporte()">
                         <i class="fas fa-file-pdf"></i> Generar informe
                     </button>
                 </div>
