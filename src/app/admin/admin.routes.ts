@@ -34,6 +34,11 @@ export const ADMIN_ROUTES: Routes = [
                 component: UserProfileComponent
             },
             {
+                path: 'statistical-panel',
+                loadChildren: () => import('../admin/data-acces-panel/statistical.routes').then(m => m.STATISTICAL_ROUTES),
+                canActivate: [adminGuard]
+            },
+            {
                 path: 'users',
                 loadChildren: () => import('../admin/users/users/users.routes').then(m => m.USERS_ROUTES),
                 canActivate: [adminGuard]
