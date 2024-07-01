@@ -8,6 +8,6 @@ export interface Register {
     longitud: string;
     defussions?: number;
     hurts?: number;
-    images: string;
+    images: string | string[];
     user_id: string;
 }

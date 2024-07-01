@@ -4,6 +4,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
+import { firstValueFrom } from 'rxjs';
+
 import { finalize } from 'rxjs/operators';
 
 @Injectable({
@@ -16,20 +18,37 @@ export class RegistersService {
     private storage: AngularFireStorage) {
   }
 
-  async getRegisters() {
+  async getRegisters(): Promise<Register[]> {
     try {
-      const registers = this.firestore.collection('registers').valueChanges();
-      return registers;
+      // Asegúrate de que el Observable esté tipado correctamente
+      const registersObservable = this.firestore.collection<Register>('registers').valueChanges();
+      const registers = await firstValueFrom(registersObservable);
+
+      // Utiliza el tipo correcto en las funciones filter y map
+      const filteredRegisters = registers
+        .filter((register: Register) => register.active)
+        .map((register: Register) => {
+          if (Array.isArray(register.images)) {
+            register.images = register.images.filter((image: string) => image !== '');
+          }
+          return register;
+        })
+        .sort((a: Register, b: Register) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+      return filteredRegisters;
     } catch (error) {
       console.error('Error al obtener los registros:', error);
-      return error;
+      throw error;
     }
   }
+
+
+
 
   async addRegister(register: Register): Promise<string> {
     try {
       const registerRef = await this.firestore.collection('registers').add(register);
-      await registerRef.update({id:registerRef.id})
+      await registerRef.update({ id: registerRef.id })
       return registerRef.id;
     } catch (error) {
       console.error('Error al añadir el registro:', error);
@@ -37,7 +56,7 @@ export class RegistersService {
     }
   }
 
-  async updateRegister( register: Register) {
+  async updateRegister(register: Register) {
     try {
       await this.firestore.collection('registers').doc(register.id).update(register);
       return true;
@@ -70,5 +89,5 @@ export class RegistersService {
     return imagesUrls;
   }
 
-  
+
 }

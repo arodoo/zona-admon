@@ -23,8 +23,16 @@
     <div class="imgsContainer">
         <div *ngFor="let imageUrl of registerForm.get('images')?.value; let i = index" class="images-array-div">
             <img [src]="imageUrl" alt="Image {{ i }}" class="images-preview"
-            (click)="enlargeImage(imageUrl)">
+                [class.image-marked-for-deletion]="imagesToDelete.includes(imageUrl)"
+                (click)="isEditMode ? markImageForDeletion(imageUrl) : enlargeImage(imageUrl)">
+            <span *ngIf="isEditMode && imagesToDelete.includes(imageUrl)" class="delete-icon">X</span>
         </div>
+        <!--For loading new images-->
+        <div *ngIf="isEditMode" class="new-images-container">
+            <label for="new-images" class="form-label">Añadir nuevas imágenes:</label>
+            <input type="file" id="new-images" (change)="onSelectNewImages($event)" multiple class="form-control">
+        </div>
+
     </div>
     <div class="mb3">
         <label class="form-label"> Creado por: </label>

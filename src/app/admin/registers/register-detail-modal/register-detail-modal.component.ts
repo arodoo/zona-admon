@@ -25,6 +25,9 @@ export class RegisterDetailModalComponent implements OnInit {
   registerForm: FormGroup;
   isEditMode = false;
 
+  imagesToDelete: string[] = [];
+  newImages: File[] = [];
+
   selectedImageFile: File | null = null;
 
 
@@ -60,25 +63,65 @@ export class RegisterDetailModalComponent implements OnInit {
     this.formatDate();
     this.checkGeoLocationPermission();
     this.getUserName();
+    console.log('Register:', this.data.register);
   }
 
-  saveChangues() {
-    this.loading = true;
-    const register = this.registerForm.value;
-    register.images = this.data.register.images;
-      this.updateRegister(register);
+
+
+  markImageForDeletion(imageUrl: string) {
+    const index = this.imagesToDelete.indexOf(imageUrl);
+    if (index > -1) {
+      this.imagesToDelete.splice(index, 1); //En caso de estar marcada, se desmarca
+    } else {
+      this.imagesToDelete.push(imageUrl); //
+    }
   }
+
+  onSelectNewImages(event: any) {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList) {
+      this.newImages.push(...Array.from(fileList))
+    }
+  }
+
+  async saveChangues() {
+    this.loading = true;
+
+    try {
+      const register = this.registerForm.value;
+      // Filtrar las imágenes para eliminar las marcadas
+      const filteredImages = register.images.filter((imageUrl: string) => !this.imagesToDelete.includes(imageUrl));
+      register.images = filteredImages;
+
+      // Subir las nuevas imágenes y obtener sus URLs
+      const newImagesUrls = await this.registerService.uploadImages(this.newImages, register.id);
+      register.images = [...register.images, ...newImagesUrls.split(',')];
+
+      // Actualizar el registro con las imágenes restantes y las nuevas
+      await this.registerService.updateRegister(register);
+
+      this.notificationService.showSuccess('Cambios guardados correctamente');
+    } catch (error) {
+      this.notificationService.showError('Error al guardar los cambios');
+      console.error('Error al guardar los cambios:', error);
+    } finally {
+      this.loading = false;
+      this.closeModal();
+    }
+  }
+
 
   async updateRegister(register: Register) {
     try {
-      await this.registerService.updateRegister(register );
+      await this.registerService.updateRegister(register);
       this.notificationService.showSuccess('Registro actualizado correctamente');
       this.loading = false;
-      this.closeModal();
     } catch (error) {
       this.notificationService.showError('Error al actualizar el registro');
       this.loading = false;
     }
+    this.closeModal();
   }
 
   formatDate() {
@@ -99,7 +142,7 @@ export class RegisterDetailModalComponent implements OnInit {
     }
   }
 
-  //init map with latitud and longitud
+
   initMap() {
     const latitud = this.registerForm.get('latitud')?.value;
     const longitud = this.registerForm.get('longitud')?.value;
@@ -145,12 +188,6 @@ export class RegisterDetailModalComponent implements OnInit {
 
   }
 
-  removeImage(index: number) {
-    const images = this.registerForm.get('images')?.value;
-    images.splice(index, 1);
-    this.registerForm.get('images')?.setValue(images);
-  }
-
   getUserName() {
     this.usersService.getUserData(this.data.register.user_id).subscribe((user) => {
       if (user) {
@@ -163,7 +200,7 @@ export class RegisterDetailModalComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  enableEdit(){
+  enableEdit() {
     this.isEditMode = true;
     this.initMap();
   }
