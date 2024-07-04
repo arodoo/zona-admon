@@ -65,6 +65,16 @@ export class RegisterComponent implements OnInit, AfterViewInit{
     
   }
 
+  async getRegisters() {
+    try {
+      const registers = await this.registersService.getRegisters();
+      this.originalData = registers;
+      this.dataSource.data = registers;
+    } catch (error) {
+      console.error('Error al obtener los registros:', error);
+    }
+  }
+
   openModal() {
     const dialogRef = this.dialog.open(RegisterAddModalComponent, {
       width: '700px',
@@ -102,17 +112,7 @@ export class RegisterComponent implements OnInit, AfterViewInit{
     pdf.save('registers_report.pdf');
   }
 
-  async getRegisters() {
-    this.registersSubscription = this.firestore.collection<Register>('registers',
-      ref => ref.where('active', '==', true)
-     .orderBy('date', 'desc'))
-     .valueChanges()
-     .subscribe(data => {
-        this.originalData = data;
-        this.dataSource.data = data;
-        console.log(data);
-      });
-  }
+
 
   openDetailsRegisterModal(register: Register) {
     const dialogRef = this.dialog.open(RegisterDetailModalComponent, {
@@ -131,20 +131,8 @@ export class RegisterComponent implements OnInit, AfterViewInit{
     console.log('Deleting register...');
   }
 
-  editRegister() {
-    console.log('Editing register...');
-  }
-
   viewOnMap() {
     this.router.navigate(['/admin/map']);
-  }
-
-  generateReport() {
-    console.log('Generating report...');
-  }
-
-  viewDetails() {
-    console.log('Viewing details...');
   }
 
 }
