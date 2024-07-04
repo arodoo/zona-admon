@@ -126,7 +126,7 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   }
 
   deleteRegister() {
-    console.log('Deleting register...');
+    console.log('Deleting register');
   }
 
   viewOnMap() {
