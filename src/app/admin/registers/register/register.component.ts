@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild,  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
@@ -19,7 +19,7 @@ import { Register } from '../../../core/models/register.interface';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable'; // Importa esto si también estás utilizando el plugin autoTable
+import 'jspdf-autotable'; 
 
 @Component({
   selector: 'app-register',
@@ -35,8 +35,8 @@ export class RegisterComponent implements OnInit, AfterViewInit{
   $registers: Register[] = [];
   startDate!: string;
   endDate!: string;
-  originalData: any[] = []; // Asume que aquí tienes tus datos originales
-  filteredData: any[] = []; // Datos que se mostrarán en la tabla
+  originalData: any[] = []; 
+  filteredData: any[] = []; 
   displayedColumns: string[] = ['title', 'description', 'date', 'actions'];
   dataSource = new MatTableDataSource<Register>(this.$registers);
 
@@ -119,16 +119,14 @@ export class RegisterComponent implements OnInit, AfterViewInit{
       width: '700px',
       data: { register: register }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('The dialog was closed');
-      }
+    dialogRef.componentInstance.changesSaved.subscribe(() => {
+      console.log('Changes saved');
+      this.getRegisters();
     });
   }
 
   deleteRegister() {
-    console.log('Deleting register...');
+    console.log('Deleting register');
   }
 
   viewOnMap() {

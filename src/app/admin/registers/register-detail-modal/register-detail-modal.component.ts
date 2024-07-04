@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -9,18 +9,23 @@ import { RegistersService } from '../../../core/services/registers.service';
 import { UsersService } from '../../../core/services/users.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
+import { NgxLoadingModule } from 'ngx-loading';
+
 import { EnlargedImageComponent } from '../../../shared/components/enlarged-image/enlarged-image.component';
 declare const google: any;
 
 @Component({
   selector: 'app-register-detail-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatIconModule],
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule,
+    NgxLoadingModule
+  ],
   providers: [DatePipe],
   templateUrl: './register-detail-modal.component.html',
   styleUrl: './register-detail-modal.component.scss'
 })
 export class RegisterDetailModalComponent implements OnInit {
+  @Output() changesSaved = new EventEmitter<boolean>();
 
   registerForm: FormGroup;
   isEditMode = false;
@@ -63,7 +68,7 @@ export class RegisterDetailModalComponent implements OnInit {
     this.formatDate();
     this.checkGeoLocationPermission();
     this.getUserName();
-    console.log('Register:', this.data.register);
+    //console.log('Register:', this.data.register);
   }
 
 
@@ -90,18 +95,13 @@ export class RegisterDetailModalComponent implements OnInit {
 
     try {
       const register = this.registerForm.value;
-      // Filtrar las imágenes para eliminar las marcadas
       const filteredImages = register.images.filter((imageUrl: string) => !this.imagesToDelete.includes(imageUrl));
       register.images = filteredImages;
-
-      // Subir las nuevas imágenes y obtener sus URLs
       const newImagesUrls = await this.registerService.uploadImages(this.newImages, register.id);
       register.images = [...register.images, ...newImagesUrls.split(',')];
-
-      // Actualizar el registro con las imágenes restantes y las nuevas
       await this.registerService.updateRegister(register);
-
       this.notificationService.showSuccess('Cambios guardados correctamente');
+      this.changesSaved.emit();
     } catch (error) {
       this.notificationService.showError('Error al guardar los cambios');
       console.error('Error al guardar los cambios:', error);
