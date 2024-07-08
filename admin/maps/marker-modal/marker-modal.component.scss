@@ -1,0 +1,40 @@
+/* marker-modal.component.css */
+.modal-container {
+    background-color: #333;
+    color: #fff;
+    border-radius: 0px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: auto;
+    height: auto;
+}
+
+.modal-header {
+    margin-bottom: 15px;
+}
+
+.modal-title {
+    margin: 0;
+}
+
+.modal-body {
+    margin-bottom: 15px;
+}
+
+.modal-footer {
+    text-align: right;
+}
+
+.close-button {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    margin: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.close-button:hover {
+    background-color: #666;
+}

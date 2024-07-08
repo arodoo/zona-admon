@@ -1,0 +1,25 @@
+.scrollable{
+        overflow-y: auto;
+}
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: white;
+}
+
+.button-spacing {
+    margin-right: 10px;
+}
+
+.avatar {
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 50px;
+}
+
+.actions-column button:not(:last-child) {
+    margin-right: 10px;
+    /* Ajusta el espacio a tu preferencia */
+}
+
