@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
 
@@ -17,9 +17,10 @@ import { PaginationServiceService } from '../../../core/services/pagination-serv
     StatisticalPanelPage1Component, StatisticalPanelPage2Component
   ],
   templateUrl: './statistical-panel-home.component.html',
-  styleUrl: './statistical-panel-home.component.scss'
+  styleUrl: './statistical-panel-home.component.scss', 
+  animations: [fadeAnimation]
 })
-export class StatisticalPanelHomeComponent implements OnInit {
+export class StatisticalPanelHomeComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   currentPage: number = 0;
@@ -27,13 +28,14 @@ export class StatisticalPanelHomeComponent implements OnInit {
   constructor(private paginationService: PaginationServiceService) { }
 
   ngOnInit() {
-    this.paginator.page.subscribe((event) => {
-      this.paginationService.setCurrentPage(event.pageIndex);
-    });
-
     this.paginationService.currentPage$.subscribe((page) => {
       this.currentPage = page;
     });
   }
 
+  ngAfterViewInit() {
+    this.paginator.page.subscribe((event) => {
+      this.paginationService.setCurrentPage(event.pageIndex);
+    });
+  }
 }

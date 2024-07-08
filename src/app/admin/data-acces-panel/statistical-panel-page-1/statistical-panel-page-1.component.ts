@@ -27,7 +27,8 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
     MatListModule, MatIconModule, MatCardModule
   ],
   templateUrl: './statistical-panel-page-1.component.html',
-  styleUrl: './statistical-panel-page-1.component.html'
+  styleUrl: './statistical-panel-page-1.component.html',
+  animations: [fadeAnimation]
 })
 export class StatisticalPanelPage1Component {
 
