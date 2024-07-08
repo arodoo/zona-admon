@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BaseChartDirective } from 'ng2-charts';
@@ -27,9 +27,10 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
     MatListModule, MatIconModule, MatCardModule
   ],
   templateUrl: './statistical-panel-page-1.component.html',
-  styleUrl: './statistical-panel-page-1.component.html'
+  styleUrl: './statistical-panel-page-1.component.scss',
+  animations: [fadeAnimation]
 })
-export class StatisticalPanelPage1Component {
+export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -92,7 +93,7 @@ export class StatisticalPanelPage1Component {
     datasets: [
       {
         data: [40, 45, 50, 55, 60, 65, 70],
-        label: 'Reportes',
+        label: 'Muertes',
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1

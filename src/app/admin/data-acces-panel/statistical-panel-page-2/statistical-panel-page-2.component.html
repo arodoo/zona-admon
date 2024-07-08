@@ -1,1 +1,55 @@
-<p>statistical-panel-page-2 works!</p>
+<div [@fadeAnimation]>
+    <div class="container">
+        <div class="row">
+            <app-title title="Estadísticas Detalladas"></app-title>
+            <div class="card my-4">
+                <!-- Radar Chart -->
+                <div class="radar-chart">
+                    <mat-card>
+                        <mat-card-content>
+                            <canvas baseChart [data]="radarChartData" [options]="radarChartOptions"
+                                [legend]="radarChartLegend" [type]="radarChartType">
+                            </canvas>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <!-- Polar Area Charts -->
+                <div class="polar-area-charts row">
+                    <div class="polar-area-chart col-md-6">
+                        <mat-card>
+                            <mat-card-content>
+                                <canvas baseChart [data]="polarAreaChartData1" [options]="polarAreaChartOptions"
+                                    [legend]="polarAreaChartLegend" [type]="polarAreaChartType">
+                                </canvas>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div class="polar-area-chart col-md-6">
+                        <mat-card>
+                            <mat-card-content>
+                                <canvas baseChart [data]="polarAreaChartData2" [options]="polarAreaChartOptions"
+                                    [legend]="polarAreaChartLegend" [type]="polarAreaChartType">
+                                </canvas>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+                <!-- Pie Chart -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <p>Texto descriptivo sobre los municipios con más muertes.</p>
+                    </div>
+                    <div class="col-md-8">
+                        <mat-card>
+                            <mat-card-content>
+                                <canvas baseChart [data]="pieChartData" [options]="pieChartOptions"
+                                    [legend]="pieChartLegend" [type]="pieChartType">
+                                </canvas>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
