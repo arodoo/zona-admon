@@ -17,7 +17,7 @@ import { PaginationServiceService } from '../../../core/services/pagination-serv
     StatisticalPanelPage1Component, StatisticalPanelPage2Component
   ],
   templateUrl: './statistical-panel-home.component.html',
-  styleUrl: './statistical-panel-home.component.scss', 
+  styleUrl: './statistical-panel-home.component.scss',
   animations: [fadeAnimation]
 })
 export class StatisticalPanelHomeComponent implements OnInit, AfterViewInit {

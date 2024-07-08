@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BaseChartDirective } from 'ng2-charts';
@@ -30,7 +30,7 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
   styleUrl: './statistical-panel-page-1.component.scss',
   animations: [fadeAnimation]
 })
-export class StatisticalPanelPage1Component {
+export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
