@@ -1,0 +1,48 @@
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: white;
+}
+
+.actions-column {
+    text-align: right;
+
+    //addind space between the buttons
+    button {
+        margin-left: .4rem;
+        width: 5rem;
+    }
+}
+
+.container {
+    .card {
+        border-radius: 0.5rem;
+
+        button {
+            font-size: 0.875rem;
+        }
+    }
+
+    .table {
+        th {
+            background-color: #f8f9fa;
+            font-size: large;
+        }
+
+        td {}
+    }
+
+    .mat-paginator {
+        background-color: #f8f9fa;
+        padding: 0.5rem;
+        border-top: 1px solid #dee2e6;
+        border-bottom-left-radius: calc(0.5rem - 1px);
+        border-bottom-right-radius: calc(0.5rem - 1px);
+    }
+}
+
+#generateReportBtn {
+    font-size: 1.15rem;
+    transition: background-color 0.3s ease;
+}

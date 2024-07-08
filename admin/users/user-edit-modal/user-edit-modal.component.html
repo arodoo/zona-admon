@@ -1,0 +1,45 @@
+<form [formGroup]="userForm" (ngSubmit)="update()" class="container mt-5">
+    <!-- Input oculto para la carga de archivos -->
+    <input type="file" id="fileInput" (change)="onFileSelected($event)" hidden accept="image/*">
+    
+<div class="image-container">
+    <label for="fileInput" class="image-label">
+        <img [src]="userForm.get('userData.imgUrl')?.value" alt="Avatar" class="avatar">
+        <mat-icon class="edit-icon">edit</mat-icon>
+    </label>
+</div>
+
+    <h2 class="title">Editar usuario</h2>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input [readonly]="true" id="email" type="email" formControlName="email" class="form-control">
+    </div>
+
+    <div class="mb-3" formGroupName="userData">
+        <label for="name" class="form-label">Nombre:</label>
+        <input id="name" type="text" formControlName="name" class="form-control">
+        <div *ngIf="userForm.get('userData.name')?.invalid && userForm.get('userData.name')?.touched"
+            class="alert alert-danger">
+            El nombre es requerido.
+        </div>
+    </div>
+
+    <div class="mb-3" formGroupName="userData">
+        <label for="roles" class="form-label">Rol:</label>
+        <select id="roles" formControlName="roles" class="form-select">
+            <option value="ADMIN">Administrador</option>
+            <option value="VISUALIZER">Usuario</option>
+        </select>
+    </div>
+
+    <div class="mb-3" formGroupName="userData">
+        <label for="organization" class="form-label">Organización:</label>
+        <input id="organization" type="text" formControlName="organization" class="form-control">
+        <div *ngIf="userForm.get('userData.organization')?.invalid && userForm.get('userData.organization')?.touched"
+            class="alert alert-danger">
+            La organización es requerida.
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+</form>

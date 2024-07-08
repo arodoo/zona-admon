@@ -1,0 +1,72 @@
+/* home.component.css */
+
+section {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.report-button{
+    margin-left: auto;
+}
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.charts {
+    display: flex;
+    gap: 20px;
+    height: auto;
+}
+
+.chart {
+    flex: 1;
+    height: auto;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.alert-message {
+    background-color: #ffdede;
+    color: #d8000c;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.shortcut-buttons button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.shortcut-buttons button:hover {
+    background-color: #45a049;
+}
+
+.update {
+    background-color: #e0e0e0;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
