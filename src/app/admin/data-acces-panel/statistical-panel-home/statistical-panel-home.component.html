@@ -1,73 +1,9 @@
 <div [@fadeAnimation]>
-    <div class="container">
-        <div class="row">
-            <app-title title="Estadísticas"></app-title>
-            <div class="card my-4">
-                <div class="line-chart">
-                    <mat-card>
-                        <mat-card-content>
-                            <canvas baseChart [data]="lineChartData" [labels]="lineChartLabels"
-                                [options]="lineChartOptions" [legend]="lineChartLegend" [type]="lineChartType">
-                            </canvas>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-                <div class="bar-chart-container row">
-                    <div class="bar-chart col-md-6">
-                        <mat-card>
-                            <mat-card-content>
-                                <canvas baseChart [data]="userReportsChartData" [options]="barChartOptions"
-                                    [legend]="barChartLegend" [type]="barChartType">
-                                </canvas>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
-                    <div class="bar-chart col-md-6">
-                        <mat-card>
-                            <mat-card-content>
-                                <canvas baseChart [data]="barChartData" [options]="barChartOptions"
-                                    [legend]="barChartLegend" [type]="barChartType">
-                                </canvas>
-                            </mat-card-content>
-                        </mat-card>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-9">
-                        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                            <ng-container matColumnDef="municipio">
-                                <mat-header-cell *matHeaderCellDef> Municipio </mat-header-cell>
-                                <mat-cell *matCellDef="let element"> {{element.municipio}} </mat-cell>
-                            </ng-container>
-
-                            <ng-container matColumnDef="accidentes">
-                                <mat-header-cell *matHeaderCellDef> Accidentes </mat-header-cell>
-                                <mat-cell *matCellDef="let element"> {{element.accidentes}} </mat-cell>
-                            </ng-container>
-
-                            <ng-container matColumnDef="muertes">
-                                <mat-header-cell *matHeaderCellDef> Muertes </mat-header-cell>
-                                <mat-cell *matCellDef="let element"> {{element.muertes}} </mat-cell>
-                            </ng-container>
-
-                            <ng-container matColumnDef="heridos">
-                                <mat-header-cell *matHeaderCellDef> Heridos </mat-header-cell>
-                                <mat-cell *matCellDef="let element"> {{element.heridos}} </mat-cell>
-                            </ng-container>
-
-                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                        </mat-table>
-                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="buttons-container">
-                            <button class="btn mb-2 action-btn" (click)="exportAsXLSX()">Exportar a Excel</button>
-                            <button class="btn mb-2 action-btn" (click)="exportAsPDF()">Exportar a PDF</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <mat-paginator [length]="2" [pageSize]="1"></mat-paginator>
+    <ng-container *ngIf="currentPage === 0">
+        <app-statistical-panel-page-1></app-statistical-panel-page-1>
+    </ng-container>
+    <ng-container *ngIf="currentPage === 1">
+        <app-statistical-panel-page-2></app-statistical-panel-page-2>
+    </ng-container>
 </div>

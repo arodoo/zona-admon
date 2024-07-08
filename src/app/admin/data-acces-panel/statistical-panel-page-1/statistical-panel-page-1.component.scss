@@ -1,0 +1,44 @@
+.container {
+    .card {
+        border-radius: 0.5rem;
+    }
+
+    .table {
+        th {
+            background-color: #f8f9fa;
+            font-size: large;
+        }
+
+        td {}
+    }
+
+    .mat-paginator {
+        background-color: #f8f9fa;
+        padding: 0.5rem;
+        border-top: 1px solid #dee2e6;
+        border-bottom-left-radius: calc(0.5rem - 1px);
+        border-bottom-right-radius: calc(0.5rem - 1px);
+    }
+}
+
+.line-chart {
+    width: 100%;
+    padding: 3%;
+}
+
+.bar-chart {
+    max-width: 100%;
+    margin: 0, 0, 2rem, 0;
+}
+
+.bar-chart-container {
+    margin-bottom: 2rem;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 100%;
+}
