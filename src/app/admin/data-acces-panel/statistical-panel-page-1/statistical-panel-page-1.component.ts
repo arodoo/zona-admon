@@ -7,6 +7,9 @@ import { ChartConfiguration, ChartOptions, ChartData, ChartDataset, Color } from
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatLabel } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 
@@ -19,12 +22,12 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
 @Component({
   selector: 'app-statistical-panel-page-1',
   standalone: true,
-  imports: [CommonModule,
+  imports: [CommonModule, MatSelectModule,
     AppTitleComponent,
     DateFormatPipe,
     MatTableModule, MatPaginator,
     BaseChartDirective,
-    MatListModule, MatIconModule, MatCardModule
+    MatListModule, MatIconModule, MatCardModule, MatFormFieldModule, MatLabel
   ],
   templateUrl: './statistical-panel-page-1.component.html',
   styleUrl: './statistical-panel-page-1.component.scss',
@@ -35,17 +38,22 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    console.log('Statistical panel home component initialized.');
+    this.getYears();
   }
 
+  //Tabla de datos
   displayedColumns: string[] = ['municipio', 'accidentes', 'muertes', 'heridos'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  // Asegúrate de que los tipos de datos coincidan con lo que espera Chart.js
+  // Line chart data
+
+  public years: number[] = [];
+  public selectedYear = new Date().getFullYear();
+
   public lineChartData: ChartData<'line'> = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
     datasets: [
-      { data: [65, 59, 80, 81, 56, 55, 40], label: 'Accidentes' },
+      { data: [65, 59, 80, 81, 56, 55, 40], label: 'Accidentes en el año corriente' },
     ]
   };
 
@@ -62,6 +70,22 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
   public lineChartLegend = true;
   public lineChartType: 'line' = 'line';
 
+  //function to get years from today to last 20 years
+  getYears(): void {
+    const currentYear = new Date().getFullYear();
+    this.selectedYear = currentYear;
+    for (let i = currentYear; i > currentYear - 20; i--) {
+      this.years.push(i);
+    }
+  }
+
+  onYearChange(year: number): void {
+    this.selectedYear = year;
+    console.log('Selected year: ', year);
+    
+  }
+
+  // Bar chart data
   public barChartOptions: ChartOptions<'bar'> = {
     responsive: true,
     scales: {
@@ -80,7 +104,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
     datasets: [
       {
         data: this.userReportsData,
-        label: 'Registros',
+        label: 'Heridos en el año corriente',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1
@@ -93,7 +117,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
     datasets: [
       {
         data: [40, 45, 50, 55, 60, 65, 70],
-        label: 'Muertes',
+        label: 'Defuciones en el año corriente',
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1
