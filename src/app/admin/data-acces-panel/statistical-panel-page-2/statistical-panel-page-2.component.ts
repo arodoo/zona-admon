@@ -31,7 +31,7 @@ export class StatisticalPanelPage2Component implements OnInit, AfterViewInit{
   public radarChartData: ChartData<'radar'> = {
     labels: ['Accidentes', 'Muertes', 'Heridos'],
     datasets: [
-      { data: [65, 59, 90], label: 'Estadísticas' }
+      { data: [165, 15, 40], label: 'Estadísticas' }
     ]
   };
 

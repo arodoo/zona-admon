@@ -23,8 +23,7 @@
 
 .line-chart {
     width: 100%;
-    padding: 3%;
-    
+    padding: 3%; 
 }
 
 .bar-chart {
@@ -42,4 +41,11 @@
     align-items: flex-start;
     justify-content: flex-start;
     height: 100%;
+}
+
+//Styles for dropdown select year
+.dropdown-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
 }
