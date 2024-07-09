@@ -51,14 +51,14 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
   public selectedYear = new Date().getFullYear();
 
   public lineChartData: ChartData<'line'> = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
+    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     datasets: [
       { data: [65, 59, 80, 81, 56, 55, 40], label: 'Accidentes en el año corriente' },
     ]
   };
 
 
-  public lineChartLabels: ChartData['labels'] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'];
+  public lineChartLabels: ChartData['labels'] = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   public lineChartOptions: ChartOptions = {
     responsive: true,
     scales: {
@@ -100,7 +100,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
   public userReportsData: number[] = [100, 120, 140, 110, 130, 150, 160];
 
   public userReportsChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
+    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     datasets: [
       {
         data: this.userReportsData,
@@ -113,7 +113,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
   };
 
   public barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
+    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     datasets: [
       {
         data: [40, 45, 50, 55, 60, 65, 70],
