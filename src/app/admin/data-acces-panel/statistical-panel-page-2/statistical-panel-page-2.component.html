@@ -4,15 +4,9 @@
             <app-title title="Estadísticas Detalladas"></app-title>
             <div class="card my-4">
                 <!-- Radar Chart -->
-                <div class="radar-chart">
-                    <mat-card>
-                        <mat-card-content>
-                            <canvas baseChart [data]="radarChartData" [options]="radarChartOptions"
-                                [legend]="radarChartLegend" [type]="radarChartType">
-                            </canvas>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
+                <app-radar-chart [data]="radarChartData" [options]="radarChartOptions" [legend]="radarChartLegend"
+                    [type]="radarChartType">
+                </app-radar-chart>
                 <!-- Polar Area Charts -->
                 <div class="polar-area-charts row">
                     <div class="polar-area-chart col-md-6">

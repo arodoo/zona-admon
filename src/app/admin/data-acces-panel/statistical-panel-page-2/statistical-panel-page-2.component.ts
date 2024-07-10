@@ -1,25 +1,29 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration, ChartOptions, ChartData } from 'chart.js';
+import { ChartOptions, ChartData } from 'chart.js';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
+import { RadarChartComponent } from '../../../shared/components/radar-chart/radar-chart.component';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 @Component({
   selector: 'app-statistical-panel-page-2',
   standalone: true,
-  imports: [CommonModule, AppTitleComponent, DateFormatPipe, MatTableModule, MatPaginator,
-    BaseChartDirective, MatListModule, MatIconModule, MatCardModule],
+  imports: [CommonModule, MatTableModule, MatListModule, MatIconModule, MatCardModule,
+    AppTitleComponent, DateFormatPipe, RadarChartComponent,
+    MatPaginator,
+    BaseChartDirective,],
   templateUrl: './statistical-panel-page-2.component.html',
   styleUrl: './statistical-panel-page-2.component.scss',
   animations: [fadeAnimation]
 })
-export class StatisticalPanelPage2Component implements OnInit, AfterViewInit{
+export class StatisticalPanelPage2Component implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -27,7 +31,7 @@ export class StatisticalPanelPage2Component implements OnInit, AfterViewInit{
     console.log('Statistical panel home component initialized.');
   }
 
-  //Radar Chart Data
+  // Radar Chart Data
   public radarChartData: ChartData<'radar'> = {
     labels: ['Accidentes', 'Muertes', 'Heridos'],
     datasets: [

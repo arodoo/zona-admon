@@ -14,6 +14,7 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
+import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 
 
@@ -22,12 +23,12 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
 @Component({
   selector: 'app-statistical-panel-page-1',
   standalone: true,
-  imports: [CommonModule, MatSelectModule,
-    AppTitleComponent,
+  imports: [CommonModule, MatSelectModule, MatTableModule,
+    AppTitleComponent, SearchBarComponent,
     DateFormatPipe,
-    MatTableModule, MatPaginator,
+    MatPaginator,
     BaseChartDirective,
-    MatListModule, MatIconModule, MatCardModule, MatFormFieldModule, MatLabel
+    MatListModule, MatIconModule, MatCardModule, MatFormFieldModule, MatLabel,
   ],
   templateUrl: './statistical-panel-page-1.component.html',
   styleUrl: './statistical-panel-page-1.component.scss',
@@ -36,10 +37,6 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
 export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  ngOnInit(): void {
-    this.getYears();
-  }
 
   //Tabla de datos
   displayedColumns: string[] = ['municipio', 'accidentes', 'muertes', 'heridos'];
@@ -131,12 +128,21 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
     this.paginatorIntl.previousPageLabel = 'Anterior';
   }
 
+  ngOnInit(): void {
+    this.getYears();
+  }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.paginator.page.subscribe(() => {
       window.scrollTo(0, 0);
     });
   }
+
+  handleSearchChange(event: any): void {
+    console.log('Search changed:', event);
+  }
+
 
   exportAsXLSX(): void {
     console.log('Exporting data as XLSX...');

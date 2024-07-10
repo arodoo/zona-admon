@@ -1,8 +1,6 @@
-{
-    "title": "String",
-    "description": "String",
-    "date": "String",
-    "user_id": "String",
-    "latitude": "String",
-    "length": " String"
-}
+                <div class="search-bar-container">
+                    <div class="search-bar">
+                        <input type="text" class="form-control" id="search" placeholder="Buscar">
+                        <button class="btn btn-primary" type="button">Buscar</button>
+                    </div>
+                </div>
