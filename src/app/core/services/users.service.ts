@@ -52,7 +52,6 @@ export class UsersService {
   async saveUserData(uid: string, userData: UserData) {
     try {
       const userRef = this.firestore.collection('users').doc(uid);
-      // Si es un nuevo usuario, establecemos todos los datos
       await userRef.set({
         uid: uid,
         name: userData.name,
