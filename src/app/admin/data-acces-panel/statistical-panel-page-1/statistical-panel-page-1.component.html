@@ -4,6 +4,9 @@
                 <app-title title="Estadísticas"></app-title>
                 <div class="search-bar-container">
                     <app-search-bar placeholder="Consulta un municipio" (searchChange)="handleSearchChange($event)"></app-search-bar>
+                    <div *ngIf="searchResults.length > 0">
+                        <app-search-results [searchResults]="searchResults" (searchResultClick)="handleSearchResultClick($event)"></app-search-results>
+                    </div>
                 </div>
                 <div class="card my-4">
 

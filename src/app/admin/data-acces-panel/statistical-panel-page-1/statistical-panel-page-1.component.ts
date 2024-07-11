@@ -16,17 +16,20 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
+import { SearchResultsComponent } from '../../../shared/components/search-results/search-results.component';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 
 import { BuldDataService } from '../../../core/services/buld-data.service';
 
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
+import { Incident } from '../../../core/models/incident.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-statistical-panel-page-1',
   standalone: true,
   imports: [CommonModule, MatSelectModule, MatTableModule,
-    AppTitleComponent, SearchBarComponent,
+    AppTitleComponent, SearchBarComponent, SearchResultsComponent,
     DateFormatPipe,
     MatPaginator,
     BaseChartDirective,
@@ -46,8 +49,12 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   // Line chart data
 
+  //to store the years selected o lineChart 
   public years: number[] = [];
   public selectedYear = new Date().getFullYear();
+
+  //to store the search results
+  searchResults: Incident[] = [];
 
   public lineChartData: ChartData<'line'> = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
@@ -144,8 +151,32 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
   }
 
   handleSearchChange(event: any): void {
-    const searchTerm = event.trim().toLowerCase();
+    const searchTerm = event // Eliminar espacios en blanco
+    console.log('Search term:', searchTerm);
+    
+    if (searchTerm.length > 0) {
+      console.log('Searching data...');
+      
+      this.buldDataService.getBulkData(searchTerm).subscribe({
+        next: (data) => {
+          this.searchResults = data;
+          console.log('Search results:', this.searchResults);
+        },
+        error: (error) => {
+          console.error('Error al obtener los datos:', error);
+        }
+      });
+    } else {
+      this.searchResults = [];
+    }
   }
+
+  handleSearchResultClick(municipality: string): void {
+    console.log('Search result clicked:', municipality);
+    this.router.navigate(['/statistical-panel', {municipality}]);
+  }
+
+
 
 
   exportAsXLSX(): void {

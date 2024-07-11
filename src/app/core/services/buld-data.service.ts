@@ -4,21 +4,29 @@ import { Observable } from 'rxjs';
 
 import { Incident } from '../models/incident.interface';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class BuldDataService {
 
-  constructor(private firestore: AngularFirestore,
-  ) { }
+  constructor(private firestore: AngularFirestore) { }
 
-  async getBulkData(municipality: string): Promise<Observable<Incident[]>> {
-    try {
-      return this.firestore.collection<Incident>('incidents', ref => ref.where('municipality', '==', municipality)).valueChanges();
-    } catch (error) {
-      console.error('Error al obtener los datos:', error);
-      throw error;
-    }
+  getBulkData1(municipality: string): Observable<Incident[]> {
+    // Convertir el municipio a mayúsculas
+    const upperCaseMunicipality = municipality.toUpperCase();
+    return this.firestore.collection<Incident>('incidents_bulkData', ref => ref.
+      where('municipality', '==', upperCaseMunicipality)).valueChanges();
+  }
+
+  getBulkData(municipality: string): Observable<Incident[]> {
+    // Convertir el municipio a mayúsculas
+    const upperCaseMunicipality = municipality.toUpperCase();
+    // Calcular el final de la cadena para la búsqueda
+    const endMunicipality = upperCaseMunicipality.slice(0, -1)
+      + String.fromCharCode(upperCaseMunicipality.charCodeAt(upperCaseMunicipality.length - 1) + 1);
+    return this.firestore.collection<Incident>('incidents_bulkData', ref => ref
+      .where('municipality', '>=', upperCaseMunicipality)
+      .where('municipality', '<', endMunicipality))
+      .valueChanges();
   }
 }
