@@ -171,9 +171,10 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
     }
   }
 
-  handleSearchResultClick(municipality: string): void {
+  handleSearchResultClick(result: any): void {
+    const { municipality } = result;
     console.log('Search result clicked:', municipality);
-    this.router.navigate(['/statistical-panel', {municipality}]);
+    this.router.navigate(['admin/statistical-panel/municipality', municipality]);
   }
 
 
