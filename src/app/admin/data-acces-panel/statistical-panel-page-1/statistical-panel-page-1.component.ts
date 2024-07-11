@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration, ChartOptions, ChartData, ChartDataset, Color } from 'chart.js';
+import { ChartConfiguration, ChartOptions, ChartData } from 'chart.js';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -17,6 +18,7 @@ import { AppTitleComponent } from '../../../shared/components/app-title/app-titl
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 
+import { BuldDataService } from '../../../core/services/buld-data.service';
 
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 
@@ -122,7 +124,9 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
     ]
   };
 
-  constructor(private paginatorIntl: MatPaginatorIntl) {
+  constructor(private paginatorIntl: MatPaginatorIntl,
+     private router: Router,
+     private buldDataService: BuldDataService) {
     this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
     this.paginatorIntl.nextPageLabel = 'Siguiente';
     this.paginatorIntl.previousPageLabel = 'Anterior';
@@ -140,7 +144,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
   }
 
   handleSearchChange(event: any): void {
-    console.log('Search changed:', event);
+    const searchTerm = event.trim().toLowerCase();
   }
 
 
