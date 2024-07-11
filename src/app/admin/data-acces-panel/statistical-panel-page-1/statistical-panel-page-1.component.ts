@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration, ChartOptions, ChartData, ChartDataset, Color } from 'chart.js';
+import { ChartConfiguration, ChartOptions, ChartData } from 'chart.js';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -15,16 +16,20 @@ import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
+import { SearchResultsComponent } from '../../../shared/components/search-results/search-results.component';
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 
+import { BuldDataService } from '../../../core/services/buld-data.service';
 
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
+import { Incident } from '../../../core/models/incident.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-statistical-panel-page-1',
   standalone: true,
   imports: [CommonModule, MatSelectModule, MatTableModule,
-    AppTitleComponent, SearchBarComponent,
+    AppTitleComponent, SearchBarComponent, SearchResultsComponent,
     DateFormatPipe,
     MatPaginator,
     BaseChartDirective,
@@ -44,8 +49,12 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   // Line chart data
 
+  //to store the years selected o lineChart 
   public years: number[] = [];
   public selectedYear = new Date().getFullYear();
+
+  //to store the search results
+  searchResults: Incident[] = [];
 
   public lineChartData: ChartData<'line'> = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
@@ -122,7 +131,9 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
     ]
   };
 
-  constructor(private paginatorIntl: MatPaginatorIntl) {
+  constructor(private paginatorIntl: MatPaginatorIntl,
+     private router: Router,
+     private buldDataService: BuldDataService) {
     this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
     this.paginatorIntl.nextPageLabel = 'Siguiente';
     this.paginatorIntl.previousPageLabel = 'Anterior';
@@ -140,8 +151,33 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
   }
 
   handleSearchChange(event: any): void {
-    console.log('Search changed:', event);
+    const searchTerm = event // Eliminar espacios en blanco
+    console.log('Search term:', searchTerm);
+    
+    if (searchTerm.length > 0) {
+      console.log('Searching data...');
+      
+      this.buldDataService.getBulkData(searchTerm).subscribe({
+        next: (data) => {
+          this.searchResults = data;
+          console.log('Search results:', this.searchResults);
+        },
+        error: (error) => {
+          console.error('Error al obtener los datos:', error);
+        }
+      });
+    } else {
+      this.searchResults = [];
+    }
   }
+
+  handleSearchResultClick(result: any): void {
+    const { municipality } = result;
+    console.log('Search result clicked:', municipality);
+    this.router.navigate(['admin/statistical-panel/municipality', municipality]);
+  }
+
+
 
 
   exportAsXLSX(): void {

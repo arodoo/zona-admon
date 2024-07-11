@@ -1,1 +1,13 @@
-<p>statistical-panel-specific-town works!</p>
+<div *ngIf="data && data.length">
+  <h2>Detalles del Municipio: {{ municipality }}</h2>
+  <div *ngFor="let item of data">
+    <p><strong>Fecha:</strong> {{ item.date }}</p>
+    <p><strong>Muertes:</strong> {{ item.deaths }}</p>
+    <p><strong>Heridos:</strong> {{ item.injured }}</p>
+    <p><strong>Municipio:</strong> {{ item.municipality }}</p>
+    <p><strong>Población:</strong> {{ item.population }}</p>
+  </div>
+</div>
+<div *ngIf="!data || !data.length">
+  <p>No se encontraron datos para el municipio seleccionado.</p>
+</div>

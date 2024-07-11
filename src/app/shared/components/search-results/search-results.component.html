@@ -1,0 +1,8 @@
+<!-- search-results.component.html -->
+<ul class="search-results-list">
+    <li *ngFor="let result of searchResults" (click)="handleClick(result)" class="search-result-item">
+        {{ result.municipality }} <!-- Asumiendo que cada resultado tiene una propiedad 'name' -->
+    </li>
+</ul>
+<!--Handle no results-->
+<p *ngIf="searchResults.length === 0">No se encontraron resultados</p>
