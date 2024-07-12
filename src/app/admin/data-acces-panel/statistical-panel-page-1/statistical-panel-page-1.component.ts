@@ -152,10 +152,10 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   handleSearchChange(event: any): void {
     const searchTerm = event // Eliminar espacios en blanco
-    console.log('Search term:', searchTerm);
+    //console.log('Search term:', searchTerm);
     
     if (searchTerm.length > 0) {
-      console.log('Searching data...');
+      //console.log('Searching data...');
       
       this.buldDataService.getBulkData(searchTerm).subscribe({
         next: (data) => {
@@ -173,7 +173,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   handleSearchResultClick(result: any): void {
     const { municipality } = result;
-    console.log('Search result clicked:', municipality);
+    //console.log('from statistical panel Search result clicked:', municipality);
     this.router.navigate(['admin/statistical-panel/municipality', municipality]);
   }
 

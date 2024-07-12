@@ -1,13 +1,26 @@
-<div *ngIf="data && data.length">
-  <h2>Detalles del Municipio: {{ municipality }}</h2>
-  <div *ngFor="let item of data">
-    <p><strong>Fecha:</strong> {{ item.date }}</p>
-    <p><strong>Muertes:</strong> {{ item.deaths }}</p>
-    <p><strong>Heridos:</strong> {{ item.injured }}</p>
-    <p><strong>Municipio:</strong> {{ item.municipality }}</p>
-    <p><strong>Población:</strong> {{ item.population }}</p>
+<div [@fadeAnimation]>
+  <div class="container">
+    <div class="row">
+      <app-title [title]="municipality"></app-title>
+    </div>
+    <div class="row">
+      <div class="col-md-10">
+        <canvas baseChart [data]="radarChartData" [options]="radarChartOptions" [legend]="radarChartLegend"
+          [type]="radarChartType"></canvas>
+      </div>
+      <div class="col-md-2">
+        <p class="m-2">Aquí puedes agregar un bloque de texto descriptivo sobre los datos mostrados en la gráfica polar.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngFor="let item of data">
+        <p><strong>Fecha:</strong> {{ item.date }}</p>
+        <p><strong>Muertes:</strong> {{ item.deaths }}</p>
+        <p><strong>Heridos:</strong> {{ item.injured }}</p>
+        <p><strong>Municipio:</strong> {{ item.municipality }}</p>
+        <p><strong>Población:</strong> {{ item.population }}</p>
+      </div>
+    </div>
   </div>
-</div>
-<div *ngIf="!data || !data.length">
-  <p>No se encontraron datos para el municipio seleccionado.</p>
 </div>

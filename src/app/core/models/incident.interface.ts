@@ -4,4 +4,5 @@ export interface Incident {
     injured: string;
     municipality: string;
     population: string;
+    accidents: string;
 }
