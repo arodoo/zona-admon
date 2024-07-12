@@ -33,10 +33,10 @@ export class BuldDataService {
   getMunicipalityData(municipality: string): Observable<Incident[]> {
     // Convertir el municipio a mayúsculas
     const upperCaseMunicipality = municipality.toUpperCase();
-    console.log('Municipio:', upperCaseMunicipality);
     
-    return this.firestore.collection<Incident>('incidents_bulkData', ref => ref.
+    const response = this.firestore.collection<Incident>('incidents_bulkData', ref => ref.
       where('municipality', '==', upperCaseMunicipality)).valueChanges();
+    return response;
   }
   
 }
