@@ -1,1 +1,14 @@
-<p>use-prediction-module works!</p>
+<!-- use-prediction-module.component.html -->
+<div *ngIf="showInstructions">
+    <h2>Instrucciones para usar el modelo de predicción</h2>
+    <p>Aquí van las instrucciones detalladas...</p>
+    <mat-checkbox [(ngModel)]="dontShowAgain">No mostrar de nuevo</mat-checkbox>
+    <button mat-button (click)="proceed()">Continuar</button>
+    <button mat-button (click)="closeInstructions()">Cerrar</button>
+</div>
+
+<div *ngIf="!showInstructions">
+    <h2>Usar el modelo de predicción</h2>
+    <!-- Aquí va el contenido para el consumo del algoritmo -->
+    <p>Contenido del modelo de predicción...</p>
+</div>
