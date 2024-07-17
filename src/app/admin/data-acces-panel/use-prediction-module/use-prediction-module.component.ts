@@ -38,7 +38,9 @@ export class UsePredictionModuleComponent implements OnInit {
       municipality: ['', Validators.required],
       deaths: [0, [Validators.required, Validators.min(0)]],
       injured: [0, [Validators.required, Validators.min(0)]],
-      population: [0, [Validators.required, Validators.min(0)]]
+      population: [0, [Validators.required, Validators.min(0)]],
+      //Para el algoritmo de predicción
+      isSafe: [false,]
     });
 
     from(this.authService.getCurrentUserUid()).pipe(
@@ -79,9 +81,6 @@ export class UsePredictionModuleComponent implements OnInit {
     if (this.dataForm?.valid) {
       const data = this.dataForm.value;
       console.log(data);
-/*       this.http.post('http://localhost:3000/predict', data).subscribe((response) => {
-        console.log(response);
-      }); */
     }
   }
 
