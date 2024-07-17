@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserData } from '../models/userData.interface';
-import { Observable, lastValueFrom, of, switchMap } from 'rxjs';
+import { Observable, lastValueFrom, of,map } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -15,8 +15,16 @@ export class UsersService {
   constructor(private afAuth: AngularFireAuth,
     private firestore: AngularFirestore,
     private storage: AngularFireStorage) {
+  }
 
+  getUserPreferences(uid: string): Observable<any> {
+    return this.firestore.collection('userPreferences').doc(uid).get().pipe(
+      map(doc => doc.exists ? doc.data() : null)
+    );
+  }
 
+  setUserPreferences(uid: string, preferences: any): Promise<void> {
+    return this.firestore.collection('userPreferences').doc(uid).set(preferences, { merge: true });
   }
 
   async registerUser(email: string, password: string, userData: UserData) {

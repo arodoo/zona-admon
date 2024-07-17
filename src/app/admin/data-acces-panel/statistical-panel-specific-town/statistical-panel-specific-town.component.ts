@@ -28,6 +28,8 @@ export class StatisticalPanelSpecificTownComponent implements OnInit{
   municipality: string = '';
   data: Incident[] = [];
 
+  prediction: string = 'Peligroso';
+
   constructor(private route: ActivatedRoute,
     private buldDataService: BuldDataService,
     private cdr: ChangeDetectorRef) {

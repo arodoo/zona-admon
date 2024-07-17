@@ -13,6 +13,7 @@ import { MatLabel } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
@@ -24,6 +25,7 @@ import { BuldDataService } from '../../../core/services/buld-data.service';
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 import { Incident } from '../../../core/models/incident.interface';
 import { Observable } from 'rxjs';
+import { UsePredictionModuleComponent } from '../use-prediction-module/use-prediction-module.component';
 
 @Component({
   selector: 'app-statistical-panel-page-1',
@@ -49,7 +51,6 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   // Line chart data
 
-  //to store the years selected o lineChart 
   public years: number[] = [];
   public selectedYear = new Date().getFullYear();
 
@@ -87,8 +88,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   onYearChange(year: number): void {
     this.selectedYear = year;
-    console.log('Selected year: ', year);
-    
+    console.log('Selected year: ', year); 
   }
 
   // Bar chart data
@@ -133,7 +133,8 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   constructor(private paginatorIntl: MatPaginatorIntl,
      private router: Router,
-     private buldDataService: BuldDataService) {
+     private buldDataService: BuldDataService,
+     public dialog: MatDialog) {
     this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
     this.paginatorIntl.nextPageLabel = 'Siguiente';
     this.paginatorIntl.previousPageLabel = 'Anterior';
@@ -151,12 +152,8 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
   }
 
   handleSearchChange(event: any): void {
-    const searchTerm = event // Eliminar espacios en blanco
-    //console.log('Search term:', searchTerm);
-    
-    if (searchTerm.length > 0) {
-      //console.log('Searching data...');
-      
+    const searchTerm = event // Eliminar espacios en blanco    
+    if (searchTerm.length > 0) {      
       this.buldDataService.getBulkData(searchTerm).subscribe({
         next: (data) => {
           this.searchResults = data;
@@ -173,12 +170,14 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   handleSearchResultClick(result: any): void {
     const { municipality } = result;
-    //console.log('from statistical panel Search result clicked:', municipality);
     this.router.navigate(['admin/statistical-panel/municipality', municipality]);
   }
 
-
-
+  openUsePredictionModule(){
+    const dialogRef = this.dialog.open(UsePredictionModuleComponent, {
+      width: '700px',
+    });
+  }
 
   exportAsXLSX(): void {
     console.log('Exporting data as XLSX...');

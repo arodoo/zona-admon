@@ -43,6 +43,13 @@
     height: 100%;
 }
 
+.prediction-model-btn-container{
+    display: flex;
+    justify-content: end;
+    margin-bottom: .5rem;
+
+}
+
 //Styles for dropdown select year
 .dropdown-container {
     display: flex;
