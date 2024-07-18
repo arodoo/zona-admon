@@ -1,0 +1,14 @@
+<div class="upload-container">
+    <h2>Carga de datos masivos</h2>
+    <p>Por favor, asegúrate de que tu archivo se encuentre en formato CSV y contenga las siguientes columnas:</p>
+    <ul>
+      <li><strong>Municipio:</strong> Nombre del municipio (texto)</li>
+      <li><strong>Poblacion:</strong> Cantidad de habitantes (número)</li>
+      <li><strong>Fecha:</strong> Fecha del incidente (formato YYYY-MM-DD)</li>
+      <li><strong>Heridos:</strong> Número de heridos (número)</li>
+      <li><strong>Muertes:</strong> Número de muertes (número)</li>
+    </ul>
+    <input type="file" (change)="onFileSelected($event)" multiple>
+    <button (click)="uploadFiles()">Subir Archivos</button>
+    <p>{{ uploadStatus }}</p>
+  </div>
