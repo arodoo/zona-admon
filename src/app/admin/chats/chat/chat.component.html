@@ -1,0 +1,46 @@
+<!-- chat.component.html -->
+<div class="whatsapp-container">
+    <div class="chat-list">
+      <div class="chat-search">
+        <!-- Título de la lista de chats y botón para crear un nuevo chat -->
+        <h2>Chats</h2>
+        <button class="new-chat-button" mat-raised-button color="primary" (click)="createChat()">Nuevo Chat</button>
+
+        <form *ngIf="newChatFormOpen" (ngSubmit)="createChat()">
+          <input placeholder="Nombre" [(ngModel)]="newChatName" name="name">
+          <input placeholder="URL de la imagen" [(ngModel)]="newChatImgUrl" name="imgUrl">
+          <input placeholder="Miembros" [(ngModel)]="newChatMembers" name="members">
+        
+          <button type="submit">Crear</button>
+        </form>
+      </div>
+      <!-- Mostrar la lista de chats -->
+      <div *ngFor="let chat of chats | async" class="chat-item">
+        <div class="chat-info">
+          <img [src]="chat.imgUrl" alt="Foto del chat" class="chat-photo">
+          <div class="chat-name">{{ chat.name }}</div>
+        </div>
+        <div class="chat-preview">{{ chat.description }}</div>
+      </div>
+    </div>
+    <div class="chat-window">
+      <!-- Encabezado del chat -->
+      <div class="chat-header">
+        <h2>Nombre del Chat</h2> <!-- Puedes reemplazar esto con una variable que contenga el nombre actual del chat -->
+      </div>
+      <!-- Área de mensajes del chat -->
+      <div class="chat-messages">
+        <!-- Los mensajes se mostrarán aquí -->
+        <div *ngFor="let message of messages" [ngClass]="{'my-message': message.sender === 'user', 'other-message': message.sender !== 'user'}">
+          <div class="message-content">{{ message.text }}</div>
+          <div class="message-timestamp">{{ message.timestamp | date: 'shortTime' }}</div>
+        </div>
+      </div>
+      <!-- Entrada para escribir nuevos mensajes -->
+      <div class="chat-input">
+        <input [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Escribe un mensaje...">
+        <button (click)="sendMessage()">Enviar</button>
+      </div>
+    </div>
+  </div>
+  

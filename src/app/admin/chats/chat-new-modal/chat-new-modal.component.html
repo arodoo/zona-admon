@@ -1,0 +1,15 @@
+<h1 style="text-align: center; color: #34b7f1; font-size: 2em; margin-bottom: 1em;">Nuevo  chat</h1>
+<div class="form-container">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Nombre:</mat-label>
+    <input matInput placeholder="Introduce el nombre del grupo" [(ngModel)]="name" required>
+  </mat-form-field>
+  <div class="file-input-container">
+    <input type="file" id="file" (change)="onFileSelected($event)" hidden>
+    <label for="file" class="file-input-label">Ingresa una foto para el grupo</label>
+  </div>
+</div>
+<div class="actions-container">
+  <button mat-raised-button color="primary" (click)="onCancel()">Cancelar</button>
+  <button mat-raised-button color="accent" (click)="onSubmit()">Crear</button>
+</div>
