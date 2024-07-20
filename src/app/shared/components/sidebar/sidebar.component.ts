@@ -28,7 +28,7 @@ export class SidebarComponent implements OnInit {
     { name: 'Inicio', route: '/admin/home', icon: 'dashboard', visible: true },
     { name: 'Mapa', route: '/admin/map', icon: 'map', visible: true },
     { name: 'Usuarios', route: '/admin/users', icon: 'people', visible: false }, // Oculto por defecto
-    { name: 'Statistics', route: '/admin/statistical-panel', icon: 'insert_chart', visible: false },
+    { name: 'Estadísticas', route: '/admin/statistical-panel', icon: 'insert_chart', visible: false },
     //{ name: 'Reportes', route: '/admin/reports', icon: 'reportes', visible: false }, // Oculto por defecto
     { name: 'Registros', route: '/admin/registers', icon: 'folder_open', visible: true },
   ];

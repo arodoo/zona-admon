@@ -1,0 +1,40 @@
+<!-- use-prediction-module.component.html -->
+<div *ngIf="showInstructions">
+    <h2>Instrucciones para usar el modelo de predicción</h2>
+    <p>Aquí van las instrucciones detalladas...</p>
+    |
+    <button mat-button (click)="proceed()">Continuar</button>
+    <button mat-button (click)="closeInstructions()">Cerrar</button>
+</div>
+
+<div *ngIf="!showInstructions">
+    <h2>Usar el modelo de predicción</h2>
+    <!-- Aquí va el contenido para el consumo del algoritmo -->
+    <p>Contenido del modelo de predicción...</p>
+    <form [formGroup]="dataForm" (ngSubmit)="saveData()">
+        <mat-form-field>
+            <mat-label>Municipio</mat-label>
+            <input matInput formControlName="municipality" required>
+            <mat-error *ngIf="dataForm.get('municipality')?.invalid">Municipio es requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Muertes</mat-label>
+            <input matInput type="number" formControlName="deaths" required>
+            <mat-error *ngIf="dataForm.get('deaths')?.invalid">Muertes debe ser un número</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Heridos</mat-label>
+            <input matInput type="number" formControlName="injured" required>
+            <mat-error *ngIf="dataForm.get('injured')?.invalid">Heridos debe ser un número</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Población</mat-label>
+            <input matInput type="number" formControlName="population" required>
+            <mat-error *ngIf="dataForm.get('population')?.invalid">Población debe ser un número</mat-error>
+        </mat-form-field>
+        <button mat-button type="submit" [disabled]="dataForm.invalid">Guardar</button>
+    </form>
+    <div *ngIf="predictionResult">
+        <p>El municipio es: {{ predictionResult }}</p>
+    </div>
+</div>
