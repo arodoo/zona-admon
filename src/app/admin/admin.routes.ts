@@ -43,6 +43,10 @@ export const ADMIN_ROUTES: Routes = [
                 loadChildren: () => import('../admin/users/users/users.routes').then(m => m.USERS_ROUTES),
                 canActivate: [adminGuard]
             },
+            {
+                path: 'bulk-data-upload',
+                loadChildren: () => import('../admin/bulk-data-upload/bulk-data-upload.routes').then(m => m.BULK_DATA_UPLOAD_ROUTES),
+            }
         ]
     }
 ];
