@@ -98,7 +98,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
     this.statisticalDataService.getYearlyData(year).subscribe({
       next: (data) => {
         this.lineChartData.datasets[0].data = data;
-        console.log('Yearly data for the year:', this.lineChartData);
+        //console.log('Yearly data for the year:', this.lineChartData);
         this.chart.chart?.update();
       },
       error: (error) => {

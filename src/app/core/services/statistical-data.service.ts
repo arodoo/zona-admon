@@ -21,6 +21,8 @@ export class StatisticalDataService {
       .valueChanges()
       .pipe(
         map((incidents: any[]) => {
+          console.log('Incidents for the year:', year, incidents);
+          
           if (incidents.length === 0) {
             console.log('No data found for the year:', year);
             return new Array(12).fill(0);
@@ -30,13 +32,17 @@ export class StatisticalDataService {
           const monthlyData = new Array(12).fill(0);
           incidents.forEach(incident => {
             const month = new Date(incident.date).getMonth();
-            monthlyData[month]+= parseInt(incident.accidents, 10);
+            const accidents = parseInt(incident.accidents, 10);
+            if (!isNaN(accidents)) {
+              monthlyData[month] += accidents;
+            } else {
+              console.warn(`Valor no numérico encontrado en el campo 'accidents': ${incident.accidents}`);
+            }
           });
-          console.log('Monthly data for the year:', year, monthlyData);
-          
+
           return monthlyData;
-        })
+        }
+        )
       );
   }
-
 }
