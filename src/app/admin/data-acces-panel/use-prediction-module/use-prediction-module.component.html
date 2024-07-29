@@ -2,7 +2,7 @@
 <div *ngIf="showInstructions">
     <h2>Instrucciones para usar el modelo de predicción</h2>
     <p>Aquí van las instrucciones detalladas...</p>
-    <mat-checkbox [(ngModel)]="dontShowAgain">No mostrar de nuevo</mat-checkbox>
+    |
     <button mat-button (click)="proceed()">Continuar</button>
     <button mat-button (click)="closeInstructions()">Cerrar</button>
 </div>
@@ -34,4 +34,7 @@
         </mat-form-field>
         <button mat-button type="submit" [disabled]="dataForm.invalid">Guardar</button>
     </form>
+    <div *ngIf="predictionResult">
+        <p>El municipio es: {{ predictionResult }}</p>
+    </div>
 </div>

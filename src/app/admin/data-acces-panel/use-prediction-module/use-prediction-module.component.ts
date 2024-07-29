@@ -8,28 +8,32 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
 
 import { AuthService } from '../../../core/services/auth.service';
 import { UsersService } from '../../../core/services/users.service';
+import { PredictionService } from '../../../core/services/prediction.service';
 
 @Component({
   selector: 'app-use-prediction-module',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule,
-    MatCheckboxModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule
+    MatCheckboxModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule,  HttpClientModule
   ],
   templateUrl: './use-prediction-module.component.html',
-  styleUrl: './use-prediction-module.component.scss'
+  styleUrls: ['./use-prediction-module.component.scss'],
+  providers: [PredictionService] // Asegúrate de proveer tu servicio si es necesario
 })
 export class UsePredictionModuleComponent implements OnInit {
   showInstructions = true;
   dontShowAgain = false;
-  dataForm: FormGroup = new FormGroup({});
+  dataForm!: FormGroup;
+  predictionResult!: string;
 
   constructor(private authService: AuthService,
     private userService: UsersService,
     private fb: FormBuilder,
+    private predictionService: PredictionService
     ) { }
 
   ngOnInit(): void {
@@ -80,8 +84,19 @@ export class UsePredictionModuleComponent implements OnInit {
   saveData(): void {
     if (this.dataForm?.valid) {
       const data = this.dataForm.value;
-      console.log(data);
+      this.predictionService.predict(data).subscribe({
+        next: (prediction) => {
+          if (prediction === 0) {
+            this.predictionResult = 'El municipio es seguro.';
+          } else if (prediction === 1) {
+            this.predictionResult = 'El municipio es peligroso.';
+          }
+        },
+        error: (err) => {
+          console.error('Error al predecir la seguridad del municipio:', err);
+          this.predictionResult = 'Error al realizar la predicción.';
+        }
+      });
     }
   }
-
 }
