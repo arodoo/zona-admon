@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -18,14 +18,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { AppTitleComponent } from '../../../shared/components/app-title/app-title.component';
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
 import { SearchResultsComponent } from '../../../shared/components/search-results/search-results.component';
+import { UsePredictionModuleComponent } from '../use-prediction-module/use-prediction-module.component';
+
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 
 import { BuldDataService } from '../../../core/services/buld-data.service';
+import { StatisticalDataService } from '../../../core/services/statistical-data.service';
 
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 import { Incident } from '../../../core/models/incident.interface';
-import { Observable } from 'rxjs';
-import { UsePredictionModuleComponent } from '../use-prediction-module/use-prediction-module.component';
+
 
 @Component({
   selector: 'app-statistical-panel-page-1',
@@ -41,26 +43,27 @@ import { UsePredictionModuleComponent } from '../use-prediction-module/use-predi
   styleUrl: './statistical-panel-page-1.component.scss',
   animations: [fadeAnimation]
 })
-export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
+export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
 
-  //Tabla de datos
-  displayedColumns: string[] = ['municipio', 'accidentes', 'muertes', 'heridos'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  //to store the search results
+  searchResults: Incident[] = [];
+
+
 
   // Line chart data
 
   public years: number[] = [];
   public selectedYear = new Date().getFullYear();
 
-  //to store the search results
-  searchResults: Incident[] = [];
+
 
   public lineChartData: ChartData<'line'> = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     datasets: [
-      { data: [65, 59, 80, 81, 56, 55, 40], label: 'Accidentes en el año corriente' },
+      { data: [], label: 'Accidentes en el año corriente' },
     ]
   };
 
@@ -77,18 +80,31 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
   public lineChartLegend = true;
   public lineChartType: 'line' = 'line';
 
-  //function to get years from today to last 20 years
+  //function to get years from today to last 10 years
   getYears(): void {
     const currentYear = new Date().getFullYear();
     this.selectedYear = currentYear;
-    for (let i = currentYear; i > currentYear - 20; i--) {
+    for (let i = currentYear; i > currentYear - 10; i--) {
       this.years.push(i);
     }
   }
 
   onYearChange(year: number): void {
     this.selectedYear = year;
-    console.log('Selected year: ', year); 
+    this.loadYearlyData(this.selectedYear);
+  }
+
+  loadYearlyData(year: number): void {
+    this.statisticalDataService.getYearlyData(year).subscribe({
+      next: (data) => {
+        this.lineChartData.datasets[0].data = data;
+        console.log('Yearly data for the year:', this.lineChartData);
+        this.chart.chart?.update();
+      },
+      error: (error) => {
+        console.error('Error al obtener los datos:', error);
+      }
+    });
   }
 
   // Bar chart data
@@ -131,10 +147,16 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
     ]
   };
 
+  //Tabla de datos
+  displayedColumns: string[] = ['municipio', 'accidentes', 'muertes', 'heridos'];
+  dataSource = new MatTableDataSource(ELEMENT_DATA);
+
   constructor(private paginatorIntl: MatPaginatorIntl,
-     private router: Router,
-     private buldDataService: BuldDataService,
-     public dialog: MatDialog) {
+    private router: Router,
+    private buldDataService: BuldDataService,
+    private statisticalDataService: StatisticalDataService,
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef) {
     this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
     this.paginatorIntl.nextPageLabel = 'Siguiente';
     this.paginatorIntl.previousPageLabel = 'Anterior';
@@ -153,7 +175,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
 
   handleSearchChange(event: any): void {
     const searchTerm = event // Eliminar espacios en blanco    
-    if (searchTerm.length > 0) {      
+    if (searchTerm.length > 0) {
       this.buldDataService.getBulkData(searchTerm).subscribe({
         next: (data) => {
           this.searchResults = data;
@@ -173,7 +195,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit{
     this.router.navigate(['admin/statistical-panel/municipality', municipality]);
   }
 
-  openUsePredictionModule(){
+  openUsePredictionModule() {
     const dialogRef = this.dialog.open(UsePredictionModuleComponent, {
       width: '700px',
     });
