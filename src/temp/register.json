@@ -1,6 +1,22 @@
-                <div class="search-bar-container">
-                    <div class="search-bar">
-                        <input type="text" class="form-control" id="search" placeholder="Buscar">
-                        <button class="btn btn-primary" type="button">Buscar</button>
-                    </div>
-                </div>
+accidents
+"60"
+(cadena)
+
+date
+"2023-08-20"
+(cadena)
+
+deaths
+"1 "
+(cadena)
+
+injured
+"1"
+(cadena)
+
+municipality
+"SAN LUIS POTOSÍ"
+(cadena)
+
+population
+"936475"
