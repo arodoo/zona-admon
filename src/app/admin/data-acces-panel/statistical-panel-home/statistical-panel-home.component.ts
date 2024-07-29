@@ -14,7 +14,7 @@ import { PaginationServiceService } from '../../../core/services/pagination-serv
   selector: 'app-statistical-panel-home',
   standalone: true,
   imports: [CommonModule, AppTitleComponent, MatPaginator,
-    StatisticalPanelPage1Component, StatisticalPanelPage2Component
+    StatisticalPanelPage1Component, StatisticalPanelPage2Component,
   ],
   templateUrl: './statistical-panel-home.component.html',
   styleUrl: './statistical-panel-home.component.scss',

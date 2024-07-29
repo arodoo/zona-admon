@@ -35,14 +35,83 @@ export class StatisticalDataService {
             const accidents = parseInt(incident.accidents, 10);
             if (!isNaN(accidents)) {
               monthlyData[month] += accidents;
+              
             } else {
-              console.warn(`Valor no numérico encontrado en el campo 'accidents': ${incident.accidents}`);
+              //console.warn(`Valor no numérico encontrado en el campo 'accidents': ${incident.accidents}`);
             }
           });
 
           return monthlyData;
         }
         )
+      );
+  }
+
+  getYearlyDeaths(year: number): Observable<number[]> {
+    const startDate = new Date(year, 0, 1);
+    const endDate = new Date(year + 1, 0, 1);
+
+    return this.firestore.collection('incidents_bulkData', ref =>
+      ref.where('date', '>=', startDate.toISOString())
+        .where('date', '<', endDate.toISOString())
+    )
+      .valueChanges()
+      .pipe(
+        map((incidents: any[]) => {
+          console.log('hurts for the year:', year, incidents);
+          
+          if (incidents.length === 0) {
+            console.log('No data found for the year:', year);
+            return new Array(12).fill(0);
+          }
+
+          const monthlyData = new Array(12).fill(0);
+          incidents.forEach(incident => {
+            const month = new Date(incident.date).getMonth();
+            const deaths = parseInt(incident.deaths, 10);
+            if (!isNaN(deaths)) {
+              monthlyData[month] += deaths;
+            } else {
+              console.warn(`Valor no numérico encontrado en el campo 'deaths': ${incident.deaths}`);
+            }
+          });
+          
+          return monthlyData;
+        })
+      );
+    }
+
+  getYearlyInjuries(year: number): Observable<number[]> {
+    const startDate = new Date(year, 0, 1);
+    const endDate = new Date(year + 1, 0, 1);
+
+    return this.firestore.collection('incidents_bulkData', ref =>
+      ref.where('date', '>=', startDate.toISOString())
+        .where('date', '<', endDate.toISOString())
+    )
+      .valueChanges()
+      .pipe(
+        map((incidents: any[]) => {
+          console.log('Injuries for the year:', year, incidents);
+
+          if (incidents.length === 0) {
+            console.log('No data found for the year:', year);
+            return new Array(12).fill(0);
+          }
+
+          const monthlyData = new Array(12).fill(0);
+          incidents.forEach(incident => {
+            const month = new Date(incident.date).getMonth();
+            const injured = parseInt(incident.injured, 10);
+            if (!isNaN(injured)) {
+              monthlyData[month] += injured;
+            } else {
+              console.warn(`Valor no numérico encontrado en el campo 'injured': ${incident.injured}`);
+            }
+          });
+
+          return monthlyData;
+        })
       );
   }
 }

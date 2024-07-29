@@ -19,6 +19,7 @@ import { AppTitleComponent } from '../../../shared/components/app-title/app-titl
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
 import { SearchResultsComponent } from '../../../shared/components/search-results/search-results.component';
 import { UsePredictionModuleComponent } from '../use-prediction-module/use-prediction-module.component';
+import { LineChartAccidentsComponent } from '../charts/line-chart-accidents/line-chart-accidents.component';
 
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 
@@ -37,6 +38,7 @@ import { Incident } from '../../../core/models/incident.interface';
     DateFormatPipe,
     MatPaginator,
     BaseChartDirective,
+    LineChartAccidentsComponent,
     MatListModule, MatIconModule, MatCardModule, MatFormFieldModule, MatLabel,
   ],
   templateUrl: './statistical-panel-page-1.component.html',
@@ -46,19 +48,17 @@ import { Incident } from '../../../core/models/incident.interface';
 export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
+  @ViewChild(BaseChartDirective) lineChart!: BaseChartDirective;
+/*   @ViewChild('deathsChart') deathsChart!: BaseChartDirective;
+  @ViewChild('injuriesChart') injuriesChart!: BaseChartDirective; */
 
   //to store the search results
   searchResults: Incident[] = [];
 
-
-
-  // Line chart data
-
   public years: number[] = [];
   public selectedYear = new Date().getFullYear();
 
-
+  // Line chart data
 
   public lineChartData: ChartData<'line'> = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
@@ -91,15 +91,18 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
 
   onYearChange(year: number): void {
     this.selectedYear = year;
-    this.loadYearlyData(this.selectedYear);
+   this.loadYearlyData(this.selectedYear);
+    /* this.loadYearlyDeaths(this.selectedYear);
+    this.loadYearlyInjuries(this.selectedYear); */
   }
 
   loadYearlyData(year: number): void {
     this.statisticalDataService.getYearlyData(year).subscribe({
       next: (data) => {
+        console.log('Datos recibidos:', data); // Verifica los datos aquí
         this.lineChartData.datasets[0].data = data;
-        //console.log('Yearly data for the year:', this.lineChartData);
-        this.chart.chart?.update();
+        this.lineChart.chart?.update();
+        this.cdr.detectChanges(); // Forzar la detección de cambios
       },
       error: (error) => {
         console.error('Error al obtener los datos:', error);
@@ -107,8 +110,36 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
     });
   }
 
+ /*  loadYearlyDeaths(year: number): void {
+    this.statisticalDataService.getYearlyDeaths(year).subscribe({
+      next: (data) => {
+        console.log('Datos recibidos:', data); // Verifica los datos aquí
+        this.deathsReportsChartData.datasets[0].data = data;
+        //this.deathsChart.chart?.update();
+      },
+      error: (error) => {
+        console.error('Error al obtener los datos:', error);
+      }
+    });
+  }
+
+  loadYearlyInjuries(year: number): void {
+    this.statisticalDataService.getYearlyInjuries(year).subscribe({
+      next: (data) => {
+        console.log('Datos recibidos:', data); // Verifica los datos aquí
+        
+        this.hurtsReportsChartData.datasets[0].data = data;
+        this.injuriesChart.chart?.update();
+      },
+      error: (error) => {
+        console.error('Error al obtener los datos:', error);
+        this.injuriesChart.update();
+      }
+    });
+  } */
+
   // Bar chart data
-  public barChartOptions: ChartOptions<'bar'> = {
+ /*  public barChartOptions: ChartOptions<'bar'> = {
     responsive: true,
     scales: {
       x: { beginAtZero: true },
@@ -121,24 +152,11 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
 
   public userReportsData: number[] = [100, 120, 140, 110, 130, 150, 160];
 
-  public userReportsChartData: ChartConfiguration<'bar'>['data'] = {
+  public deathsReportsChartData: ChartConfiguration<'bar'>['data'] = {
     labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
     datasets: [
       {
-        data: this.userReportsData,
-        label: 'Heridos en el año corriente',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1
-      }
-    ]
-  };
-
-  public barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    datasets: [
-      {
-        data: [40, 45, 50, 55, 60, 65, 70],
+        data: [],
         label: 'Defuciones en el año corriente',
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgba(54, 162, 235, 1)',
@@ -147,16 +165,32 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
     ]
   };
 
+  public hurtsReportsChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    datasets: [
+      {
+        data: [],
+        label: 'Heridos en el año corriente',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }
+    ]
+  };
+ */
+
+
   //Tabla de datos
-  displayedColumns: string[] = ['municipio', 'accidentes', 'muertes', 'heridos'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  /* displayedColumns: string[] = ['municipio', 'accidentes', 'muertes', 'heridos'];
+  dataSource = new MatTableDataSource(ELEMENT_DATA); */
 
   constructor(private paginatorIntl: MatPaginatorIntl,
     private router: Router,
     private buldDataService: BuldDataService,
     private statisticalDataService: StatisticalDataService,
     public dialog: MatDialog,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef
+  ) {
     this.paginatorIntl.itemsPerPageLabel = 'Registros por página';
     this.paginatorIntl.nextPageLabel = 'Siguiente';
     this.paginatorIntl.previousPageLabel = 'Anterior';
@@ -164,13 +198,13 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getYears();
+
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.paginator.page.subscribe(() => {
-      window.scrollTo(0, 0);
-    });
+    this.loadYearlyData(this.selectedYear);
+    /* this.loadYearlyDeaths(this.selectedYear);
+    this.loadYearlyInjuries(this.selectedYear); */
   }
 
   handleSearchChange(event: any): void {
@@ -219,7 +253,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
 
 }
 
-const ELEMENT_DATA: any[] = [
+/* const ELEMENT_DATA: any[] = [
   { municipio: 'Xalapa', accidentes: 237, muertes: 5, heridos: 50 },
   { municipio: 'Veracruz', accidentes: 237, muertes: 5, heridos: 50 },
   { municipio: 'Coatepec', accidentes: 237, muertes: 5, heridos: 50 },
@@ -239,4 +273,4 @@ const ELEMENT_DATA: any[] = [
   { municipio: 'Nogales', accidentes: 237, muertes: 5, heridos: 50 },
   { municipio: 'Rafael Delgado', accidentes: 237, muertes: 5, heridos: 50 },
   // Añade más datos ficticios aquí
-];
+]; */

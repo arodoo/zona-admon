@@ -31,33 +31,33 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <canvas baseChart [data]="lineChartData" [labels]="lineChartLabels"
+                            <canvas baseChart #lineChart [data]="lineChartData" [labels]="lineChartLabels"
                                 [options]="lineChartOptions" [legend]="lineChartLegend" [type]="lineChartType">
                             </canvas>
                         </mat-card-content>
                     </mat-card>
                 </div>
-                <div class="bar-chart-container row">
+<!--                 <div class="bar-chart-container row">
                     <div class="bar-chart col-md-6">
                         <mat-card>
                             <mat-card-content>
-                                <canvas baseChart [data]="userReportsChartData" [options]="barChartOptions"
-                                    [legend]="barChartLegend" [type]="barChartType">
-                                </canvas>
+<canvas baseChart #deathsChart [data]="deathsReportsChartData" [options]="barChartOptions" [legend]="barChartLegend"
+    [type]="barChartType">
+</canvas>
                             </mat-card-content>
                         </mat-card>
                     </div>
                     <div class="bar-chart col-md-6">
                         <mat-card>
                             <mat-card-content>
-                                <canvas baseChart [data]="barChartData" [options]="barChartOptions"
-                                    [legend]="barChartLegend" [type]="barChartType">
-                                </canvas>
+<canvas baseChart #injuriesChart [data]="hurtsReportsChartData" [options]="barChartOptions" [legend]="barChartLegend"
+    [type]="barChartType">
+</canvas>
                             </mat-card-content>
                         </mat-card>
                     </div>
-                </div>
-                <div class="row">
+                </div> -->
+<!--                 <div class="row">
                     <div class="col-md-9">
                         <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                             <ng-container matColumnDef="municipio">
@@ -91,7 +91,7 @@
                             <button class="btn mb-2 action-btn" (click)="exportAsPDF()">Exportar a PDF</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
