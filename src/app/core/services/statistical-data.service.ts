@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+
+import { catchError, finalize, forkJoin, Observable, of, tap } from 'rxjs';
 import { map } from 'rxjs';
 
 @Injectable({
@@ -10,7 +11,22 @@ export class StatisticalDataService {
 
   constructor(private firestore: AngularFirestore) { }
 
-  getYearlyData(year: number): Observable<number[]> {
+  // get accidents, deaths and injuries for the year
+  getYearlyData(year: number): Observable<{ accidents: number[], deaths: number[], injuries: number[] }> {
+    console.log(`Fetching data for year: ${year}`);
+    const response = forkJoin({
+      accidents: this.getYearlyAccidents(year),
+      deaths: this.getYearlyDeaths(year),
+      injuries: this.getYearlyInjuries(year)
+    });
+    //console.log('Response:', response);
+    return response;
+    
+  }
+
+  //to get yearly population
+  getYearlyPopulation(year: number): Observable<number[]> {
+    console.log(`Fetching population for year: ${year}`);
     const startDate = new Date(year, 0, 1);
     const endDate = new Date(year + 1, 0, 1);
 
@@ -21,7 +37,73 @@ export class StatisticalDataService {
       .valueChanges()
       .pipe(
         map((incidents: any[]) => {
-          console.log('Incidents for the year:', year, incidents);
+          console.log(`Population data for year ${year}:`, incidents);
+          if (incidents.length === 0) {
+            return new Array(12).fill(0);
+          }
+          const monthlyData = new Array(12).fill(0);
+          incidents.forEach(incident => {
+            const month = new Date(incident.date).getMonth();
+            const population = parseInt(incident.population, 10);
+            if (!isNaN(population)) {
+              monthlyData[month] += population;
+            }
+          });
+          return monthlyData;
+        })
+      );
+  }
+
+
+  // get the accidents for the year
+
+  getYearlyAccidents(year: number): Observable<number[]> {
+    const startDate = new Date(year, 0, 1);
+    const endDate = new Date(year + 1, 0, 1);
+
+    return this.firestore.collection('incidents_bulkData', ref =>
+      ref.where('date', '>=', startDate.toISOString())
+        .where('date', '<', endDate.toISOString())
+    )
+      .valueChanges()
+      .pipe(
+        //tap((incidents: any[]) => console.log(`Accidents data for year ${year}:`, incidents)),
+        map((incidents: any[]) => {
+          if (incidents.length === 0) {
+            return new Array(12).fill(0);
+          }
+          const monthlyData = new Array(12).fill(0);
+          incidents.forEach(incident => {
+            const month = new Date(incident.date).getMonth();
+            const accidents = parseInt(incident.accidents, 10);
+            if (!isNaN(accidents)) {
+              monthlyData[month] += accidents;
+            }
+          });
+          return monthlyData;
+        }),
+        catchError(error => {
+          console.error('Error fetching accidents:', error);
+          return of(new Array(12).fill(0));
+        }),
+        finalize(() => console.log(`Completed fetching accidents for year: ${year}`))
+      );
+  }
+
+/*   getYearlyAccidents(year: number): Observable<number[]> {
+    console.log(`Fetching accidents for year: ${year}`);
+    const startDate = new Date(year, 0, 1);
+    const endDate = new Date(year + 1, 0, 1);
+
+    return this.firestore.collection('incidents_bulkData', ref =>
+      ref.where('date', '>=', startDate.toISOString())
+        .where('date', '<', endDate.toISOString())
+    )
+      .valueChanges()
+      .pipe(
+        map((incidents: any[]) => {
+          console.log(`Accidents data for year ${year}:`, incidents);
+          //console.log('Incidents for the year:', year, incidents);
           
           if (incidents.length === 0) {
             console.log('No data found for the year:', year);
@@ -45,9 +127,10 @@ export class StatisticalDataService {
         }
         )
       );
-  }
+  } */
 
   getYearlyDeaths(year: number): Observable<number[]> {
+    //console.log(`Fetching deaths for year: ${year}`);
     const startDate = new Date(year, 0, 1);
     const endDate = new Date(year + 1, 0, 1);
 
@@ -58,7 +141,8 @@ export class StatisticalDataService {
       .valueChanges()
       .pipe(
         map((incidents: any[]) => {
-          console.log('hurts for the year:', year, incidents);
+          //console.log(`Deaths data for year ${year}:`, incidents);
+          //console.log('hurts for the year:', year, incidents);
           
           if (incidents.length === 0) {
             console.log('No data found for the year:', year);
@@ -82,6 +166,7 @@ export class StatisticalDataService {
     }
 
   getYearlyInjuries(year: number): Observable<number[]> {
+    //console.log(`Fetching injuries for year: ${year}`);
     const startDate = new Date(year, 0, 1);
     const endDate = new Date(year + 1, 0, 1);
 
@@ -92,7 +177,8 @@ export class StatisticalDataService {
       .valueChanges()
       .pipe(
         map((incidents: any[]) => {
-          console.log('Injuries for the year:', year, incidents);
+          //console.log(`Injuries data for year ${year}:`, incidents);
+          //console.log('Injuries for the year:', year, incidents);
 
           if (incidents.length === 0) {
             console.log('No data found for the year:', year);
