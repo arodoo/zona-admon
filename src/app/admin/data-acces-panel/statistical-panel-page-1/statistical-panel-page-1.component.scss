@@ -1,27 +1,6 @@
-.container {
-    .card {
-        border-radius: 0.5rem;
-    }
 
-    .table {
-        th {
-            background-color: #f8f9fa;
-            font-size: large;
-        }
 
-        td {}
-    }
-
-    .mat-paginator {
-        background-color: #f8f9fa;
-        padding: 0.5rem;
-        border-top: 1px solid #dee2e6;
-        border-bottom-left-radius: calc(0.5rem - 1px);
-        border-bottom-right-radius: calc(0.5rem - 1px);
-    }
-}
-
-.line-chart {
+.chart-container {
     width: 100%;
     padding: 3%; 
 }
@@ -43,12 +22,7 @@
     height: 100%;
 }
 
-.prediction-model-btn-container{
-    display: flex;
-    justify-content: end;
-    margin-bottom: .5rem;
 
-}
 
 //Styles for dropdown select year
 .dropdown-container {

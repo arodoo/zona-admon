@@ -1,0 +1,25 @@
+<div [@fadeAnimation]>
+    <div class="card my-4">
+        <div class="chart-container">
+        <mat-card>
+            <mat-card-content>
+                <div class="dropdown-container">
+                    <div class="selected-year-label">
+                        <span>Año seleccionado: </span>
+                        <span>{{selectedYear}}</span>
+                    </div>
+                    <mat-form-field appearence="fill">
+                        <mat-label>Seleccionar año</mat-label>
+                        <mat-select (selectionChange)="onYearChange($event.value)">
+                            <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <canvas baseChart [data]="barChartData"
+                    [options]="barChartOptions" [legend]="barChartLegend" [type]="barChartType">
+                </canvas>
+            </mat-card-content>
+        </mat-card>
+        </div>
+    </div>
+</div>
