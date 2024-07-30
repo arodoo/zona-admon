@@ -45,10 +45,10 @@ export class StatisticalPanelPage5Component implements OnInit, AfterViewInit {
 
   // Radar Chart Data
   public radarChartData: ChartData<'radar'> = {
-    labels: ['Accidentes', 'Muertes', 'Heridos'],
+    labels: ['Accidentes', 'Muertes', 'Heridos', 'Población (escala 1:100,000)'],
     datasets: [
-      { data: [], label: `Estadísticas ${this.selectedYear1}` },
-      { data: [], label: `Estadísticas ${this.selectedYear2}` }
+      { data: [], label: `Estadísticas 1` },
+      { data: [], label: `Estadísticas 2` }
     ]
   };
 
@@ -83,17 +83,19 @@ export class StatisticalPanelPage5Component implements OnInit, AfterViewInit {
     this.loadYearlyAccidents(year1, 0);
     this.loadYearlyDeaths(year1, 0);
     this.loadYearlyInjuries(year1, 0);
+    this.loadYearlyPopulation(year1, 0);
 
     this.loadYearlyAccidents(year2, 1);
     this.loadYearlyDeaths(year2, 1);
     this.loadYearlyInjuries(year2, 1);
+    this.loadYearlyPopulation(year2, 1);
   }
 
   // Método para cargar datos de accidentes
   loadYearlyAccidents(year: number, datasetIndex: number): void {
     this.statisticalDataService.getYearlyAccidents(year).subscribe({
       next: (data) => {
-        console.log(`Accidents data for year ${year}:`, data);
+        //console.log(`Accidents data for year ${year}:`, data);
         this.radarChartData.datasets[datasetIndex].data[0] = data.reduce((a, b) => a + b, 0);
         this.chart?.update();
       },
@@ -107,7 +109,7 @@ export class StatisticalPanelPage5Component implements OnInit, AfterViewInit {
   loadYearlyDeaths(year: number, datasetIndex: number): void {
     this.statisticalDataService.getYearlyDeaths(year).subscribe({
       next: (data) => {
-        console.log(`Deaths data for year ${year}:`, data);
+        //console.log(`Deaths data for year ${year}:`, data);
         this.radarChartData.datasets[datasetIndex].data[1] = data.reduce((a, b) => a + b, 0);
         this.chart?.update();
       },
@@ -121,12 +123,30 @@ export class StatisticalPanelPage5Component implements OnInit, AfterViewInit {
   loadYearlyInjuries(year: number, datasetIndex: number): void {
     this.statisticalDataService.getYearlyInjuries(year).subscribe({
       next: (data) => {
-        console.log(`Injuries data for year ${year}:`, data);
+        //console.log(`Injuries data for year ${year}:`, data);
         this.radarChartData.datasets[datasetIndex].data[2] = data.reduce((a, b) => a + b, 0);
         this.chart?.update();
       },
       error: (err) => {
         console.error(`Error loading injuries for year ${year}:`, err);
+      }
+    });
+  }
+
+  // Método para cargar datos de población
+  loadYearlyPopulation(year: number, datasetIndex: number): void {
+    this.statisticalDataService.getYearlyPopulation(year).subscribe({
+      next: (data) => {
+        // Dividir los datos de población por 1000
+        const scaledData = data.map(value => value / 100000);
+        console.log(`Population data for year ${year}:`, scaledData);
+        
+        this.radarChartData.datasets[datasetIndex].data[3] = scaledData.reduce((a, b) => a + b, 0);
+        this.chart?.update();
+
+      },
+      error: (err) => {
+        console.error(`Error loading population for year ${year}:`, err);
       }
     });
   }
