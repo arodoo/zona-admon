@@ -1,9 +1,40 @@
 <div [@fadeAnimation]>
-    <mat-paginator [length]="2" [pageSize]="1"></mat-paginator>
-    <ng-container *ngIf="currentPage === 0">
-        <app-statistical-panel-page-1></app-statistical-panel-page-1>
-    </ng-container>
-    <ng-container *ngIf="currentPage === 1">
-        <app-statistical-panel-page-2></app-statistical-panel-page-2>
-    </ng-container>
+
+    <div class="container">
+        <div class="row">
+            <app-title title="Estadísticas"></app-title>
+            <div class="prediction-model-btn-container">
+                <button style="font-size: 1.15rem;" class="action-btn" (click)="openUsePredictionModule()">Probar
+                    mdoelo</button>
+            </div>
+            <div class="search-bar-container">
+                <app-search-bar placeholder="Consulta un municipio"
+                    (searchChange)="handleSearchChange($event)"></app-search-bar>
+                <div *ngIf="searchResults.length > 0">
+                    <app-search-results [searchResults]="searchResults"
+                        (searchResultClick)="handleSearchResultClick($event)"></app-search-results>
+                </div>
+            </div>
+
+            <div>
+                <mat-paginator [length]="3" [pageSize]="1"></mat-paginator>
+                <ng-container *ngIf="currentPage === 0">
+                    <app-statistical-panel-page-1></app-statistical-panel-page-1>
+                </ng-container>
+                <ng-container *ngIf="currentPage === 1">
+                    <app-statistical-panel-page-2></app-statistical-panel-page-2>
+                </ng-container>
+                <ng-container *ngIf="currentPage === 2">
+                    <app-statistical-panel-page-3></app-statistical-panel-page-3>
+                </ng-container>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+
+
+
 </div>
