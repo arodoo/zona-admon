@@ -121,19 +121,7 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
     });
   }
 
-  loadYearlyInjuries(year: number): void {
-    this.statisticalDataService.getYearlyInjuries(year).subscribe({
-      next: (data) => {
-        console.log('Datos recibidos:', data); // Verifica los datos aquí
-        
-        this.hurtsReportsChartData.datasets[0].data = data;
-        this.injuriesChart.chart?.update();
-      },
-      error: (error) => {
-        console.error('Error al obtener los datos:', error);
-        this.injuriesChart.update();
-      }
-    });
+
   } */
 
   // Bar chart data
@@ -145,36 +133,9 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
     }
   };
 
-  public barChartLegend = true;
-  public barChartType: 'bar' = 'bar';
 
-  public userReportsData: number[] = [100, 120, 140, 110, 130, 150, 160];
 
-  public deathsReportsChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    datasets: [
-      {
-        data: [],
-        label: 'Defuciones en el año corriente',
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1
-      }
-    ]
-  };
-
-  public hurtsReportsChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    datasets: [
-      {
-        data: [],
-        label: 'Heridos en el año corriente',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1
-      }
-    ]
-  };
+  
  */
 
 
