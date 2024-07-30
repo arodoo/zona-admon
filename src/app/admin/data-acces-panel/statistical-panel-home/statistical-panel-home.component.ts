@@ -10,6 +10,7 @@ import { StatisticalPanelPage1Component } from '../statistical-panel-page-1/stat
 import { StatisticalPanelPage2Component } from '../statistical-panel-page-2/statistical-panel-page-2.component';
 import { StatisticalPanelPage3Component } from '../statistical-panel-page-3/statistical-panel-page-3.component';
 import { StatisticalPanelPage4Component } from '../statistical-panel-page-4/statistical-panel-page-4.component';
+import { StatisticalPanelPage5Component } from '../statistical-panel-page-5/statistical-panel-page-5.component';
 
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
 import { SearchResultsComponent } from '../../../shared/components/search-results/search-results.component';
@@ -25,7 +26,7 @@ import { Router } from '@angular/router';
   selector: 'app-statistical-panel-home',
   standalone: true,
   imports: [CommonModule, AppTitleComponent, MatPaginator,
-    StatisticalPanelPage1Component, StatisticalPanelPage2Component, StatisticalPanelPage3Component, StatisticalPanelPage4Component,
+    StatisticalPanelPage1Component, StatisticalPanelPage2Component, StatisticalPanelPage3Component, StatisticalPanelPage4Component, StatisticalPanelPage5Component,
     SearchBarComponent, UsePredictionModuleComponent, SearchResultsComponent
   ],
   templateUrl: './statistical-panel-home.component.html',
