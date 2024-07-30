@@ -19,7 +19,6 @@ import { AppTitleComponent } from '../../../shared/components/app-title/app-titl
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
 import { SearchResultsComponent } from '../../../shared/components/search-results/search-results.component';
 import { UsePredictionModuleComponent } from '../use-prediction-module/use-prediction-module.component';
-import { LineChartAccidentsComponent } from '../charts/line-chart-accidents/line-chart-accidents.component';
 
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 
@@ -38,7 +37,6 @@ import { Incident } from '../../../core/models/incident.interface';
     DateFormatPipe,
     MatPaginator,
     BaseChartDirective,
-    LineChartAccidentsComponent,
     MatListModule, MatIconModule, MatCardModule, MatFormFieldModule, MatLabel,
   ],
   templateUrl: './statistical-panel-page-1.component.html',
@@ -205,50 +203,6 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
     this.loadYearlyData(this.selectedYear);
     /* this.loadYearlyDeaths(this.selectedYear);
     this.loadYearlyInjuries(this.selectedYear); */
-  }
-
-  handleSearchChange(event: any): void {
-    const searchTerm = event // Eliminar espacios en blanco    
-    if (searchTerm.length > 0) {
-      this.buldDataService.getBulkData(searchTerm).subscribe({
-        next: (data) => {
-          this.searchResults = data;
-          console.log('Search results:', this.searchResults);
-        },
-        error: (error) => {
-          console.error('Error al obtener los datos:', error);
-        }
-      });
-    } else {
-      this.searchResults = [];
-    }
-  }
-
-  handleSearchResultClick(result: any): void {
-    const { municipality } = result;
-    this.router.navigate(['admin/statistical-panel/municipality', municipality]);
-  }
-
-  openUsePredictionModule() {
-    const dialogRef = this.dialog.open(UsePredictionModuleComponent, {
-      width: '700px',
-    });
-  }
-
-  exportAsXLSX(): void {
-    console.log('Exporting data as XLSX...');
-  }
-
-  exportAsPDF(): void {
-    console.log('Exporting data as PDF...');
-  }
-
-  openModal() {
-    console.log('Opening modal...');
-  }
-
-  openDetailsRegisterModal() {
-    console.log('Opening details register modal...');
   }
 
 }
