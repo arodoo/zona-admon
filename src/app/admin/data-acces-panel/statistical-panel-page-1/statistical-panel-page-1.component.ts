@@ -95,9 +95,9 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
   }
 
   loadYearlyData(year: number): void {
-    this.statisticalDataService.getYearlyData(year).subscribe({
+    this.statisticalDataService.getYearlyAccidents(year).subscribe({
       next: (data) => {
-        console.log('Datos recibidos:', data); // Verifica los datos aquí
+        //console.log('Datos recibidos:', data); // Verifica los datos aquí
         this.lineChartData.datasets[0].data = data;
         this.lineChart.chart?.update();
         this.cdr.detectChanges(); // Forzar la detección de cambios
@@ -107,36 +107,6 @@ export class StatisticalPanelPage1Component implements OnInit, AfterViewInit {
       }
     });
   }
-
- /*  loadYearlyDeaths(year: number): void {
-    this.statisticalDataService.getYearlyDeaths(year).subscribe({
-      next: (data) => {
-        console.log('Datos recibidos:', data); // Verifica los datos aquí
-        this.deathsReportsChartData.datasets[0].data = data;
-        //this.deathsChart.chart?.update();
-      },
-      error: (error) => {
-        console.error('Error al obtener los datos:', error);
-      }
-    });
-  }
-
-
-  } */
-
-  // Bar chart data
- /*  public barChartOptions: ChartOptions<'bar'> = {
-    responsive: true,
-    scales: {
-      x: { beginAtZero: true },
-      y: { beginAtZero: true }
-    }
-  };
-
-
-
-  
- */
 
 
   //Tabla de datos

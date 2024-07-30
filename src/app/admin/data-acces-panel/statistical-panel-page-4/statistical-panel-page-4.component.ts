@@ -74,7 +74,7 @@ export class StatisticalPanelPage4Component implements OnInit, AfterViewInit{
   loadYearlyDeaths(year: number): void {
     this.statisticalDataService.getYearlyInjuries(year).subscribe({
       next: (data) => {
-        console.log('Datos recibidos:', data); // Verifica los datos aquí
+        //console.log('Datos recibidos:', data); // Verifica los datos aquí
         this.barChartData.datasets[0].data = data;
         this.deathsChart.chart?.update();
       },
