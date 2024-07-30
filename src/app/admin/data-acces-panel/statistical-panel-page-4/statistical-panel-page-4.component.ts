@@ -7,27 +7,27 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
-import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
 import { StatisticalDataService } from '../../../core/services/statistical-data.service';
 
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 
-
-//Defusiones barChart componente 
 @Component({
-  selector: 'app-statistical-panel-page-3',
+  selector: 'app-statistical-panel-page-4',
   standalone: true,
   imports: [MatCardModule, MatIconModule, MatFormFieldModule, MatSelectModule, CommonModule,
     BaseChartDirective,
+    
   ],
-  templateUrl: './statistical-panel-page-3.component.html',
-  styleUrl: './statistical-panel-page-3.component.scss',
+  templateUrl: './statistical-panel-page-4.component.html',
+  styleUrl: './statistical-panel-page-4.component.scss',
   animations: [fadeAnimation]
-
 })
-export class StatisticalPanelPage3Component implements OnInit, AfterViewInit { 
+
+//Injured barChart componente
+export class StatisticalPanelPage4Component implements OnInit, AfterViewInit{
 
   @ViewChild(BaseChartDirective) deathsChart!: BaseChartDirective;
 
@@ -63,16 +63,16 @@ export class StatisticalPanelPage3Component implements OnInit, AfterViewInit {
     datasets: [
       {
         data: [],
-        label: 'Defuciones en el año corriente',
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgba(54, 162, 235, 1)',
+        label: 'Lastimados en el año corriente',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1
       }
     ]
   };
 
   loadYearlyDeaths(year: number): void {
-    this.statisticalDataService.getYearlyDeaths(year).subscribe({
+    this.statisticalDataService.getYearlyInjuries(year).subscribe({
       next: (data) => {
         console.log('Datos recibidos:', data); // Verifica los datos aquí
         this.barChartData.datasets[0].data = data;
@@ -97,6 +97,5 @@ export class StatisticalPanelPage3Component implements OnInit, AfterViewInit {
     this.selectedYear = year;
     this.loadYearlyDeaths(year);
   }
-
 
 }
