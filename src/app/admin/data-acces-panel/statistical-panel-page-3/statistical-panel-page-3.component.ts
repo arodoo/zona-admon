@@ -7,6 +7,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
+import { YearSelectorComponent } from '../../../shared/components/year-selector/year-selector.component';
+
+
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -21,6 +24,7 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
   standalone: true,
   imports: [MatCardModule, MatIconModule, MatFormFieldModule, MatSelectModule, CommonModule,
     BaseChartDirective,
+    YearSelectorComponent
   ],
   templateUrl: './statistical-panel-page-3.component.html',
   styleUrl: './statistical-panel-page-3.component.scss',
@@ -34,7 +38,7 @@ export class StatisticalPanelPage3Component implements OnInit, AfterViewInit {
   constructor(private statisticalDataService: StatisticalDataService) { }
 
   ngOnInit(): void {
-    this.getYears();
+
   }
 
   ngAfterViewInit(): void {
@@ -42,7 +46,6 @@ export class StatisticalPanelPage3Component implements OnInit, AfterViewInit {
   }
 
   //handle selected years
-  public years: number[] = [];
   public selectedYear = new Date().getFullYear();
 
   public barChartOptions: ChartOptions<'bar'> = {
@@ -82,15 +85,6 @@ export class StatisticalPanelPage3Component implements OnInit, AfterViewInit {
         console.error('Error al obtener los datos:', error);
       }
     });
-  }
-
-  //function to get years from today to last 10 years
-  getYears(): void {
-    const currentYear = new Date().getFullYear();
-    this.selectedYear = currentYear;
-    for (let i = currentYear; i > currentYear - 10; i--) {
-      this.years.push(i);
-    }
   }
 
   onYearChange(year: number): void {
