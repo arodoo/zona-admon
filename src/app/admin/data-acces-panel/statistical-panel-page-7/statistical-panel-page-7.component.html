@@ -1,0 +1,13 @@
+<div [@fadeAnimation]>
+    <div class="card my-4">
+        <div class="chart-container">
+            <mat-card>
+                <mat-card-content>
+                    <app-year-selector (yearChange)="onYearChange($event)"></app-year-selector>
+<canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [legend]="pieChartLegend"
+    [type]="pieChartType"></canvas>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

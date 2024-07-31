@@ -22,7 +22,7 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
   imports: [MatCardModule, MatIconModule, MatFormFieldModule, MatSelectModule, CommonModule,
     BaseChartDirective,
     YearSelectorComponent
-    
+
   ],
   templateUrl: './statistical-panel-page-4.component.html',
   styleUrl: './statistical-panel-page-4.component.scss',
@@ -30,7 +30,7 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
 })
 
 //Injured barChart componente
-export class StatisticalPanelPage4Component implements OnInit, AfterViewInit{
+export class StatisticalPanelPage4Component implements OnInit, AfterViewInit {
 
   @ViewChild(BaseChartDirective) deathsChart!: BaseChartDirective;
 
@@ -44,7 +44,6 @@ export class StatisticalPanelPage4Component implements OnInit, AfterViewInit{
     this.loadYearlyDeaths(this.selectedYear);
   }
 
-  public selectedYear = new Date().getFullYear();
 
   public barChartOptions: ChartOptions<'bar'> = {
     responsive: true,
@@ -85,6 +84,9 @@ export class StatisticalPanelPage4Component implements OnInit, AfterViewInit{
     });
   }
 
+
+  //logic to manage years selection
+  public selectedYear = new Date().getFullYear();
   onYearChange(year: number): void {
     this.selectedYear = year;
     this.loadYearlyDeaths(year);
