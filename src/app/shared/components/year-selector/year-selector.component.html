@@ -1,0 +1,12 @@
+<div class="dropdown-container">
+    <div class="selected-year-label">
+        <span>Año seleccionado: </span>
+        <span>{{ selectedYear }}</span>
+    </div>
+    <mat-form-field appearance="fill">
+        <mat-label>Seleccionar año</mat-label>
+        <mat-select (selectionChange)="onYearChange($event.value)">
+            <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

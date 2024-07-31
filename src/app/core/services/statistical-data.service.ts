@@ -24,6 +24,37 @@ export class StatisticalDataService {
     
   }
 
+  //to get yearly population
+  getYearlyPopulation(year: number): Observable<number[]> {
+    console.log(`Fetching population for year: ${year}`);
+    const startDate = new Date(year, 0, 1);
+    const endDate = new Date(year + 1, 0, 1);
+
+    return this.firestore.collection('incidents_bulkData', ref =>
+      ref.where('date', '>=', startDate.toISOString())
+        .where('date', '<', endDate.toISOString())
+    )
+      .valueChanges()
+      .pipe(
+        map((incidents: any[]) => {
+          console.log(`Population data for year ${year}:`, incidents);
+          if (incidents.length === 0) {
+            return new Array(12).fill(0);
+          }
+          const monthlyData = new Array(12).fill(0);
+          incidents.forEach(incident => {
+            const month = new Date(incident.date).getMonth();
+            const population = parseInt(incident.population, 10);
+            if (!isNaN(population)) {
+              monthlyData[month] += population;
+            }
+          });
+          return monthlyData;
+        })
+      );
+  }
+
+
   // get the accidents for the year
 
   getYearlyAccidents(year: number): Observable<number[]> {
