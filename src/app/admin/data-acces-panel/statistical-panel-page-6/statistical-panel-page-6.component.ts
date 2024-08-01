@@ -12,6 +12,7 @@ import { YearSelectorComponent } from '../../../shared/components/year-selector/
 
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 
+//Component to manage double polar chart
 @Component({
   selector: 'app-statistical-panel-page-6',
   standalone: true,
