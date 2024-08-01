@@ -1,14 +1,6 @@
-<div [@fadeAnimation]>
-    <div class="card my-4">
-        <div class="chart-container">
-            <mat-card>
-                <mat-card-content>
+<app-chart-wrapper>
                     <app-year-selector (yearChange)="onYearChange($event)"></app-year-selector>
                     <canvas baseChart [data]="barChartData" [options]="barChartOptions" [legend]="barChartLegend"
                         [type]="barChartType">
                     </canvas>
-                </mat-card-content>
-            </mat-card>
-        </div>
-    </div>
-</div>
+</app-chart-wrapper>

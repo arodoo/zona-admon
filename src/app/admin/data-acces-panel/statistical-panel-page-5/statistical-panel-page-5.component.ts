@@ -11,13 +11,16 @@ import { BaseChartDirective } from 'ng2-charts';
 
 import { StatisticalDataService } from '../../../core/services/statistical-data.service';
 
+import { ChartWrapperComponent } from '../../../shared/templates/chart-wrapper/chart-wrapper.component';
+
+
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
-import { combineLatest, forkJoin, tap } from 'rxjs';
 @Component({
   selector: 'app-statistical-panel-page-5',
   standalone: true,
   imports: [MatCardModule, MatIconModule, MatFormFieldModule, MatSelectModule, CommonModule,
-    BaseChartDirective,],
+    BaseChartDirective,
+    ChartWrapperComponent,],
   templateUrl: './statistical-panel-page-5.component.html',
   styleUrl: './statistical-panel-page-5.component.scss',
   animations: [fadeAnimation]

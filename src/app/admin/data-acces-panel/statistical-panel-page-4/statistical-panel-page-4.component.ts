@@ -1,12 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-
 import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -14,14 +7,19 @@ import { YearSelectorComponent } from '../../../shared/components/year-selector/
 
 import { StatisticalDataService } from '../../../core/services/statistical-data.service';
 
+import { ChartWrapperComponent } from '../../../shared/templates/chart-wrapper/chart-wrapper.component';
+
+
+
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 
 @Component({
   selector: 'app-statistical-panel-page-4',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, MatFormFieldModule, MatSelectModule, CommonModule,
+  imports: [
     BaseChartDirective,
-    YearSelectorComponent
+    YearSelectorComponent,
+    ChartWrapperComponent,
 
   ],
   templateUrl: './statistical-panel-page-4.component.html',
