@@ -17,7 +17,6 @@
             </div>
 
             <div>
-                <mat-paginator [length]="7" [pageSize]="1"></mat-paginator>
                 <ng-container *ngIf="currentPage === 0">
                     <app-statistical-panel-page-1></app-statistical-panel-page-1>
                 </ng-container>
@@ -34,10 +33,10 @@
                     <app-statistical-panel-page-6></app-statistical-panel-page-6>
                 </ng-container>
                 <ng-container *ngIf="currentPage === 5">
-                    <app-statistical-panel-page-2></app-statistical-panel-page-2>
+                    <app-statistical-panel-page-7></app-statistical-panel-page-7>
                 </ng-container>
+                <mat-paginator [length]="6" [pageSize]="1"></mat-paginator>
             </div>
-
         </div>
     </div>
 </div>

@@ -1,0 +1,7 @@
+<app-chart-wrapper>
+    <app-year-selector (yearChange)="onYearChange($event)"></app-year-selector>
+    <div class="chart-wrapper">
+        <canvas class="heighManager" baseChart [data]="pieChartData" [options]="pieChartOptions"
+            [legend]="pieChartLegend" [type]="pieChartType"></canvas>
+    </div>
+</app-chart-wrapper>
