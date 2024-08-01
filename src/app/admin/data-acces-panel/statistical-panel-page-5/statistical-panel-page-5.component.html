@@ -1,8 +1,4 @@
-<div [@fadeAnimation]>
-    <div class="card my-4">
-        <div class="chart-container">
-            <mat-card>
-                <mat-card-content>
+<app-chart-wrapper>
                     <div class="dropdown-container">
                         <div class="selected-year-label">
                             <span>Comparando: </span>
@@ -29,8 +25,4 @@
                     </div>
                     <canvas baseChart [data]="radarChartData" [options]="radarChartOptions" [legend]="radarChartLegend"
                         [type]="radarChartType"></canvas>
-                </mat-card-content>
-            </mat-card>
-        </div>
-    </div>
-</div>
+</app-chart-wrapper>

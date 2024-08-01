@@ -1,27 +1,22 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-
-import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
+import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
 import { YearSelectorComponent } from '../../../shared/components/year-selector/year-selector.component';
 
 import { StatisticalDataService } from '../../../core/services/statistical-data.service';
 
-import { fadeAnimation } from '../../../shared/animations/fade-animation';
+import { ChartWrapperComponent } from '../../../shared/templates/chart-wrapper/chart-wrapper.component';
 
+//Component to display the top 10 municipalities with the most deaths
 @Component({
   selector: 'app-statistical-panel-page-7',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, MatFormFieldModule, MatSelectModule, CommonModule,
+  imports: [
     BaseChartDirective,
-    YearSelectorComponent
+    YearSelectorComponent,
+    ChartWrapperComponent,
   ],
   templateUrl: './statistical-panel-page-7.component.html',
   styleUrl: './statistical-panel-page-7.component.scss'
@@ -42,12 +37,17 @@ export class StatisticalPanelPage7Component implements OnInit{
   public pieChartData: ChartData<'pie'> = {
     labels: [],
     datasets: [
-      { data: [], label: 'Muertes' }
+      { data: [],
+         label: 'Muertes',
+         //then diferents colors
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6633', '#FF33FF', '#33FF33', '#33CCFF']
+      }
     ]
   };
 
   public pieChartOptions: ChartOptions<'pie'> = {
     responsive: true,
+
   };
 
   public pieChartLegend = true;
