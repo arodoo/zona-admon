@@ -5,32 +5,32 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   selector: 'app-bulk-data-upload',
   templateUrl: './bulk-data-upload.component.html',
   styleUrls: ['./bulk-data-upload.component.scss'],
-  standalone: true 
+  standalone: true
 })
 export class BulkDataUploadComponent {
   selectedFiles: FileList | undefined;
   uploadStatus: string | undefined;
 
-  constructor(private firestore: AngularFirestore) {}
+  constructor(private firestore: AngularFirestore) { }
 
   // Mapeo de nombres de campos del dataset a los nombres de campos en Firestore
   fieldMapping = {
     municipio: 'municipality', // 'municipio' en el dataset se mapea a 'municipality' en Firestore
     poblacion: 'population', // 'poblacion' se mapea a 'population', etc.
-   fecha:'date',
-    heridos:'injured',
-    muertos:'deaths'
-    
+    fecha: 'date',
+    heridos: 'injured',
+    muertos: 'deaths'
+
     // Añade más mapeos según sea necesario
   };
 
   onFileSelected(event: any) {
     this.selectedFiles = event.target.files;
-  
+
     if (this.selectedFiles && this.selectedFiles.length > 0) {
       const file = this.selectedFiles[0];
       const fileReader = new FileReader();
-  
+
       fileReader.onload = (e) => {
         const content = fileReader.result as string;
         const lines = content.split('\n');
@@ -64,7 +64,7 @@ export class BulkDataUploadComponent {
             .catch((error) => console.error('Error adding incident: ', error));
         });
       };
-  
+
       fileReader.readAsText(file);
     }
   }
@@ -80,7 +80,7 @@ export class BulkDataUploadComponent {
     setTimeout(() => {
       this.uploadStatus = 'Upload completed successfully.';
     }, 1500);
-  
+
     console.log(`${this.selectedFiles.length} file(s) selected for upload.`);
   }
 }

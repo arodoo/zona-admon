@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 
@@ -6,18 +6,49 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 
+import { Router } from '@angular/router';
+
+import { StatisticalPanelPage3Component } from '../data-acces-panel/statistical-panel-page-3/statistical-panel-page-3.component';
+import { StatisticalPanelPage4Component } from '../data-acces-panel/statistical-panel-page-4/statistical-panel-page-4.component';
+
+import { TableTopMunicipalitiesComponent } from '../home-charts/table-top-municipalities/table-top-municipalities.component';
+
+import { StatisticalDataService } from '../../core/services/statistical-data.service';
+
 import { fadeAnimation } from '../../shared/animations/fade-animation';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [BaseChartDirective,
-    MatListModule, MatIconModule, MatCardModule],
+    MatListModule, MatIconModule, MatCardModule,
+    StatisticalPanelPage3Component, StatisticalPanelPage4Component,
+    TableTopMunicipalitiesComponent],
   templateUrl: './home.component.html',
   animations: [fadeAnimation],
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
+  newUsersThisYear: number = 0;
+  registersThisYear: number = 0;
+  currentYear: number = new Date().getFullYear();
+
+  mostDeadlyMunicipality = 'Municipio 1';
+
+  constructor(private statisticalDataService: StatisticalDataService,
+    private router: Router,
+  ) { }
+
+  ngOnInit(): void {
+    this.loadYearlyData();
+    this.setMostDeadlyMunicipalityOnCurrentYear();
+  }
+
+  goToStatiscticalPanel(): void {
+    this.router.navigate(['admin/statistical-panel']);
+    console.log('Go to statistical panel');
+    
+  }
 
   public userReportsData: number[] = [100, 120, 140, 110, 130, 150, 160];
   //chars
@@ -59,5 +90,20 @@ export class HomeComponent {
     ]
   };
 
+  private loadYearlyData(): void {
+    this.statisticalDataService.getYearlyNewUsersNumber(this.currentYear).subscribe(data => {
+      this.newUsersThisYear = data;
+    });
+
+    this.statisticalDataService.getYearlyRegistersNumber(this.currentYear).subscribe(data => {
+      this.registersThisYear = data;
+    });
+  }
+
+  private setMostDeadlyMunicipalityOnCurrentYear(): void {
+    this.statisticalDataService.getMostDeadlyMunicipality(this.currentYear).subscribe(data => {
+      this.mostDeadlyMunicipality = data;
+    });
+  }
 
 }

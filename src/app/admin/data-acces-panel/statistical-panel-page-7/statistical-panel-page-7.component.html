@@ -1,4 +1,5 @@
 <app-chart-wrapper>
+    <h2>Municipios con más muertes el año: {{selectedYear}}</h2>
     <app-year-selector (yearChange)="onYearChange($event)"></app-year-selector>
     <div class="chart-wrapper">
         <canvas class="heighManager" baseChart [data]="pieChartData" [options]="pieChartOptions"

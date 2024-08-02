@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
@@ -32,6 +32,8 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
 export class StatisticalPanelPage3Component implements OnInit, AfterViewInit { 
 
   @ViewChild(BaseChartDirective) deathsChart!: BaseChartDirective;
+
+  @Input() showYearSelector: boolean = true;
 
   constructor(private statisticalDataService: StatisticalDataService) { }
 
