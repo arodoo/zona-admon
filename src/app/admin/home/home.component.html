@@ -11,35 +11,34 @@
                     <mat-list>
                         <mat-list-item>
                             <mat-icon mat-list-icon>person_add</mat-icon>
-                            <span>Nuevos Usuarios: 5</span>
+                            <span>Usuarios integrados este año: {{ newUsersThisYear }}</span>
                         </mat-list-item>
                         <mat-list-item>
                             <mat-icon mat-list-icon>bookmark</mat-icon>
-                            <span>Marcadores Añadidos: 10</span>
+                            <span>Registros realizados este año: {{ registersThisYear }}</span>
                         </mat-list-item>
                         <!-- Más actividades -->
                     </mat-list>
                 </mat-card-content>
             </mat-card>
+
         </section>
 
         <!-- Gráficas de Análisis de Datos -->
         <section class="data-analysis">
-
+            <div class="section-header">
+                <h2>Análisis de Datos</h2>
+            </div>
             <div class="charts">
                 <div class="chart" id="registersChart">
                     <!-- Gráficas de Análisis de Datos -->
                     <div style="display: block;">
-                        <h5>Registros en el último mes</h5>
-                        <canvas baseChart width="400" height="200" [type]="barChartType" [data]="barChartData"
-                            [options]="barChartOptions" [legend]="barChartLegend"></canvas>
+                        <app-statistical-panel-page-3 [showYearSelector]="false"></app-statistical-panel-page-3>
                     </div>
                 </div>
                 <div class="chart" id="reportsChart">
                     <div style="display: block;">
-                        <h5>Reportes en el último mes</h5>
-                        <canvas baseChart width="400" height="200" [type]="barChartType" [data]="userReportsChartData"
-                            [options]="barChartOptions" [legend]="barChartLegend"></canvas>
+                        <app-statistical-panel-page-4 [showYearSelector]="false"></app-statistical-panel-page-4>
                     </div>
                 </div>
                 <!-- Más gráficos -->
@@ -50,7 +49,7 @@
         <section class="alerts">
             <h2>Alertas y Notificaciones</h2>
             <div class="alert alert-danger" role="alert">
-                <strong>Atención:</strong> 3 reportes pendientes de revisión.
+                <strong>Atención:</strong> {{mostDeadlyMunicipality}} es el municipio con más muertes
             </div>
             <div class="row">
                 <div class="col d-flex justify-content-center">
