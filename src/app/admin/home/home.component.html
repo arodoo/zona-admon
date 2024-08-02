@@ -4,7 +4,7 @@
         <section class="activity-summary">
             <div class="section-header">
                 <h2>Resumen de Actividad</h2>
-                <button mat-raised-button class="add-btn report-button">Generar Reporte</button>
+                <button mat-raised-button (click)="goToStatiscticalPanel()" class="action-btn report-button" >Ver estadísticas detalladas</button>
             </div>
             <mat-card>
                 <mat-card-content>
@@ -52,24 +52,7 @@
                 <strong>Atención:</strong> {{mostDeadlyMunicipality}} es el municipio con más muertes
             </div>
             <div class="row">
-                <div class="col d-flex justify-content-center">
-                    <div class="notification">
-                        <mat-icon>notifications</mat-icon>
-                        <p>Recibiste un nuevo mensaje</p>
-                    </div>
-                </div>
-                <div class="col d-flex justify-content-center">
-                    <div class="reminder">
-                        <mat-icon>alarm</mat-icon>
-                        <p>Reunión a las 14:00</p>
-                    </div>
-                </div>
-                <div class="col d-flex justify-content-center">
-                    <div class="reminder">
-                        <mat-icon>alarm</mat-icon>
-                        <p>Reunión a las 14:00</p>
-                    </div>
-                </div>
+                <app-table-top-municipalities></app-table-top-municipalities>
             </div>
         </section>
     </div>

@@ -237,4 +237,49 @@ export class StatisticalDataService {
       );
   }
 
+  //Get incidents info scored for table on top municipalities (home component)
+  getTopMunicipalitiesByDeaths(year: number): Observable<any[]> {
+    const startDate = new Date(year, 0, 1);
+    const endDate = new Date(year + 1, 0, 1);
+
+    return this.firestore.collection('incidents_bulkData', ref =>
+      ref.where('date', '>=', startDate.toISOString())
+        .where('date', '<', endDate.toISOString())
+    )
+      .valueChanges()
+      .pipe(
+        map((incidents: any[]) => {
+          const municipalityData: { [key: string]: any } = {};
+
+          incidents.forEach(incident => {
+            const municipality = incident.municipality;
+            if (!municipalityData[municipality]) {
+              municipalityData[municipality] = {
+                name: municipality,
+                deaths: 0,
+                accidents: 0,
+                injured: 0,
+                population: 0
+              };
+            }
+
+            municipalityData[municipality].deaths += parseInt(incident.deaths, 10) || 0;
+            municipalityData[municipality].accidents += parseInt(incident.accidents, 10) || 0;
+            municipalityData[municipality].injured += parseInt(incident.injured, 10) || 0;
+            municipalityData[municipality].population = parseInt(incident.population, 10) || 0;
+          });
+
+          return Object.values(municipalityData)
+            .sort((a: any, b: any) => b.deaths - a.deaths)
+            .slice(0, 5);
+        }),
+        catchError(error => {
+          console.error('Error fetching municipalities data:', error);
+          return of([]);
+        }),
+        finalize(() => console.log(`Completed fetching municipalities data for year: ${year}`))
+      );
+  }
+
+
 }
