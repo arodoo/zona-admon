@@ -1,10 +1,10 @@
 {
-    "/api": {
-      "target": "https://zonaprediccion-bb8393cc3ff2.herokuapp.com/prediction",
-      "secure": false,
-      "changeOrigin": true,
-      "pathRewrite": {
-        "^/api": ""
-      }
+  "/api": {
+    "target": "https://zonaprediccion-bb8393cc3ff2.herokuapp.com/prediction",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
     }
   }
+}
