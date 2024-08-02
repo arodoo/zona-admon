@@ -6,7 +6,7 @@
         </div>
         <mat-form-field appearance="fill">
             <mat-label>Seleccionar año 1</mat-label>
-            <mat-select (selectionChange)="onYearChange($event.value, 1)">
+            <mat-select [value]="selectedYear1" (selectionChange)="onYearChange($event.value, 1)">
                 <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
             </mat-select>
         </mat-form-field>
@@ -18,7 +18,7 @@
         </div>
         <mat-form-field appearance="fill">
             <mat-label>Seleccionar año 2</mat-label>
-            <mat-select (selectionChange)="onYearChange($event.value, 2)">
+            <mat-select [value]="selectedYear2" (selectionChange)="onYearChange($event.value, 2)">
                 <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
             </mat-select>
         </mat-form-field>
