@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit{
 
   goToStatiscticalPanel(): void {
     this.router.navigate(['admin/statistical-panel']);
-    console.log('Go to statistical panel');
+    //console.log('Go to statistical panel');
     
   }
 

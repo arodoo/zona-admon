@@ -13,7 +13,7 @@ export class StatisticalDataService {
 
   //to get yearly population
   getYearlyPopulation(year: number): Observable<number[]> {
-    console.log(`Fetching population for year: ${year}`);
+    //console.log(`Fetching population for year: ${year}`);
     const startDate = new Date(year, 0, 1);
     const endDate = new Date(year + 1, 0, 1);
 
@@ -24,7 +24,7 @@ export class StatisticalDataService {
       .valueChanges()
       .pipe(
         map((incidents: any[]) => {
-          console.log(`Population data for year ${year}:`, incidents);
+          //console.log(`Population data for year ${year}:`, incidents);
           if (incidents.length === 0) {
             return new Array(12).fill(0);
           }
@@ -70,7 +70,7 @@ export class StatisticalDataService {
           console.error('Error fetching accidents:', error);
           return of(new Array(12).fill(0));
         }),
-        finalize(() => console.log(`Completed fetching accidents for year: ${year}`))
+        //finalize(() => console.log(`Completed fetching accidents for year: ${year}`))
       );
   }
 
@@ -146,7 +146,7 @@ export class StatisticalDataService {
 
   // Método para obtener las muertes por municipio
   getDeathsByMunicipality(year: number): Observable<{ municipality: string, deaths: number }[]> {
-    console.log(`Fetching deaths by municipality for year: ${year}`);
+    //console.log(`Fetching deaths by municipality for year: ${year}`);
     const startDate = new Date(year, 0, 1);
     const endDate = new Date(year + 1, 0, 1);
 
@@ -194,7 +194,7 @@ export class StatisticalDataService {
           console.error('Error fetching new users:', error);
           return of(0);
         }),
-        finalize(() => console.log(`Completed fetching new users for year: ${year}`))
+        //finalize(() => console.log(`Completed fetching new users for year: ${year}`))
       );
   }
 
@@ -215,7 +215,7 @@ export class StatisticalDataService {
           console.error('Error fetching registers:', error);
           return of(0);
         }),
-        finalize(() => console.log(`Completed fetching registers for year: ${year}`))
+        //finalize(() => console.log(`Completed fetching registers for year: ${year}`))
       );
   }
 
@@ -277,7 +277,7 @@ export class StatisticalDataService {
           console.error('Error fetching municipalities data:', error);
           return of([]);
         }),
-        finalize(() => console.log(`Completed fetching municipalities data for year: ${year}`))
+        //finalize(() => console.log(`Completed fetching municipalities data for year: ${year}`))
       );
   }
 

@@ -122,7 +122,7 @@ export class UsePredictionModuleComponent implements OnInit {
 
       this.predictionService.predict(data).subscribe({
         next: (htmlResponse) => {
-          console.log('Respuesta del servicio de predicción:', htmlResponse); 
+          //console.log('Respuesta del servicio de predicción:', htmlResponse); 
           const parser = new DOMParser();
           const doc = parser.parseFromString(htmlResponse, 'text/html');
           const predictionElements = doc.querySelectorAll('p'); 
@@ -130,7 +130,7 @@ export class UsePredictionModuleComponent implements OnInit {
           let prediction = false;
           predictionElements.forEach(predictionElement => {
             const predictionText = predictionElement.textContent;
-            console.log('Texto de la predicción:', predictionText); 
+            //console.log('Texto de la predicción:', predictionText); 
             if (predictionText!.includes('seguro') || predictionText!.includes('Seguro')) {
               this.predictionResult = 'El municipio es seguro.';
               predictionFound = true;
@@ -151,7 +151,7 @@ export class UsePredictionModuleComponent implements OnInit {
           // Guardar los datos en Firebase
           this.firestore.collection('incidentes_bulkData').add(translatedData)
             .then(() => {
-              console.log('Datos guardados en Firebase correctamente');
+              //console.log('Datos guardados en Firebase correctamente');
             })
             .catch((error) => {
               console.error('Error al guardar los datos en Firebase:', error);

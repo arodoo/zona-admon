@@ -62,7 +62,7 @@ export class NavbarComponent {
 
   startLoading() {
     this.loading = true;
-    console.log('loading');
+    //console.log('loading');
 
   }
 

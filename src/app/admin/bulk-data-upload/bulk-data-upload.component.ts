@@ -81,6 +81,6 @@ export class BulkDataUploadComponent {
       this.uploadStatus = 'Upload completed successfully.';
     }, 1500);
 
-    console.log(`${this.selectedFiles.length} file(s) selected for upload.`);
+    //console.log(`${this.selectedFiles.length} file(s) selected for upload.`);
   }
 }
