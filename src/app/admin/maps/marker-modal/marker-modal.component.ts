@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './marker-modal.component.html',
   styleUrl: './marker-modal.component.scss'
 })
-export class MarkerModalComponent {
+export class MarkerModalComponent implements OnInit{
 
   title: string;
   position: string;
@@ -20,6 +20,11 @@ export class MarkerModalComponent {
     // Asignar los datos pasados al modal a las propiedades locales
     this.title = data.title;
     this.position = data.position;
+  }
+
+  ngOnInit(): void {
+    console.log(this.data);
+    
   }
 
   close(): void {
