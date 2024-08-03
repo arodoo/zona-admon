@@ -1,5 +1,5 @@
 <app-chart-wrapper>
-            <app-year-selector (yearChange)="onYearChange($event)"></app-year-selector>
+            <app-year-selector *ngIf="showYearSelector" (yearChange)="onYearChange($event)"></app-year-selector>
                 <canvas baseChart [data]="barChartData"
                     [options]="barChartOptions" [legend]="barChartLegend" [type]="barChartType">
                 </canvas>

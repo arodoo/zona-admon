@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+
+import { CommonModule } from '@angular/common';
 
 import { ChartConfiguration, ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
@@ -17,6 +19,7 @@ import { fadeAnimation } from '../../../shared/animations/fade-animation';
   selector: 'app-statistical-panel-page-4',
   standalone: true,
   imports: [
+    CommonModule,
     BaseChartDirective,
     YearSelectorComponent,
     ChartWrapperComponent,
@@ -32,9 +35,12 @@ export class StatisticalPanelPage4Component implements OnInit, AfterViewInit {
 
   @ViewChild(BaseChartDirective) deathsChart!: BaseChartDirective;
 
+  @Input() showYearSelector: boolean = true;
+
   constructor(private statisticalDataService: StatisticalDataService) { }
 
   ngOnInit(): void {
+    console.log(this.showYearSelector);
 
   }
 
@@ -61,7 +67,7 @@ export class StatisticalPanelPage4Component implements OnInit, AfterViewInit {
     datasets: [
       {
         data: [],
-        label: 'Lastimados en el año corriente',
+        label: 'Heridos en un año corriente',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1

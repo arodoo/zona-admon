@@ -1,28 +1,30 @@
 <app-chart-wrapper>
-                    <div class="dropdown-container">
-                        <div class="selected-year-label">
-                            <span>Comparando: </span>
-                            <span>{{selectedYear1}}</span>
-                        </div>
-                        <mat-form-field appearance="fill">
-                            <mat-label>Seleccionar año 1</mat-label>
-                            <mat-select (selectionChange)="onYearChange($event.value, 1)">
-                                <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="dropdown-container">
-                        <div class="selected-year-label">
-                            <span>Con: </span>
-                            <span>{{selectedYear2}}</span>
-                        </div>
-                        <mat-form-field appearance="fill">
-                            <mat-label>Seleccionar año 2</mat-label>
-                            <mat-select (selectionChange)="onYearChange($event.value, 2)">
-                                <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <canvas baseChart [data]="radarChartData" [options]="radarChartOptions" [legend]="radarChartLegend"
-                        [type]="radarChartType"></canvas>
+    <div class="dropdown-container">
+        <div class="selected-year-label">
+            <span>Comparando: </span>
+            <span>{{selectedYear1}}</span>
+        </div>
+        <mat-form-field appearance="fill">
+            <mat-label>Seleccionar año 1</mat-label>
+            <mat-select [value]="selectedYear1" (selectionChange)="onYearChange($event.value, 1)">
+                <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="dropdown-container">
+        <div class="selected-year-label">
+            <span>Con: </span>
+            <span>{{selectedYear2}}</span>
+        </div>
+        <mat-form-field appearance="fill">
+            <mat-label>Seleccionar año 2</mat-label>
+            <mat-select [value]="selectedYear2" (selectionChange)="onYearChange($event.value, 2)">
+                <mat-option *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="chart-container">
+        <canvas baseChart [data]="radarChartData" [options]="radarChartOptions" [legend]="radarChartLegend"
+            [type]="radarChartType"></canvas>
+    </div>
 </app-chart-wrapper>

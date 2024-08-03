@@ -15,6 +15,8 @@ import { ChartWrapperComponent } from '../../../shared/templates/chart-wrapper/c
 
 
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
+
+//component to manage polar chart
 @Component({
   selector: 'app-statistical-panel-page-5',
   standalone: true,

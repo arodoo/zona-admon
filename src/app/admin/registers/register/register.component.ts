@@ -13,7 +13,7 @@ import { AppTitleComponent } from '../../../shared/components/app-title/app-titl
 import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 import { MatDialog } from '@angular/material/dialog';
-
+import { Alignment } from 'pdfmake/interfaces';
 import { RegistersService } from '../../../core/services/registers.service';
 import { Register } from '../../../core/models/register.interface';
 import { Subscription } from 'rxjs';
@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable'; // Importa esto si también estás utilizando el plugin autoTable
 import { Timestamp } from '@angular/fire/firestore';
+import { logoBase64 } from '../../../../assets/logoBase64'; // Asegúrate de que la ruta sea correcta
 
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 @Component({
@@ -133,27 +134,40 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             { stack: imagesCell, colSpan: 5 }, {}, {}, {}, {}
           ];
 
-          return [...baseRows, imageRow, [{ text: '', colSpan: 6 }, {}, {}, {}, {}, {}]]; // Espacio entre registros
+          // Agregar una fila vacía para el espacio en blanco
+          const emptyRow = [{ text: '', colSpan: 6, margin: [0, 10] }, {}, {}, {}, {}, {}];
+
+          return [...baseRows, imageRow, emptyRow]; // Espacio entre registros
         }).flat();
+
+        // Ruta de la imagen del logo en base64
+        const logo = ''; // Reemplaza con tu imagen en base64
 
         const docDefinition = {
           content: [
+            {
+              image: logoBase64,
+              width: 35,
+              alignment: 'right' as any,
+              margin: [0, 0, 0, 0] as [number, number, number, number]
+            },
             {
               table: {
                 widths: [100, '*', '*', '*', '*', '*'],
                 body: tableBody
               },
-              layout: 'lightHorizontalLines'
-            }
+              layout: 'Borders',
+            },
           ],
           styles: {
             tableHeader: {
-              fillColor: '#0000FF', // Azul
+              fillColor: '#3F51B5', // Azul
               color: 'white',
               bold: true,
               fontSize: 12,
             }
-          }
+          },
+          pageMargins: [40, 20, 40, 20] as [number, number, number, number], // Ajusta los márgenes de la página
         };
 
         pdfMake.createPdf(docDefinition).download('registers_report.pdf');
@@ -163,8 +177,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }, error => {
       console.error('Error al obtener los datos de Firestore:', error);
     });
-  }
-
+}
   async getRegisters() {
     this.registersSubscription = this.firestore.collection<Register>('registers',
       ref => ref.where('active', '==', true)
