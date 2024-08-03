@@ -10,6 +10,7 @@ import { AppTitleComponent } from '../../../shared/components/app-title/app-titl
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+
 @Component({
   selector: 'app-statistical-panel-specific-town',
   standalone: true,
@@ -18,26 +19,24 @@ import { BaseChartDirective } from 'ng2-charts';
     BaseChartDirective
   ],
   templateUrl: './statistical-panel-specific-town.component.html',
-  styleUrl: './statistical-panel-specific-town.component.scss',
+  styleUrls: ['./statistical-panel-specific-town.component.scss'],
   animations: [fadeAnimation]
 })
-export class StatisticalPanelSpecificTownComponent implements OnInit{
-
+export class StatisticalPanelSpecificTownComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
 
   municipality: string = '';
   data: Incident[] = [];
-
-  prediction: string = 'Peligroso';
+  prediction: string = '';
 
   constructor(private route: ActivatedRoute,
-    private buldDataService: BuldDataService,
-    private cdr: ChangeDetectorRef) {
-  }
+              private buldDataService: BuldDataService,
+              private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.municipality = params['municipality'];
+      this.prediction = params['prediction'];
       this.buldDataService.getMunicipalityData(this.municipality).subscribe(data => {
         this.data = data;
         console.log(this.data);
