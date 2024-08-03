@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
+import { Incident } from '../models/incident.interface';
+
 import { catchError, finalize, Observable, of } from 'rxjs';
 import { map } from 'rxjs';
 
@@ -278,6 +280,29 @@ export class StatisticalDataService {
           return of([]);
         }),
         //finalize(() => console.log(`Completed fetching municipalities data for year: ${year}`))
+      );
+  }
+
+  //Get Incident info from fulk_data collection using the name
+  getMunicipalityInfoByName(municipalityName: string): Observable<Incident[]> {
+    return this.firestore.collection<Incident>('incidents_bulkData', ref =>
+      ref.where('municipality', '==', municipalityName)
+    )
+      .valueChanges()
+      .pipe(
+        map((incidents: Incident[]) => {
+          return incidents.map(incident => ({
+            accidents: incident.accidents,
+            date: incident.date,
+            deaths: incident.deaths,
+            id: incident.id,
+            injured: incident.injured,
+            municipality: incident.municipality,
+            municipio: incident.municipio,
+            population: incident.population,
+            prediction: incident.prediction
+          }));
+        })
       );
   }
 

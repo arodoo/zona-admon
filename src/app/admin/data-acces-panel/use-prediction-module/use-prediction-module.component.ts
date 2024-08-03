@@ -149,7 +149,7 @@ export class UsePredictionModuleComponent implements OnInit {
           translatedData['prediction'] = prediction;
 
           // Guardar los datos en Firebase
-          this.firestore.collection('incidentes_bulkData').add(translatedData)
+          this.firestore.collection('incidents_bulkData').add(translatedData)
             .then(() => {
               //console.log('Datos guardados en Firebase correctamente');
             })
