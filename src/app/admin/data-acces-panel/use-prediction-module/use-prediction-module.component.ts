@@ -54,7 +54,7 @@ export class UsePredictionModuleComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataForm = this.fb.group({
-      id: [''], // Asegúrate de que el control 'id' esté definido aquí
+      id: [''],
       municipioNombre: ['', Validators.required],
       habitantes: [0, [Validators.required, Validators.min(0)]],
       accidentes: [0, [Validators.required, Validators.min(0)]],
@@ -110,7 +110,7 @@ export class UsePredictionModuleComponent implements OnInit {
         data.municipio = municipio.id;
         data.municipioNombre = municipio.nombre;
       }
-  
+
       const translatedData: { [key: string]: any } = {};
       for (const key in data) {
         if (this.fieldMapping[key]) {
@@ -119,15 +119,7 @@ export class UsePredictionModuleComponent implements OnInit {
           translatedData[key] = data[key];
         }
       }
-  
-      this.firestore.collection('incidentes_bulkData').add(translatedData)
-        .then(() => {
-          console.log('Datos guardados en Firebase correctamente');
-        })
-        .catch((error) => {
-          console.error('Error al guardar los datos en Firebase:', error);
-        });
-  
+
       this.predictionService.predict(data).subscribe({
         next: (htmlResponse) => {
           console.log('Respuesta del servicio de predicción:', htmlResponse); 
@@ -135,20 +127,35 @@ export class UsePredictionModuleComponent implements OnInit {
           const doc = parser.parseFromString(htmlResponse, 'text/html');
           const predictionElements = doc.querySelectorAll('p'); 
           let predictionFound = false;
+          let prediction = false;
           predictionElements.forEach(predictionElement => {
             const predictionText = predictionElement.textContent;
             console.log('Texto de la predicción:', predictionText); 
             if (predictionText!.includes('seguro') || predictionText!.includes('Seguro')) {
               this.predictionResult = 'El municipio es seguro.';
               predictionFound = true;
+              prediction = false;
             } else if (predictionText!.includes('peligroso') || predictionText!.includes('Peligroso')) {
               this.predictionResult = 'El municipio es peligroso.';
               predictionFound = true;
+              prediction = true;
             }
           });
           if (!predictionFound) {
             this.predictionResult = 'No se pudo determinar la seguridad del municipio.';
           }
+
+          // Agregar el campo a los datos traducidos
+          translatedData['prediction'] = prediction;
+
+          // Guardar los datos en Firebase
+          this.firestore.collection('incidentes_bulkData').add(translatedData)
+            .then(() => {
+              console.log('Datos guardados en Firebase correctamente');
+            })
+            .catch((error) => {
+              console.error('Error al guardar los datos en Firebase:', error);
+            });
         },
         error: (err) => {
           console.error('Error al predecir la seguridad del municipio:', err);
