@@ -107,16 +107,16 @@ export class MapComponent implements OnInit {
           title: register.title
         });
         marker.addListener('click', () => {
-          this.openModal(register.title, marker.getPosition().toUrlValue());
+          this.openModal(register.title, marker.getPosition().toUrlValue(), register.id);
         });
       });
     }
   }
 
-  openModal(title: string, position: string): void {
+  openModal(title: string, position: string, id?: string): void {
     const dialogRef = this.dialog.open(MarkerModalComponent, {
       width: '450px',
-      data: { title, position }
+      data: { title, position, id }
     });
   }
 

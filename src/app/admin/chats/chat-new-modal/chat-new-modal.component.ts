@@ -44,7 +44,7 @@ export class NewChatDialogComponent {
         finalize(() => {
           fileRef.getDownloadURL().subscribe(url => {
             this.imgUrl = url; // Actualiza la propiedad imgUrl con la URL de la imagen
-            console.log("URL de la imagen:", url);
+            //console.log("URL de la imagen:", url);
           });
         })
       ).subscribe();

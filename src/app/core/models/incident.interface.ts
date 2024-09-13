@@ -5,4 +5,7 @@ export interface Incident {
     municipality: string;
     population: string;
     accidents: string;
+    id?: string;
+    municipio?: string;
+    prediction?: boolean;
 }

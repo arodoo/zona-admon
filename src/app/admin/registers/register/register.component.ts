@@ -93,8 +93,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     const startDate = new Date(this.startDate).toISOString();
     const endDate = new Date(this.endDate).toISOString();
 
-    console.log('Start Date:', startDate);
-    console.log('End Date:', endDate);
+    //console.log('Start Date:', startDate);
+    //console.log('End Date:', endDate);
 
     this.firestore.collection('registers', ref => ref
       .where('active', '==', true)
@@ -103,7 +103,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     ).get().subscribe(async querySnapshot => {
       this.filteredData = querySnapshot.docs.map(doc => doc.data());
 
-      console.log('Filtered Data:', this.filteredData);
+      //console.log('Filtered Data:', this.filteredData);
 
       if (this.filteredData && this.filteredData.length > 0) {
         // Crear filas para cada registro, con cada detalle en una nueva fila
@@ -186,7 +186,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       .subscribe(data => {
         this.originalData = data;
         this.dataSource.data = data;
-        console.log(data);
+        //console.log(data);
       });
   }
 
@@ -198,7 +198,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('The dialog was closed');
+        //console.log('The dialog was closed');
       }
     });
   }

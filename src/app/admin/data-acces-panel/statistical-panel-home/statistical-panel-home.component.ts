@@ -73,7 +73,7 @@ export class StatisticalPanelHomeComponent implements OnInit, AfterViewInit {
       this.buldDataService.getBulkData(searchTerm).subscribe({
         next: (data) => {
           this.searchResults = data;
-          console.log('Search results:', this.searchResults);
+          //console.log('Search results:', this.searchResults);
         },
         error: (error) => {
           console.error('Error al obtener los datos:', error);

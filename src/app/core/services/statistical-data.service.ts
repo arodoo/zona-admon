@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
+import { Incident } from '../models/incident.interface';
+
 import { catchError, finalize, Observable, of } from 'rxjs';
 import { map } from 'rxjs';
 
@@ -13,7 +15,7 @@ export class StatisticalDataService {
 
   //to get yearly population
   getYearlyPopulation(year: number): Observable<number[]> {
-    console.log(`Fetching population for year: ${year}`);
+    //console.log(`Fetching population for year: ${year}`);
     const startDate = new Date(year, 0, 1);
     const endDate = new Date(year + 1, 0, 1);
 
@@ -24,7 +26,7 @@ export class StatisticalDataService {
       .valueChanges()
       .pipe(
         map((incidents: any[]) => {
-          console.log(`Population data for year ${year}:`, incidents);
+          //console.log(`Population data for year ${year}:`, incidents);
           if (incidents.length === 0) {
             return new Array(12).fill(0);
           }
@@ -70,7 +72,7 @@ export class StatisticalDataService {
           console.error('Error fetching accidents:', error);
           return of(new Array(12).fill(0));
         }),
-        finalize(() => console.log(`Completed fetching accidents for year: ${year}`))
+        //finalize(() => console.log(`Completed fetching accidents for year: ${year}`))
       );
   }
 
@@ -146,7 +148,7 @@ export class StatisticalDataService {
 
   // Método para obtener las muertes por municipio
   getDeathsByMunicipality(year: number): Observable<{ municipality: string, deaths: number }[]> {
-    console.log(`Fetching deaths by municipality for year: ${year}`);
+    //console.log(`Fetching deaths by municipality for year: ${year}`);
     const startDate = new Date(year, 0, 1);
     const endDate = new Date(year + 1, 0, 1);
 
@@ -194,7 +196,7 @@ export class StatisticalDataService {
           console.error('Error fetching new users:', error);
           return of(0);
         }),
-        finalize(() => console.log(`Completed fetching new users for year: ${year}`))
+        //finalize(() => console.log(`Completed fetching new users for year: ${year}`))
       );
   }
 
@@ -215,7 +217,7 @@ export class StatisticalDataService {
           console.error('Error fetching registers:', error);
           return of(0);
         }),
-        finalize(() => console.log(`Completed fetching registers for year: ${year}`))
+        //finalize(() => console.log(`Completed fetching registers for year: ${year}`))
       );
   }
 
@@ -277,7 +279,30 @@ export class StatisticalDataService {
           console.error('Error fetching municipalities data:', error);
           return of([]);
         }),
-        finalize(() => console.log(`Completed fetching municipalities data for year: ${year}`))
+        //finalize(() => console.log(`Completed fetching municipalities data for year: ${year}`))
+      );
+  }
+
+  //Get Incident info from fulk_data collection using the name
+  getMunicipalityInfoByName(municipalityName: string): Observable<Incident[]> {
+    return this.firestore.collection<Incident>('incidents_bulkData', ref =>
+      ref.where('municipality', '==', municipalityName)
+    )
+      .valueChanges()
+      .pipe(
+        map((incidents: Incident[]) => {
+          return incidents.map(incident => ({
+            accidents: incident.accidents,
+            date: incident.date,
+            deaths: incident.deaths,
+            id: incident.id,
+            injured: incident.injured,
+            municipality: incident.municipality,
+            municipio: incident.municipio,
+            population: incident.population,
+            prediction: incident.prediction
+          }));
+        })
       );
   }
 
