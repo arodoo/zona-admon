@@ -3,7 +3,7 @@
         <!-- Resumen de Actividad -->
         <section class="activity-summary">
             <div class="section-header">
-                <h2>Resumen de Actividad</h2>
+                <h2>Resumen de Actividad: {{currentYear}}</h2>
                 <button mat-raised-button (click)="goToStatiscticalPanel()" class="action-btn report-button" >Ver estadísticas detalladas</button>
             </div>
             <mat-card>
@@ -49,7 +49,7 @@
         <section class="alerts">
             <h2>Alertas y Notificaciones</h2>
             <div class="alert alert-danger" role="alert">
-                <strong>Atención:</strong> {{mostDeadlyMunicipality}} es el municipio con más muertes
+                <strong>Atención:</strong> {{mostDeadlyMunicipality}} es el municipio con más muertes en {{currentYear}}
             </div>
             <div class="row">
                 <app-table-top-municipalities></app-table-top-municipalities>
