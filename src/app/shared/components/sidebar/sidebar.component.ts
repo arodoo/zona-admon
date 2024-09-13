@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit {
     { name: 'Estadísticas', route: '/admin/statistical-panel', icon: 'insert_chart', visible: true },
     //{ name: 'Reportes', route: '/admin/reports', icon: 'reportes', visible: false }, // Oculto por defecto
     { name: 'Registros', route: '/admin/registers', icon: 'folder_open', visible: true },
-    { name: 'Carga masiva', route: '/admin/bulk-data-upload', icon: 'cloud_upload', visible: true }
+    //{ name: 'Carga masiva', route: '/admin/bulk-data-upload', icon: 'cloud_upload', visible: true }
 
   ];
 

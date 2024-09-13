@@ -4,42 +4,41 @@
         <section class="activity-summary">
             <div class="section-header">
                 <h2>Resumen de Actividad</h2>
-                <button mat-raised-button class="add-btn report-button">Generar Reporte</button>
+                <button mat-raised-button (click)="goToStatiscticalPanel()" class="action-btn report-button" >Ver estadísticas detalladas</button>
             </div>
             <mat-card>
                 <mat-card-content>
                     <mat-list>
                         <mat-list-item>
                             <mat-icon mat-list-icon>person_add</mat-icon>
-                            <span>Nuevos Usuarios: 5</span>
+                            <span>Usuarios integrados este año: {{ newUsersThisYear }}</span>
                         </mat-list-item>
                         <mat-list-item>
                             <mat-icon mat-list-icon>bookmark</mat-icon>
-                            <span>Marcadores Añadidos: 10</span>
+                            <span>Registros realizados este año: {{ registersThisYear }}</span>
                         </mat-list-item>
                         <!-- Más actividades -->
                     </mat-list>
                 </mat-card-content>
             </mat-card>
+
         </section>
 
         <!-- Gráficas de Análisis de Datos -->
         <section class="data-analysis">
-
+            <div class="section-header">
+                <h2>Análisis de Datos</h2>
+            </div>
             <div class="charts">
                 <div class="chart" id="registersChart">
                     <!-- Gráficas de Análisis de Datos -->
                     <div style="display: block;">
-                        <h5>Registros en el último mes</h5>
-                        <canvas baseChart width="400" height="200" [type]="barChartType" [data]="barChartData"
-                            [options]="barChartOptions" [legend]="barChartLegend"></canvas>
+                        <app-statistical-panel-page-3 [showYearSelector]="false"></app-statistical-panel-page-3>
                     </div>
                 </div>
                 <div class="chart" id="reportsChart">
                     <div style="display: block;">
-                        <h5>Reportes en el último mes</h5>
-                        <canvas baseChart width="400" height="200" [type]="barChartType" [data]="userReportsChartData"
-                            [options]="barChartOptions" [legend]="barChartLegend"></canvas>
+                        <app-statistical-panel-page-4 [showYearSelector]="false"></app-statistical-panel-page-4>
                     </div>
                 </div>
                 <!-- Más gráficos -->
@@ -50,27 +49,10 @@
         <section class="alerts">
             <h2>Alertas y Notificaciones</h2>
             <div class="alert alert-danger" role="alert">
-                <strong>Atención:</strong> 3 reportes pendientes de revisión.
+                <strong>Atención:</strong> {{mostDeadlyMunicipality}} es el municipio con más muertes
             </div>
             <div class="row">
-                <div class="col d-flex justify-content-center">
-                    <div class="notification">
-                        <mat-icon>notifications</mat-icon>
-                        <p>Recibiste un nuevo mensaje</p>
-                    </div>
-                </div>
-                <div class="col d-flex justify-content-center">
-                    <div class="reminder">
-                        <mat-icon>alarm</mat-icon>
-                        <p>Reunión a las 14:00</p>
-                    </div>
-                </div>
-                <div class="col d-flex justify-content-center">
-                    <div class="reminder">
-                        <mat-icon>alarm</mat-icon>
-                        <p>Reunión a las 14:00</p>
-                    </div>
-                </div>
+                <app-table-top-municipalities></app-table-top-municipalities>
             </div>
         </section>
     </div>

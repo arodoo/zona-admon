@@ -44,7 +44,6 @@ export class RegistersService {
 
 
 
-
   async addRegister(register: Register): Promise<string> {
     try {
       const registerRef = await this.firestore.collection('registers').add(register);
@@ -65,7 +64,6 @@ export class RegistersService {
       return error;
     }
   }
-
 
   async updateRegisterImagesField(registerId: string, imagesUrls: string[]) {
     try {
@@ -89,5 +87,23 @@ export class RegistersService {
     return imagesUrls;
   }
 
-
+  async getRegisterById(registerId: string): Promise<Register> {
+    try {
+      const registerDoc = this.firestore.collection('registers').doc<Register>(registerId);
+      const registerSnapshot = await firstValueFrom(registerDoc.get());
+      if (registerSnapshot.exists) {
+        const register = registerSnapshot.data() as Register;
+        if (Array.isArray(register.images)) {
+          register.images = register.images.filter((image: string) => image !== '');
+        }
+        return register;
+      } else {
+        console.error('Registro no encontrado');
+        throw new Error('Registro no encontrado');
+      }
+    } catch (error) {
+      console.error('Error al obtener el registro por ID:', error);
+      throw error;
+    }
+  }
 }

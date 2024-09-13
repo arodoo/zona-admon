@@ -15,6 +15,8 @@ import { ChartWrapperComponent } from '../../../shared/templates/chart-wrapper/c
 
 
 import { fadeAnimation } from '../../../shared/animations/fade-animation';
+
+//component to manage polar chart
 @Component({
   selector: 'app-statistical-panel-page-5',
   standalone: true,
@@ -142,7 +144,7 @@ export class StatisticalPanelPage5Component implements OnInit, AfterViewInit {
       next: (data) => {
         // Dividir los datos de población por 1000
         const scaledData = data.map(value => value / 100000);
-        console.log(`Population data for year ${year}:`, scaledData);
+        //console.log(`Population data for year ${year}:`, scaledData);
         
         this.radarChartData.datasets[datasetIndex].data[3] = scaledData.reduce((a, b) => a + b, 0);
         this.chart?.update();
