@@ -67,7 +67,7 @@ export class StatisticalPanelPage4Component implements OnInit, AfterViewInit {
     datasets: [
       {
         data: [],
-        label: 'Heridos en un año corriente',
+        label: 'Heridos en el año corriente',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1
