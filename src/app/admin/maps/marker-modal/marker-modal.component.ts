@@ -1,14 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 
 import { RegistersService } from '../../../core/services/registers.service';
 import { Register } from '../../../core/models/register.interface';
-import { RegisterDetailModalComponent } from '../../registers/register-detail-modal/register-detail-modal.component';
+import { MarkerDetailModalComponent } from '../marker-detail-modal/marker-detail-modal.component';
+
+import { DateFormatPipe } from '../../../shared/pipes/date-format.pipe';
 
 @Component({
   selector: 'app-marker-modal',
   standalone: true,
-  imports: [],
+  imports: [DateFormatPipe],
   templateUrl: './marker-modal.component.html',
   styleUrl: './marker-modal.component.scss'
 })
@@ -49,7 +52,7 @@ export class MarkerModalComponent implements OnInit{
   }
 
   openDetailsRegisterModal(register: Register) {
-    const dialogRef = this.dialog.open(RegisterDetailModalComponent, {
+    const dialogRef = this.dialog.open(MarkerDetailModalComponent, {
       width: '700px',
       data: { register: register }
     });
@@ -57,6 +60,7 @@ export class MarkerModalComponent implements OnInit{
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         //console.log('The dialog was closed');
+        
       }
     });
   }

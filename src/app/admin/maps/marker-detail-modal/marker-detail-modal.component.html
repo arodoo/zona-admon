@@ -1,0 +1,44 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form [formGroup]="registerForm" class="container mt-5">
+    <div class="titleSection">
+        <h2 class="title"> Registro </h2>
+        <!-- <mat-icon (click)="enableEdit()" title="Habilitar edición" class="custom-icon">edit</mat-icon> -->
+    </div>
+    <div class="mb-3">
+        <label for="title" class="form-label"> Título: </label>
+        <input [readonly]="!isEditMode" id="title" type="text" formControlName="title" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label"> Descripción: </label>
+        <input [readonly]="!isEditMode" id="description" formControlName="description" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="date" class="form-label"> Fecha: </label>
+        <input [readonly]="!isEditMode" id="date" type="date" formControlName="date" class="form-control">
+    </div>
+<!--     <div class="mb3">
+        <label for="map" class="form-label">Ubicación:</label>
+        <div id="map" style="height: 400px;"></div>
+    </div> -->
+    <div class="imgsContainer">
+        <div *ngFor="let imageUrl of registerForm.get('images')?.value; let i = index" class="images-array-div">
+            <img [src]="imageUrl" alt="Image {{ i }}" class="images-preview"
+                [class.image-marked-for-deletion]="imagesToDelete.includes(imageUrl)"
+                (click)="isEditMode ? markImageForDeletion(imageUrl) : enlargeImage(imageUrl)">
+            <span *ngIf="isEditMode && imagesToDelete.includes(imageUrl)" class="delete-icon">X</span>
+        </div>
+        <!--For loading new images-->
+        <div *ngIf="isEditMode" class="new-images-container">
+            <label for="new-images" class="form-label">Añadir nuevas imágenes:</label>
+            <input type="file" id="new-images" (change)="onSelectNewImages($event)" multiple class="form-control">
+        </div>
+
+    </div>
+    <div class="mb3">
+        <label class="form-label"> Creado por: </label>
+        {{userName}}
+    </div>
+    <div class="buttons">
+        <button type="button" class="btn btn-danger" (click)="closeModal()"> Cerrar </button>
+    </div>
+</form>

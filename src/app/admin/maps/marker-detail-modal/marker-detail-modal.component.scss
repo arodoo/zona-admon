@@ -1,0 +1,103 @@
+.container {
+    background-color: #f7f7f7;
+    padding: 2%;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.form-label {
+    display: inline-block;
+    margin-right: 10px;
+    width: 20%;
+    text-align: right;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-control,
+.form-select {
+    display: inline-block;
+    width: 75%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.images-array-div {
+    display: inline;
+    justify-content: center;
+    margin: 10px;
+    position: relative;
+}
+
+.images-preview {
+    max-height: 100px;
+    max-width: 100px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.images-preview:hover {
+    cursor: pointer;
+}
+
+.imgsContainer {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.titleSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.custom-icon {
+    font-size: 34px;
+}
+
+.custom-icon:hover {
+    cursor: pointer;
+}
+
+.mat-icon {
+    height: 3rem;
+    width: 3rem;
+}
+
+.buttons {
+    display: flex;
+    justify-content: end;
+    margin-top: 1rem;
+}
+
+.btn {
+    margin-left: 1rem;
+    width: 7rem;
+}
+
+.image-marked-for-deletion {
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.image-container:hover .image-marked-for-deletion {
+    opacity: 0.6;
+}
+
+.delete-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+}
